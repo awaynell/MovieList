@@ -1,15 +1,20 @@
-import { TEST_ACTION } from "./actionTypes";
+import { SET_DATA } from "./actionTypes";
 import { PayloadAction } from "@reduxjs/toolkit";
+import { combineReducers } from "redux";
 
 const initialState = {
-  text: "",
+  data: [],
 };
 
-export const testReducer = (state: { text: string } = initialState, action: PayloadAction<any>) => {
+const dataReducer = (state: { data: Array<any> } = initialState, action: PayloadAction<any>) => {
   switch (action.type) {
-    case TEST_ACTION:
-      return {...state, text: "Redux working"};
+    case SET_DATA:
+      return { ...state, data: action.payload };
     default:
       return state;
   }
 };
+
+export const rootReducer = combineReducers({
+  data: dataReducer,
+});
