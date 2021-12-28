@@ -20,10 +20,10 @@ const MoviesPage: FC<MoviesPageProps> = ({ data, loading, error }) => {
       ) : (
         data.results.map((movie: any) => {
           return (
-            <>
+            <div key={movie.id}>
               <img src={"https://image.tmdb.org/t/p/w300" + movie.poster_path} alt='' />
-              <div key={movie.id}>{movie.title}</div>
-            </>
+              <div>{movie.title}</div>
+            </div>
           );
         })
       )}

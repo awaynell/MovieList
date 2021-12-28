@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { apiKey } from "./API/apiKey";
 import { useData } from "./hooks/useData";
 import MoviesPage from "./components/MoviesPage/MoviesPage";
+import "./App.scss";
 import { setDataAction } from "./redux/actionCreators";
 
 export const App = () => {

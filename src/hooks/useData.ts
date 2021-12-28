@@ -6,7 +6,7 @@ import * as queryString from "query-string";
 
 export const useData = (route: string, query: any) => {
   const [data, setData] = useState<any>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
 
   const URL = `${endpoint}${route}?${queryString.stringify(query)}`;
