@@ -6,7 +6,7 @@ import * as queryString from "query-string";
 
 export const useData = (route: string, query: any) => {
   const [data, setData] = useState<any>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
 
   const URL = `${endpoint}${route}?${queryString.stringify(query)}`;
@@ -18,15 +18,15 @@ export const useData = (route: string, query: any) => {
       fetch(URL)
         .then((data) => data.json())
         .then((json) => {
-          setData(json);
           dispatch(setDataAction(json));
+          setData(json);
         })
         .catch(() => setError(true));
       setLoading(false);
     };
     getData();
     console.log("use data work");
-  }, [URL]);
+  }, [URL, dispatch]);
 
   return [data, loading, error] as const;
 };

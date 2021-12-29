@@ -4,6 +4,8 @@ import { apiKey } from "./API/apiKey";
 import { useData } from "./hooks/useData";
 import MoviesPage from "./components/MoviesPage/MoviesPage";
 import { setDataAction } from "./redux/actionCreators";
+import "./App.scss";
+import Header from "./components/Header/Header";
 
 export const App = () => {
   const [page, setPage] = useState<number>(1);
@@ -14,7 +16,12 @@ export const App = () => {
   });
   console.log("data: ", data);
 
-  return <MoviesPage data={data} loading={loading} />;
+  return (
+    <>
+      <Header />
+      <MoviesPage data={data} loading={loading} />
+    </>
+  );
 };
 
 export default App;
