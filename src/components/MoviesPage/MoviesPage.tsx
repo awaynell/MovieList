@@ -2,6 +2,7 @@ import { ThemeProvider } from "@emotion/react";
 import { Box, Card, CardContent, CardMedia, CircularProgress, Grid, IconButton, Typography } from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
 import { theme } from "../../theme/theme";
+import FiltersContainer from "../Filters/FiltersContainer/FiltersContainer";
 
 interface MoviesPageProps {
   data: any;
@@ -17,49 +18,48 @@ const MoviesPage: FC<MoviesPageProps> = ({ data, loading, error }) => {
       {data.length === 0 ? (
         <CircularProgress />
       ) : (
-        <Grid container spacing={1} sx={{ mt: 1, mb: 1 }}>
-          {/* <div style={{}}>Filters</div> */}
-          {data.results.map((movie: any) => {
-            return (
-              <ThemeProvider theme={theme}>
-                <Grid item xs={6} sx={{ display: "flex", justifyContent: "space-between" }}>
-                  <Card
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "center",
-                      backgroundColor: "#383b47",
-                      border: "1px solid red",
-                      color: "#efe1ce",
-                      width: "45vw",
-                    }}
-                    // onMouseOver={() => {
-                    //   console.log("mouse over");
-                    //   setIsMouseOver(true);
-                    // }}
-                    // onMouseLeave={() => {
-                    //   console.log("mouse over");
-                    //   setIsMouseOver(false);
-                    // }}
-                  >
-                    <CardMedia component='img' sx={{}} src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} />
-                    <Box sx={{ display: "flex" }}>
-                      {isMouseOver ? (
-                        <CardContent sx={{}}>
-                          <Typography component='div' variant='h5'>
+        <>
+          <Box
+            sx={{
+              mt: 2,
+              display: "flex",
+              flexWrap: "nowrap",
+            }}
+          >
+            <Box sx={{ flex: "0 0 25vw" }}>
+              <FiltersContainer />
+            </Box>
+            <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "start", width: "70vw" }}>
+              {data.results.map((movie: any) => {
+                return (
+                  <ThemeProvider theme={theme}>
+                    <Box
+                      sx={{
+                        p: 1.5,
+                        display: "flex",
+                        backgroundColor: "#363945",
+                        width: "30vw",
+                      }}
+                    >
+                      <Card sx={{ display: "flex", flexDirection: "column", backgroundColor: "#383b47", color: "white", ml: 1.5, width: "100%" }}>
+                        <CardMedia
+                          component='img'
+                          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                          sx={{ width: "100%", height: "45vw" }}
+                        />
+                        <CardContent>
+                          <Typography gutterBottom variant='h5' component='div'>
                             {movie.title}
                           </Typography>
                         </CardContent>
-                      ) : (
-                        <></>
-                      )}
+                      </Card>
                     </Box>
-                  </Card>
-                </Grid>
-              </ThemeProvider>
-            );
-          })}
-        </Grid>
+                  </ThemeProvider>
+                );
+              })}
+            </Box>
+          </Box>
+        </>
       )}
     </div>
   );

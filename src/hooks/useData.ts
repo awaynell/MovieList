@@ -1,6 +1,6 @@
 import { setDataAction } from "./../redux/actionCreators";
 import { useDispatch } from "react-redux";
-import { endpoint } from "./../API/apiKey";
+import { apiKey, endpoint } from "./../API/apiKey";
 import { useEffect, useState } from "react";
 import * as queryString from "query-string";
 
@@ -9,8 +9,7 @@ export const useData = (route: string, query: any) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
 
-  const URL = `${endpoint}${route}?${queryString.stringify(query)}`;
-  const dispatch = useDispatch();
+  const URL = `${endpoint}${route}?${"api_key=" + apiKey}&${queryString.stringify(query)}`;
 
   useEffect(() => {
     const getData = () => {
@@ -18,7 +17,6 @@ export const useData = (route: string, query: any) => {
       fetch(URL)
         .then((data) => data.json())
         .then((json) => {
-          dispatch(setDataAction(json));
           setData(json);
         })
         .catch(() => setError(true));
@@ -26,7 +24,7 @@ export const useData = (route: string, query: any) => {
     };
     getData();
     console.log("use data work");
-  }, [URL, dispatch]);
+  }, [URL]);
 
   return [data, loading, error] as const;
 };
