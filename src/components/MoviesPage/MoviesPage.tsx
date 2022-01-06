@@ -1,8 +1,9 @@
 import { ThemeProvider } from "@emotion/react";
-import { Box, Card, CardContent, CardMedia, CircularProgress, Grid, IconButton, Typography } from "@mui/material";
-import React, { FC, useEffect, useState } from "react";
+import { Box, Card, CardContent, CardMedia, CircularProgress, Typography } from "@mui/material";
+import React, { FC, useState } from "react";
 import { theme } from "../../theme/theme";
-import FiltersContainer from "../Filters/FiltersContainer/FiltersContainer";
+import FiltersContainer from "./Filters/FiltersContainer/FiltersContainer";
+import PaginationCont from "./Pagination/Pagination";
 
 interface MoviesPageProps {
   data: any;
@@ -11,11 +12,14 @@ interface MoviesPageProps {
 }
 
 const MoviesPage: FC<MoviesPageProps> = ({ data, loading, error }) => {
-  const [isMouseOver, setIsMouseOver] = useState<boolean>(false);
   console.log("data: ", data);
+
+  if (error.length !== 0) {
+    return <div>Ошибка! {error[0]}</div>;
+  }
   return (
     <div>
-      {data.length === 0 ? (
+      {loading && data.length === 0 ? (
         <CircularProgress />
       ) : (
         <>
@@ -26,26 +30,32 @@ const MoviesPage: FC<MoviesPageProps> = ({ data, loading, error }) => {
               flexWrap: "nowrap",
             }}
           >
-            <Box sx={{ flex: "0 0 25vw" }}>
+            <Box sx={{ display: "flex", justifyContent: "start", flexDirection: "column" }}>
               <FiltersContainer />
+              <PaginationCont />
             </Box>
-            <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "start", width: "70vw" }}>
+            <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center", width: "80vw" }}>
               {data.results.map((movie: any) => {
                 return (
-                  <ThemeProvider theme={theme}>
+                  <ThemeProvider theme={theme} key={movie.id}>
                     <Box
                       sx={{
                         p: 1.5,
                         display: "flex",
-                        backgroundColor: "#363945",
+                        backgroundColor: "$backgroundColor",
+                        alignItems: "flex-start",
                         width: "30vw",
                       }}
                     >
-                      <Card sx={{ display: "flex", flexDirection: "column", backgroundColor: "#383b47", color: "white", ml: 1.5, width: "100%" }}>
+                      <Card sx={{ display: "flex", flexDirection: "column", backgroundColor: "#383b47", color: "white", ml: 1.5, width: "85%" }}>
                         <CardMedia
                           component='img'
-                          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                          sx={{ width: "100%", height: "45vw" }}
+                          src={
+                            movie.poster_path === null
+                              ? `https://greenhousevillage.ru/wp-content/uploads/2021/06/photo_default.png`
+                              : `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                          }
+                          sx={{ width: "100%", height: "50vh" }}
                         />
                         <CardContent>
                           <Typography gutterBottom variant='h5' component='div'>

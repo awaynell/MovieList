@@ -7,16 +7,19 @@ import {
   IconButton,
   InputLabel,
   ListItemText,
+  Menu,
   MenuItem,
   OutlinedInput,
   Select,
   SelectChangeEvent,
   Tooltip,
 } from "@mui/material";
-import { useState } from "react";
+import { red } from "@mui/material/colors";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useData } from "../../../../hooks/useData";
-import { addGenre, removeGenre, resetGenres } from "../../../../redux/actionCreators";
+import { useData } from "../../../../../hooks/useData";
+import { removeGenre, addGenre } from "../../../../../redux/actionCreators";
+import { RESET_GENRES } from "../../../../../redux/actionTypes";
 import "./Genres.scss";
 import ResetGenresButton from "./ResetGenresButton";
 
@@ -30,12 +33,11 @@ const Genres = () => {
   const [genresName, setGenresName] = useState<string[]>([]);
   const [genres, setGenres] = useState<any>([]);
 
-  const ITEM_HEIGHT = 108;
-  const ITEM_PADDING_TOP = 8;
+  const ITEM_HEIGHT = 408;
   const MenuProps = {
     PaperProps: {
       style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        maxHeight: ITEM_HEIGHT,
         width: 250,
       },
     },
@@ -59,9 +61,11 @@ const Genres = () => {
     dispatch(addGenre(newArray));
   };
 
-  const resetGenresHandler = () => {
-    dispatch(resetGenres);
+  const resetGenres = () => {
+    console.log("resetGenres work");
+    dispatch({ type: RESET_GENRES });
     setGenresName([]);
+    setGenres([]);
   };
 
   return (
@@ -77,7 +81,7 @@ const Genres = () => {
             padding: "0 10px 0 10px",
           }}
         >
-          <FormControl sx={{ m: 1, width: "20vw" }}>
+          <FormControl sx={{ m: 1, width: "25vw" }}>
             <InputLabel sx={{ color: "#939597" }} id='demo-multiple-checkbox-label'>
               Жанры
             </InputLabel>
@@ -90,9 +94,9 @@ const Genres = () => {
               sx={{ backgroundColor: "#57595b" }}
               input={<OutlinedInput label='Жанры' sx={{ color: "red !important", border: "1px solid green" }} />}
               renderValue={(selected) => (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, color: "#efe1ce" }}>
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, color: "red" }}>
                   {selected.map((value) => (
-                    <Chip key={value} label={value} sx={{ color: "#efe1ce" }} />
+                    <Chip key={value} label={value} sx={{ color: "#363945", backgroundColor: "#E0B589" }} />
                   ))}
                 </Box>
               )}
@@ -100,15 +104,14 @@ const Genres = () => {
             >
               {data.genres.map((genre: any) => {
                 return (
-                  <MenuItem key={genre.id} value={genre.name}>
-                    <Checkbox checked={genresName.indexOf(genre.name) > -1} value={genre.name} />
-                    <ListItemText primary={genre.name} onClick={() => addGenreToState(genre.id)} />
+                  <MenuItem key={genre.id} value={genre.name} onClick={() => addGenreToState(genre.id)}>
+                    <ListItemText primary={genre.name} />
                   </MenuItem>
                 );
               })}
             </Select>
           </FormControl>
-          <ResetGenresButton resetGenres={resetGenresHandler} />
+          <ResetGenresButton resetGenres={resetGenres} />
         </Box>
       )}
     </>

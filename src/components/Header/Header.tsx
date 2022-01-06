@@ -6,12 +6,12 @@ const Header = () => {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position='static' sx={{ backgroundColor: "#363945", color: "#efe1ce" }}>
+        <AppBar position='static' sx={{ backgroundColor: "#282D3C", color: "#efe1ce" }}>
           <Toolbar>
             <Typography fontWeight={300} letterSpacing={1.25} variant='h6' component='div' sx={{ flexGrow: 1 }}>
               MOVIE LIST
             </Typography>
-            <Button variant='contained' color='error'>
+            <Button variant='contained' color='primary'>
               <Typography fontWeight={400} letterSpacing={1.2} color='#efe1ce'>
                 Login
               </Typography>
