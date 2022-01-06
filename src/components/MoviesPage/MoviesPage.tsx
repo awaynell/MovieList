@@ -43,7 +43,7 @@ const MoviesPage: FC<MoviesPageProps> = ({ data, loading, error }) => {
                         p: 1.5,
                         display: "flex",
                         backgroundColor: "$backgroundColor",
-                        alignItems: "flex-start",
+                        alignItems: "baseline",
                         width: "30vw",
                       }}
                     >
@@ -55,7 +55,7 @@ const MoviesPage: FC<MoviesPageProps> = ({ data, loading, error }) => {
                               ? `https://greenhousevillage.ru/wp-content/uploads/2021/06/photo_default.png`
                               : `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
                           }
-                          sx={{ width: "100%", height: "50vh" }}
+                          sx={{ width: "100%", height: "55vh" }}
                         />
                         <CardContent>
                           <Typography gutterBottom variant='h5' component='div'>
