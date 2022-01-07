@@ -1,0 +1,8 @@
+@import "../../root.scss";
+
+.MuiCardContent-root {
+  color: $primaryColor !important;
+}
+.MuiRating-root .MuiRating-iconEmpty {
+  color: red !important;
+}

@@ -1,9 +1,10 @@
 import { ThemeProvider } from "@emotion/react";
-import { Box, Card, CardContent, CardMedia, CircularProgress, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Rating, Typography } from "@mui/material";
 import React, { FC, useState } from "react";
 import { theme } from "../../theme/theme";
 import FiltersContainer from "./Filters/FiltersContainer/FiltersContainer";
-import PaginationCont from "./Pagination/Pagination";
+import Loader from "./Loader/Loader";
+import PaginationCont from "./Pagination/PaginationCont";
 
 interface MoviesPageProps {
   data: any;
@@ -18,23 +19,25 @@ const MoviesPage: FC<MoviesPageProps> = ({ data, loading, error }) => {
     return <div>Ошибка! {error[0]}</div>;
   }
   return (
-    <div>
-      {loading && data.length === 0 ? (
-        <CircularProgress />
-      ) : (
-        <>
-          <Box
-            sx={{
-              mt: 2,
-              display: "flex",
-              flexWrap: "nowrap",
-            }}
-          >
-            <Box sx={{ display: "flex", justifyContent: "start", flexDirection: "column" }}>
-              <FiltersContainer />
-              <PaginationCont />
-            </Box>
-            <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center", width: "80vw" }}>
+    <Box
+      sx={{
+        mt: 2,
+        display: "flex",
+        flexWrap: "nowrap",
+      }}
+    >
+      <Box>
+        <Box sx={{ display: "flex", justifyContent: "start", flexDirection: "column" }}>
+          <FiltersContainer />
+          <PaginationCont />
+        </Box>
+      </Box>
+      <div>
+        {loading && data ? (
+          <Loader />
+        ) : (
+          <>
+            <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "start", width: "70vw" }}>
               {data.results.map((movie: any) => {
                 return (
                   <ThemeProvider theme={theme} key={movie.id}>
@@ -43,23 +46,29 @@ const MoviesPage: FC<MoviesPageProps> = ({ data, loading, error }) => {
                         p: 1.5,
                         display: "flex",
                         backgroundColor: "$backgroundColor",
-                        alignItems: "baseline",
-                        width: "30vw",
+                        justifyContent: "start",
+                        width: "33vw",
+                        flex: "1 1 auto",
                       }}
                     >
-                      <Card sx={{ display: "flex", flexDirection: "column", backgroundColor: "#383b47", color: "white", ml: 1.5, width: "85%" }}>
+                      <Card sx={{ display: "flex", flexDirection: "row", backgroundColor: "#383b47", color: "white", ml: 1.5 }}>
                         <CardMedia
                           component='img'
                           src={
                             movie.poster_path === null
-                              ? `https://greenhousevillage.ru/wp-content/uploads/2021/06/photo_default.png`
-                              : `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                              ? `https://cdn.shopk.it/assets/store/img/no-img.png`
+                              : `https://image.tmdb.org/t/p/w300/${movie.poster_path}`
                           }
-                          sx={{ width: "100%", height: "55vh" }}
+                          sx={{ width: "45%" }}
                         />
-                        <CardContent>
+                        <CardContent sx={{ display: "flex", flexDirection: "column", width: "50%" }}>
                           <Typography gutterBottom variant='h5' component='div'>
                             {movie.title}
+                          </Typography>
+                          <Typography component='legend'>Rating: {movie.vote_average} stars</Typography>
+                          <Rating precision={0.1} size='small' readOnly defaultValue={movie.vote_average} max={10} sx={{ color: "$primaryColor" }} />
+                          <Typography sx={{ mt: 1 }}>
+                            {movie.overview.length > 150 ? movie.overview.substring(0, 150) + "..." : movie.overview}
                           </Typography>
                         </CardContent>
                       </Card>
@@ -68,10 +77,10 @@ const MoviesPage: FC<MoviesPageProps> = ({ data, loading, error }) => {
                 );
               })}
             </Box>
-          </Box>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+    </Box>
   );
 };
 

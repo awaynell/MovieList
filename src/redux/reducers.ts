@@ -4,25 +4,23 @@ import { combineReducers } from "redux";
 
 const initialState = {
   data: [],
-  page: 1,
 };
 
-const dataReducer = (state: { data: Array<any>; page: number } = initialState, action: PayloadAction<any>) => {
+const dataReducer = (state: { data: Array<any> } = initialState, action: PayloadAction<any>) => {
   switch (action.type) {
     case SET_DATA:
       return { ...state, data: action.payload };
-    case CURRENT_PAGE:
-      return {...state, page: action.payload }
     default:
       return state;
   }
 };
 
-const genreInitialState = {
+const filtersInitialState = {
   genres: [],
+  currentPage: 1,
 };
 
-const genreReducer = (state: { genres: Array<any> } = genreInitialState, action: PayloadAction<any>) => {
+const filtersReducer = (state: { genres: Array<any>; currentPage: number } = filtersInitialState, action: PayloadAction<any>) => {
   switch (action.type) {
     case ADD_GENRE:
       return { ...state, genres: action.payload };
@@ -30,6 +28,8 @@ const genreReducer = (state: { genres: Array<any> } = genreInitialState, action:
       return { ...state, genres: state.genres.filter((genre) => genre.id !== action.payload) };
     case RESET_GENRES:
       return { ...state, genres: [] };
+    case CURRENT_PAGE:
+      return { ...state, currentPage: action.payload };
     default:
       return state;
   }
@@ -37,5 +37,5 @@ const genreReducer = (state: { genres: Array<any> } = genreInitialState, action:
 
 export const rootReducer = combineReducers({
   data: dataReducer,
-  genres: genreReducer,
+  filters: filtersReducer,
 });

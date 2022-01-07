@@ -18,7 +18,7 @@ import { red } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useData } from "../../../../../hooks/useData";
-import { removeGenre, addGenre } from "../../../../../redux/actionCreators";
+import { removeGenre, addGenre, setPage } from "../../../../../redux/actionCreators";
 import { RESET_GENRES } from "../../../../../redux/actionTypes";
 import "./Genres.scss";
 import ResetGenresButton from "./ResetGenresButton";
@@ -81,7 +81,7 @@ const Genres = () => {
             padding: "0 10px 0 10px",
           }}
         >
-          <FormControl sx={{ m: 1, width: "25vw" }}>
+          <FormControl sx={{ m: 1, width: "20vw" }}>
             <InputLabel sx={{ color: "#939597" }} id='demo-multiple-checkbox-label'>
               Жанры
             </InputLabel>

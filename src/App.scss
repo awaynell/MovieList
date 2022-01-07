@@ -7,8 +7,8 @@
   margin: 0;
 }
 body {
-  background-color: $backgroundColor;
-  color: $primaryColor;
+  background-color: $backgroundColor !important;
+  color: $primaryColor !important;
   font-family: "Oswald", sans-serif;
   font-size: 30px;
 }

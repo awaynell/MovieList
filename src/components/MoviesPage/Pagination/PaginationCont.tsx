@@ -2,7 +2,7 @@ import { ButtonGroup, Button, PaginationItem, Box } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useDispatch, useSelector } from "react-redux";
-import { currentPage, totalPages } from "../../../redux/selectors";
+import { totalPages } from "../../../redux/selectors";
 import Pagination from "@mui/material/Pagination";
 import "./Pagination.scss";
 import { useState } from "react";
@@ -21,11 +21,12 @@ const PaginationCont = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ pl: 1, width: "85%" }}>
+      <Box sx={{ width: "100%" }}>
         <Pagination
           variant='text'
           color='primary'
           defaultPage={1}
+          siblingCount={1}
           size='small'
           count={allOfPages > 500 ? 500 : allOfPages}
           onChange={handleChange}
