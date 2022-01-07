@@ -1,16 +1,11 @@
-import { useData } from "./../hooks/useData";
-import { all, call, takeEvery } from "redux-saga/effects";
-import { apiKey } from "../API/apiKey";
+import { all, call, put, takeEvery } from "redux-saga/effects";
+import { ADD_GENRE, REMOVE_GENRE, RESET_GENRES } from "./actionTypes";
 
-// export function* sagaGetData(useData: any) {
-//   const [data, loading, error] = yield call(
-//     useData("/trending/movie/day", {
-//       api_key: apiKey,
-//       language: "ru-RU",
-//     })
-//   );
-// }
+export function* resetGenresSaga() {
+  console.log("resetGenresSaga work");
+}
 
 export function* rootSaga() {
-  yield all([]);
+  console.log("rootSaga work");
+  yield takeEvery(ADD_GENRE, resetGenresSaga);
 }

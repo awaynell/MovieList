@@ -1,6 +1,14 @@
+@import "./root.scss";
+
 *,
 *:after,
 *:before {
-  margin: 0;
   padding: 0;
+  margin: 0;
+}
+body {
+  background-color: $backgroundColor !important;
+  color: $primaryColor !important;
+  font-family: "Oswald", sans-serif;
+  font-size: 30px;
 }
