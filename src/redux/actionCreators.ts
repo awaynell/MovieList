@@ -1,5 +1,6 @@
-import { TEST_ACTION } from "./actionTypes";
+import { SET_DATA } from "./actionTypes";
 
-export const testAction = () => ({
-  type: TEST_ACTION,
+export const setDataAction = (payload: any) => ({
+  type: SET_DATA,
+  payload,
 });

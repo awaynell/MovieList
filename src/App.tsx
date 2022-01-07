@@ -1,23 +1,21 @@
-import React from "react";
-import { Button } from "@mui/material";
-import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
-import { testAction } from "./redux/actionCreators";
-import { textSelector } from "./redux/selectors";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { apiKey } from "./API/apiKey";
+import { useData } from "./hooks/useData";
+import MoviesPage from "./components/MoviesPage/MoviesPage";
+import "./App.scss";
+import { setDataAction } from "./redux/actionCreators";
 
 export const App = () => {
-  const dispatch = useDispatch();
+  const [page, setPage] = useState<number>(1);
+  const [data, loading, error] = useData("/trending/movie/day", {
+    api_key: apiKey,
+    language: "ru-RU",
+    page: page,
+  });
+  console.log("data: ", data);
 
-  const text = useSelector(textSelector);
-  console.log("text: ", text);
-
-  return (
-    <>
-      <Button variant='contained' onClick={() => dispatch(testAction())}>
-        test
-      </Button>
-      <div>{text}</div>
-    </>
-  );
+  return <MoviesPage data={data} loading={loading} />;
 };
 
 export default App;
