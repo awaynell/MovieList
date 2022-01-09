@@ -4,7 +4,7 @@ import { apiKey, endpoint } from "../API/apiInfo";
 import { useEffect, useState } from "react";
 import * as queryString from "query-string";
 
-export const useData = (route: string, query: any) => {
+export const useData = (route: string, query: object) => {
   const [data, setData] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Array<string>>([]);
