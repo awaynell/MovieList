@@ -60,7 +60,7 @@ const MoviesPage: FC = React.memo(() => {
             <Loader display='flex' width='50vw' height='50vh' />
           </Box>
         ) : (
-          <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "start", alignItems: "baseline", width: "70vw" }}>
+          <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "start", width: "70vw" }}>
             {data.results.map((movie: any) => {
               return (
                 <ThemeProvider theme={theme} key={movie.id}>
@@ -71,7 +71,6 @@ const MoviesPage: FC = React.memo(() => {
                       backgroundColor: "$backgroundColor",
                       width: "33vw",
                       flex: "1 1 auto",
-                      justifyContent: "flex-start",
                     }}
                   >
                     <Card sx={{ display: "flex", flexDirection: "row", backgroundColor: "#383b47", color: "white", ml: 1.5 }}>
