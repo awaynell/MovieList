@@ -1,4 +1,4 @@
-import { ADD_GENRE, CURRENT_PAGE, REMOVE_GENRE, RESET_GENRES, SET_DATA } from "./actionTypes";
+import { ADD_GENRE, CURRENT_PAGE, REMOVE_GENRE, RESET_GENRES, SET_DATA, SET_SORT_VALUE } from "./actionTypes";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 
@@ -18,6 +18,7 @@ const dataReducer = (state: { data: Array<any> } = initialState, action: Payload
 const filtersInitialState = {
   genres: [],
   currentPage: 1,
+  sortBy: "popularity.desc",
 };
 
 const filtersReducer = (state: { genres: Array<any>; currentPage: number } = filtersInitialState, action: PayloadAction<any>) => {
@@ -30,6 +31,8 @@ const filtersReducer = (state: { genres: Array<any>; currentPage: number } = fil
       return { ...state, genres: [] };
     case CURRENT_PAGE:
       return { ...state, currentPage: action.payload };
+    case SET_SORT_VALUE:
+      return { ...state, sortBy: action.payload };
     default:
       return state;
   }

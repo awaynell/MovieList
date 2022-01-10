@@ -6,6 +6,5 @@ export function* resetGenresSaga() {
 }
 
 export function* rootSaga() {
-  console.log("rootSaga work");
   yield takeEvery(ADD_GENRE, resetGenresSaga);
 }

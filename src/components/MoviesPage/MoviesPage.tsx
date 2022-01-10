@@ -4,7 +4,7 @@ import React, { FC, Suspense, useCallback, useEffect, useRef, useState } from "r
 import { useSelector, useDispatch } from "react-redux";
 import { useData } from "../../hooks/useData";
 import { setDataAction } from "../../redux/actionCreators";
-import { currentPage, selectedGenres } from "../../redux/selectors";
+import { currentPage, selectedGenres, sortValue } from "../../redux/selectors";
 import { theme } from "../../theme/theme";
 import FiltersContainer from "./Filters/FiltersContainer/FiltersContainer";
 import Loader from "./Loader/Loader";
@@ -17,22 +17,23 @@ import PaginationCont from "./Pagination/PaginationCont";
 // }
 
 const MoviesPage: FC = React.memo(() => {
-  const page = useSelector(currentPage);
   const [imgIsLoad, setImgIsLoad] = useState<boolean>(true);
-  console.log("imgIsLoad: ", imgIsLoad);
 
+  const page = useSelector(currentPage);
   const genres: any[] = useSelector(selectedGenres);
+  const sortBy = useSelector(sortValue);
 
   const [data, loading, error] = useData("discover/movie", {
     language: "ru-RU",
     with_genres: genres.join(","),
     page: page,
+    sort_by: sortBy,
   });
 
   const dispatch = useDispatch();
-  dispatch(setDataAction(data));
 
   useEffect(() => {
+    dispatch(setDataAction(data));
     setImgIsLoad(true);
   }, [loading]);
 

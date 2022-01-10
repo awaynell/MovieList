@@ -1,0 +1,27 @@
+@import "../../../../../root.scss";
+
+.MuiOutlinedInput-root {
+  color: $primaryColor !important;
+}
+.MuiInputLabel-root {
+  color: $primaryColor !important;
+}
+.Mui-focused {
+  color: $primaryColor !important;
+}
+.MuiOutlinedInput-root {
+  color: white;
+}
+.MuiSelect-icon {
+  color: $primaryColor !important;
+}
+.MuiOutlinedInput-notchedOutline {
+  border: 1px solid $primaryColor !important;
+}
+.Mui-checked {
+  color: #c79652 !important;
+}
+.MuiList-root {
+  background-color: $secondaryBgColor !important;
+  color: $primaryColor !important;
+}

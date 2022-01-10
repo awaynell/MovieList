@@ -1,4 +1,4 @@
-import { ADD_GENRE, CURRENT_PAGE, REMOVE_GENRE, SET_DATA } from "./actionTypes";
+import { ADD_GENRE, CURRENT_PAGE, REMOVE_GENRE, SET_DATA, SET_SORT_VALUE } from "./actionTypes";
 
 export const setDataAction = (payload: any) => ({
   type: SET_DATA,
@@ -17,5 +17,10 @@ export const removeGenre = (payload: any) => ({
 
 export const setPage = (payload: number) => ({
   type: CURRENT_PAGE,
+  payload,
+});
+
+export const setSortValue = (payload: "popularity.desc" | "popularity.asc" | "vote_average.desc" | "vote_average.asc") => ({
+  type: SET_SORT_VALUE,
   payload,
 });

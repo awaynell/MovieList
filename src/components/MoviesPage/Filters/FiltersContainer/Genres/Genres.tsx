@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Button,
@@ -23,7 +24,16 @@ import { RESET_GENRES } from "../../../../../redux/actionTypes";
 import "./Genres.scss";
 import ResetGenresButton from "./ResetGenresButton";
 
-const Genres = () => {
+export const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: 408,
+      width: 250,
+    },
+  },
+};
+
+const Genres = React.memo(() => {
   const [data, loading, error] = useData("genre/movie/list", {
     language: "ru-RU",
   });
@@ -32,16 +42,6 @@ const Genres = () => {
 
   const [genresName, setGenresName] = useState<string[]>([]);
   const [genres, setGenres] = useState<any>([]);
-
-  const ITEM_HEIGHT = 408;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT,
-        width: 250,
-      },
-    },
-  };
 
   const handleChange = (event: SelectChangeEvent<typeof genresName>) => {
     const {
@@ -70,7 +70,7 @@ const Genres = () => {
 
   return (
     <>
-      {data.length === 0 ? (
+      {loading && data ? (
         <div></div>
       ) : (
         <Box
@@ -116,6 +116,6 @@ const Genres = () => {
       )}
     </>
   );
-};
+});
 
 export default Genres;
