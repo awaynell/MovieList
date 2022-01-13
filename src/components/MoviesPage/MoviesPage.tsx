@@ -4,11 +4,11 @@ import React, { FC, Suspense, useCallback, useEffect, useRef, useState } from "r
 import { useSelector, useDispatch } from "react-redux";
 import { useData } from "../../hooks/useData";
 import { setDataAction } from "../../redux/actionCreators";
-import { currentPage, selectedGenres, sortValue } from "../../redux/selectors";
+import { selectedGenres, sortValue } from "../../redux/selectors";
 import { theme } from "../../theme/theme";
 import FiltersContainer from "./Filters/FiltersContainer/FiltersContainer";
 import Loader from "./Loader/Loader";
-import PaginationCont from "./Pagination/PaginationCont";
+import PaginationCont from "./Pagination/PaginationContainer";
 
 // interface MoviesPageProps {
 //   data: any;
@@ -18,8 +18,8 @@ import PaginationCont from "./Pagination/PaginationCont";
 
 const MoviesPage: FC = React.memo(() => {
   const [imgIsLoad, setImgIsLoad] = useState<boolean>(true);
+  const [page, setPage] = useState<number>(1);
 
-  const page = useSelector(currentPage);
   const genres: any[] = useSelector(selectedGenres);
   const sortBy = useSelector(sortValue);
 
@@ -52,7 +52,7 @@ const MoviesPage: FC = React.memo(() => {
       <Box>
         <Box sx={{ display: "flex", justifyContent: "start", flexDirection: "column" }}>
           <FiltersContainer />
-          <PaginationCont />
+          <PaginationCont setPage={setPage} />
         </Box>
       </Box>
       <div>

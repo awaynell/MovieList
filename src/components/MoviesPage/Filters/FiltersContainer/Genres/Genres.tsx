@@ -19,7 +19,7 @@ import { red } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useData } from "../../../../../hooks/useData";
-import { removeGenre, addGenre, setPage } from "../../../../../redux/actionCreators";
+import { removeGenre, addGenre } from "../../../../../redux/actionCreators";
 import { RESET_GENRES } from "../../../../../redux/actionTypes";
 import "./Genres.scss";
 import ResetGenresButton from "./ResetGenresButton";

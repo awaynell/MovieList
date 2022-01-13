@@ -1,4 +1,4 @@
-import { ADD_GENRE, CURRENT_PAGE, REMOVE_GENRE, SET_DATA, SET_SORT_VALUE } from "./actionTypes";
+import { ADD_GENRE, REMOVE_GENRE, SET_DATA, SET_SORT_VALUE } from "./actionTypes";
 
 export const setDataAction = (payload: any) => ({
   type: SET_DATA,
@@ -12,11 +12,6 @@ export const addGenre = (payload: any) => ({
 
 export const removeGenre = (payload: any) => ({
   type: REMOVE_GENRE,
-  payload,
-});
-
-export const setPage = (payload: number) => ({
-  type: CURRENT_PAGE,
   payload,
 });
 

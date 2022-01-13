@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, SetStateAction } from "react";
 import { Box } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -9,14 +9,16 @@ import "./Pagination.scss";
 import { useState } from "react";
 import { ThemeProvider } from "@emotion/react";
 import { theme } from "../../../theme/theme";
-import { setPage } from "../../../redux/actionCreators";
 
-const PaginationCont = React.memo(() => {
+interface PaginationProps {
+  setPage: any;
+}
+
+const PaginationContainer: FC<PaginationProps> = React.memo(({ setPage }) => {
   const allOfPages = useSelector(totalPages);
-  const dispatch = useDispatch();
 
-  const handleChange = (event: React.ChangeEvent<unknown>, page: number) => {
-    dispatch(setPage(page));
+  const handleChange = (event: React.ChangeEvent<unknown>, page: number): void => {
+    setPage(page);
   };
 
   return (
@@ -37,4 +39,4 @@ const PaginationCont = React.memo(() => {
   );
 });
 
-export default PaginationCont;
+export default PaginationContainer;

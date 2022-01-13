@@ -1,4 +1,4 @@
-import { Box, AppBar, Toolbar, IconButton, Typography, Button } from "@mui/material";
+import { Box, AppBar, Toolbar, IconButton, Typography, Button, Pagination } from "@mui/material";
 import { ThemeProvider } from "@mui/system";
 import { theme } from "../../theme/theme";
 

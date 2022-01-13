@@ -12,7 +12,7 @@ export const useData = (route: string, query: object) => {
   const URL = `${endpoint}${route}?${"api_key=" + apiKey}&${queryString.stringify(query)}`;
 
   useEffect(() => {
-    const getData = () => {
+    const getData = (): void => {
       setLoading(true);
       fetch(URL)
         .then((data) => data.json())

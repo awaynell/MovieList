@@ -6,7 +6,7 @@ import "./App.scss";
 import { setDataAction } from "./redux/actionCreators";
 import "./App.scss";
 import Header from "./components/Header/Header";
-import { currentPage, selectedGenres } from "./redux/selectors";
+import { selectedGenres } from "./redux/selectors";
 
 export const App = () => {
   return (
