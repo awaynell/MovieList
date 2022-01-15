@@ -1,4 +1,4 @@
-import { ADD_GENRE, REMOVE_GENRE, RESET_GENRES, SET_DATA, SET_SORT_VALUE } from "./actionTypes";
+import { ADD_GENRE, REMOVE_GENRE, RESET_GENRES, SET_DATA, SET_SELECTED_YEAR, SET_SORT_VALUE, SET_YEARS } from "./actionTypes";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 
@@ -18,9 +18,14 @@ const dataReducer = (state: { data: Array<any> } = initialState, action: Payload
 const filtersInitialState = {
   genres: [],
   sortBy: "popularity.desc",
+  years: [],
+  year: "",
 };
 
-const filtersReducer = (state: { genres: Array<any> } = filtersInitialState, action: PayloadAction<any>) => {
+const filtersReducer = (
+  state: { genres: Array<any>; years: Array<number>; year: string | number } = filtersInitialState,
+  action: PayloadAction<any>
+) => {
   switch (action.type) {
     case ADD_GENRE:
       return { ...state, genres: action.payload };
@@ -30,6 +35,10 @@ const filtersReducer = (state: { genres: Array<any> } = filtersInitialState, act
       return { ...state, genres: [] };
     case SET_SORT_VALUE:
       return { ...state, sortBy: action.payload };
+    case SET_YEARS:
+      return { ...state, years: action.payload };
+    case SET_SELECTED_YEAR:
+      return { ...state, year: action.payload };
     default:
       return state;
   }

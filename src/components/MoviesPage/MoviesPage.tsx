@@ -3,8 +3,8 @@ import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Rating, Ty
 import React, { FC, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useData } from "../../hooks/useData";
-import { setDataAction } from "../../redux/actionCreators";
-import { selectedGenres, sortValue } from "../../redux/selectors";
+import { setDataAction, setYears, setYearsStarting } from "../../redux/actionCreators";
+import { selectedGenres, selectedYear, sortValue } from "../../redux/selectors";
 import { theme } from "../../theme/theme";
 import FiltersContainer from "./Filters/FiltersContainer/FiltersContainer";
 import Loader from "./Loader/Loader";
@@ -22,12 +22,15 @@ const MoviesPage: FC = React.memo(() => {
 
   const genres: any[] = useSelector(selectedGenres);
   const sortBy = useSelector(sortValue);
+  const year = useSelector(selectedYear);
 
   const [data, loading, error] = useData("discover/movie", {
     language: "ru-RU",
     with_genres: genres.join(","),
     page: page,
     sort_by: sortBy,
+    primary_release_year: year,
+    limit: 10,
   });
 
   const dispatch = useDispatch();
