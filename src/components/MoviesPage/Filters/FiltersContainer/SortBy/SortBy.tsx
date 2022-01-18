@@ -32,36 +32,34 @@ const SortBy = React.memo(() => {
   }, []);
 
   return (
-    <Box>
-      <FormControl sx={{ pl: 1.5, m: 1, width: "19.7vw" }}>
-        <InputLabel id='demo-simple-select-autowidth-label' sx={{ pl: 2, width: "100%" }}>
-          Сортировка по
+    <Box sx={{ width: "20.15vw" }}>
+      <FormControl sx={{ pl: 2, width: "100%" }}>
+        <InputLabel id='SortBy' sx={{ pl: 2.5, width: "100%" }}>
+          Сортировка
         </InputLabel>
         <Select
-          labelId='demo-simple-select-autowidth-label'
-          id='demo-simple-select-autowidth'
+          labelId='SortSelect'
+          id='SortSelect'
           value={sortBy}
           onChange={saveSortValue}
-          label='Сортировка по'
+          label='Сортировка'
           sx={{ backgroundColor: "#57595b" }}
           MenuProps={MenuProps}
         >
-          <MenuItem value='popularity.desc'>
-            <em>По популярности (по убыванию)</em>
-          </MenuItem>
+          <MenuItem value='popularity.desc'>По популярности (по убыванию)</MenuItem>
           <MenuItem value='popularity.asc'>По популярности (по возрастанию)</MenuItem>
           <MenuItem value={"vote_average.desc"}>По рейтингу (по убыванию)</MenuItem>
           <MenuItem value={"vote_average.asc"}>По рейтингу (по возрастанию)</MenuItem>
         </Select>
       </FormControl>
-      <FormControl sx={{ pl: 1.5, m: 1, width: "19.7vw" }}>
-        <InputLabel id='demo-simple-select-autowidth-label' sx={{ pl: 2, width: "100%" }}>
+      <FormControl sx={{ pl: 1, m: 1, width: "100%" }}>
+        <InputLabel id='YearReleaseLabel' sx={{ pl: 1.25, width: "100%" }}>
           Год релиза
         </InputLabel>
         {yearsArr.length !== 0 && (
           <Select
-            labelId='demo-simple-select-autowidth-label1'
-            id='demo-simple-select-autowidth1'
+            labelId='YearReleaseSelect'
+            id='YearReleaseSelect'
             defaultValue={"Без года"}
             label='Год релиза'
             onChange={saveSelectedYear}
@@ -69,12 +67,12 @@ const SortBy = React.memo(() => {
             MenuProps={MenuProps}
           >
             <MenuItem key={year} value={"Без года"}>
-              <em>Без года</em>
+              Без года
             </MenuItem>
             {yearsArr.map((year: number) => {
               return (
                 <MenuItem key={year} value={`${year}`}>
-                  <em>{year}</em>
+                  {year}
                 </MenuItem>
               );
             })}

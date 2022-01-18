@@ -1,14 +1,18 @@
+import { ThemeProvider } from "@emotion/react";
 import { Box } from "@mui/material";
 import React from "react";
 import Genres from "./Genres/Genres";
 import SortBy from "./SortBy/SortBy";
+import { theme } from "../../../../theme/theme";
 
 const FiltersContainer = () => {
   return (
-    <>
-      <Genres />
-      <SortBy />
-    </>
+    <ThemeProvider theme={theme}>
+      <Box sx={{}}>
+        <Genres />
+        <SortBy />
+      </Box>
+    </ThemeProvider>
   );
 };
 

@@ -28,7 +28,6 @@ export const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: 408,
-      width: 250,
     },
   },
 };
@@ -89,6 +88,7 @@ const Genres = React.memo(() => {
               labelId='demo-multiple-checkbox-label'
               id='demo-multiple-checkbox'
               multiple
+              defaultValue={[""]}
               value={genresName}
               onChange={handleChange}
               sx={{ backgroundColor: "#57595b" }}
@@ -96,7 +96,7 @@ const Genres = React.memo(() => {
               renderValue={(selected) => (
                 <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, color: "red" }}>
                   {selected.map((value) => (
-                    <Chip key={value} label={value} sx={{ color: "#363945", backgroundColor: "#E0B589" }} />
+                    <Chip key={value} label={value} sx={{ color: "#363945", backgroundColor: red[400] }} />
                   ))}
                 </Box>
               )}

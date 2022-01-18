@@ -1,15 +1,18 @@
-import { ADD_GENRE, REMOVE_GENRE, RESET_GENRES, SET_DATA, SET_SELECTED_YEAR, SET_SORT_VALUE, SET_YEARS } from "./actionTypes";
+import { ADD_GENRE, IS_SHOW_MODAL, REMOVE_GENRE, RESET_GENRES, SET_DATA, SET_SELECTED_YEAR, SET_SORT_VALUE, SET_YEARS } from "./actionTypes";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 
 const initialState = {
   data: [],
+  isShowModal: false,
 };
 
-const dataReducer = (state: { data: Array<any> } = initialState, action: PayloadAction<any>) => {
+const dataReducer = (state: { data: Array<any>; isShowModal: boolean } = initialState, action: PayloadAction<any>) => {
   switch (action.type) {
     case SET_DATA:
       return { ...state, data: action.payload };
+    case IS_SHOW_MODAL:
+      return { ...state, isShowModal: action.payload };
     default:
       return state;
   }

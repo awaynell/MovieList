@@ -8,3 +8,4 @@ export const totalResults = (state: RootStateOrAny) => state.data.data.total_res
 export const sortValue = (state: RootStateOrAny) => state.filters.sortBy;
 export const years = (state: RootStateOrAny) => state.filters.years;
 export const selectedYear = (state: RootStateOrAny) => state.filters.year;
+export const isShowModal = (state: RootStateOrAny) => state.data.isShowModal;

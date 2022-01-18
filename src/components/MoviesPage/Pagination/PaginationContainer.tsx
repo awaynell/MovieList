@@ -23,7 +23,7 @@ const PaginationContainer: FC<PaginationProps> = React.memo(({ setPage }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ width: "100%" }}>
+      <Box sx={{ width: "85%", pl: 0.5 }}>
         <Pagination
           variant='text'
           color='primary'

@@ -6,3 +6,4 @@ export const SET_SORT_VALUE = "SET_SORT_VALUE";
 export const SET_YEARS_START = "SET_YEARS_START";
 export const SET_YEARS = "SET_YEARS";
 export const SET_SELECTED_YEAR = "SET_SELECTED_YEAR";
+export const IS_SHOW_MODAL = "IS_SHOW_MODAL";

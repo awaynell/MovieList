@@ -1,8 +1,12 @@
 import { Box, AppBar, Toolbar, IconButton, Typography, Button, Pagination } from "@mui/material";
 import { ThemeProvider } from "@mui/system";
+import { useDispatch } from "react-redux";
+import { isShowModal } from "../../redux/actionCreators";
 import { theme } from "../../theme/theme";
 
 const Header = () => {
+  const dispatch = useDispatch();
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ flexGrow: 1 }}>
@@ -12,7 +16,7 @@ const Header = () => {
               MOVIE LIST
             </Typography>
             <Button variant='contained' color='primary'>
-              <Typography fontWeight={400} letterSpacing={1.2} color='#efe1ce'>
+              <Typography fontWeight={400} letterSpacing={1.2} color='#efe1ce' onClick={() => dispatch(isShowModal(true))}>
                 Login
               </Typography>
             </Button>
