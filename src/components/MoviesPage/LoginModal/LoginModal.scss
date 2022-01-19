@@ -1,1 +1,8 @@
 @import "../../../root.scss";
+
+.MuiInputBase-root {
+  color: darken($color: $primaryColor, $amount: 10) !important;
+}
+.MuiButtonBase-root .MuiSvgIcon-root {
+  color: $primaryColor !important;
+}

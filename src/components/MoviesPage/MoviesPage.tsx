@@ -91,7 +91,7 @@ const MoviesPage: FC = React.memo(() => {
                             src={
                               movie.poster_path === null
                                 ? `https://cdn.shopk.it/assets/store/img/no-img.png`
-                                : `https://image.tmdb.org/t/p/w300/${movie.poster_path}`
+                                : `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
                             }
                             sx={[
                               { width: "50%" },

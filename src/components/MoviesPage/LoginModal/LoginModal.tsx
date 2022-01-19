@@ -1,15 +1,44 @@
-import { Button, FormControl, Grow, Input, InputLabel, Modal, OutlinedInput, Slide, TextField, Typography } from "@mui/material";
-import { Box, style } from "@mui/system";
+import { Button, FilledInput, FormControl, Grow, IconButton, InputAdornment, InputLabel, Modal, Typography } from "@mui/material";
+import { Box } from "@mui/system";
 import "./LoginModal.scss";
 import { ThemeProvider } from "@emotion/react";
 import { theme } from "../../../theme/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { isShowModal } from "../../../redux/selectors";
 import { IS_SHOW_MODAL } from "../../../redux/actionTypes";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import React, { useState } from "react";
+import { getUser } from "../../../helpers/authHelpers/getUser";
 
 const LoginModal = () => {
+  const [userInfo, setUserInfo] = useState<any>();
   const showModal = useSelector(isShowModal);
   const dispatch = useDispatch();
+
+  console.log("userInfo: ", userInfo);
+  const [authValue, setAuthValue] = React.useState({
+    login: "",
+    password: "",
+    showPassword: false,
+  });
+
+  const getUserInfo = async () => {
+    const responseUserInfo = await getUser(authValue.login, authValue.password);
+    setUserInfo(responseUserInfo);
+    dispatch({ type: IS_SHOW_MODAL, payload: false });
+  };
+
+  const handleChange = (prop: any) => (event: any) => {
+    setAuthValue({ ...authValue, [prop]: event.target.value });
+  };
+
+  const handleClickShowPassword = () => {
+    setAuthValue({
+      ...authValue,
+      showPassword: !authValue.showPassword,
+    });
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -29,14 +58,35 @@ const LoginModal = () => {
                 boxShadow: "1px 3px 34px 4px rgba(34, 60, 80, 0.2)",
                 display: "flex",
                 flexDirection: "column",
-                p: 20,
-                width: "20vw",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "30vw",
+                height: "50vh",
                 borderRadius: "10px",
+                p: 10,
               }}
             >
-              <TextField id='filled-basic' label='Login' variant='filled' margin='dense' />
-              <TextField id='filled-basic' label='Password' variant='filled' type='password' margin='dense' />
-              <Button variant='outlined' sx={{ mt: 1 }}>
+              <Typography sx={{ width: "100%", textAlign: "center" }}>Вы можете войти, если у вас есть аккаунт на TheMovieDB</Typography>
+              <FormControl sx={{ width: "100%", mt: 1 }}>
+                <InputLabel sx={{ mt: 1 }}>Login</InputLabel>
+                <FilledInput margin='dense' onChange={handleChange("login")} />
+              </FormControl>
+              <FormControl sx={{ width: "100%", mt: 1 }}>
+                <InputLabel sx={{ mt: 1 }}>Password</InputLabel>
+                <FilledInput
+                  type={authValue.showPassword ? "text" : "password"}
+                  value={authValue.password}
+                  onChange={handleChange("password")}
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton aria-label='toggle password visibility' onClick={handleClickShowPassword} edge='end'>
+                        {authValue.showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+              <Button variant='outlined' sx={{ mt: 1 }} onClick={getUserInfo}>
                 Войти
               </Button>
             </Box>
