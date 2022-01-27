@@ -6,16 +6,11 @@ import { useData } from "../../hooks/useData";
 import { setDataAction, setYears, setYearsStarting } from "../../redux/actionCreators";
 import { selectedGenres, selectedYear, sortValue } from "../../redux/selectors";
 import { theme } from "../../theme/theme";
+import PageUp from "../UI/PageUp/PageUp";
 import FiltersContainer from "./Filters/FiltersContainer/FiltersContainer";
 import Loader from "./Loader/Loader";
 import LoginModal from "./LoginModal/LoginModal";
 import PaginationCont from "./Pagination/PaginationContainer";
-
-// interface MoviesPageProps {
-//   data: any;
-//   loading: boolean;
-//   error?: any;
-// }
 
 const MoviesPage: FC = React.memo(() => {
   const [imgIsLoad, setImgIsLoad] = useState<boolean>(true);
@@ -53,6 +48,7 @@ const MoviesPage: FC = React.memo(() => {
         mt: 2,
         display: "flex",
         flexWrap: "nowrap",
+        position: "relative",
       }}
     >
       <LoginModal />
@@ -61,6 +57,7 @@ const MoviesPage: FC = React.memo(() => {
           <FiltersContainer />
           <PaginationCont setPage={setPage} />
         </Box>
+        <PageUp />
       </Box>
       <div>
         {data && loading ? (

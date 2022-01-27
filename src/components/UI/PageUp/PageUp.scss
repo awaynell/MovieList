@@ -1,0 +1,8 @@
+@import "../../../root.scss";
+
+.MuiFab-root {
+  position: fixed;
+  top: 20vh;
+  left: 7vw;
+  background-color: $secondaryBgColor !important;
+}

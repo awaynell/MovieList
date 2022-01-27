@@ -15,8 +15,8 @@ const Header = () => {
             <Typography fontWeight={300} letterSpacing={1.25} variant='h6' component='div' sx={{ flexGrow: 1 }}>
               MOVIE LIST
             </Typography>
-            <Button variant='contained' color='primary'>
-              <Typography fontWeight={400} letterSpacing={1.2} color='#efe1ce' onClick={() => dispatch(isShowModal(true))}>
+            <Button variant='contained' color='primary' onClick={() => dispatch(isShowModal(true))}>
+              <Typography fontWeight={400} letterSpacing={1.2} color='#efe1ce'>
                 Login
               </Typography>
             </Button>
