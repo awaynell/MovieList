@@ -36,8 +36,6 @@ const MoviesPage: FC = React.memo(() => {
     setImgIsLoad(true);
   }, [loading]);
 
-  console.log(error);
-
   if (error.length !== 0) {
     return <Box sx={{ width: "100vw", mt: 10, display: "flex", justifyContent: "center" }}>Ошибка! Что-то пошло не так.</Box>;
   }
@@ -48,12 +46,12 @@ const MoviesPage: FC = React.memo(() => {
         mt: 2,
         display: "flex",
         flexWrap: "nowrap",
-        position: "relative",
+        flexDirection: "row-reverse",
       }}
     >
       <LoginModal />
       <Box>
-        <Box sx={{ display: "flex", justifyContent: "start", flexDirection: "column" }}>
+        <Box sx={{ display: "flex", justifyContent: "start", flexDirection: "column", pt: 0.75 }}>
           <FiltersContainer />
           <PaginationCont setPage={setPage} />
         </Box>
