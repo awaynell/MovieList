@@ -36,6 +36,14 @@ const MoviesPage: FC = React.memo(() => {
     setImgIsLoad(true);
   }, [loading]);
 
+  // useEffect(() => {
+  //   if (data) {
+  //     data.results.map(({ some }) => {
+  //       console.log(some);
+  //     });
+  //   }
+  // });
+
   if (error.length !== 0) {
     return <Box sx={{ width: "100vw", mt: 10, display: "flex", justifyContent: "center" }}>Ошибка! Что-то пошло не так.</Box>;
   }
@@ -67,7 +75,7 @@ const MoviesPage: FC = React.memo(() => {
             {data.results.map((movie: any, i: number) => {
               return (
                 <ThemeProvider theme={theme} key={movie.id}>
-                  <Zoom in={movie} unmountOnExit>
+                  <Zoom in={movie.length !== 0} unmountOnExit>
                     <Box
                       sx={{
                         p: 1.5,

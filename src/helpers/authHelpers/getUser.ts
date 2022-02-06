@@ -10,10 +10,13 @@ export const getUser = async (username: string, password: string) => {
     .then((json) => json);
   if (requestValue.success) {
     const userRequestTokenAuthValue = await getRequestTokenUser(username, password, requestValue.request_token);
-    const userRequestSessionID = await getSessionIDUser(userRequestTokenAuthValue);
-    console.log("userRequestSessionID: ", userRequestSessionID);
-    const userInfo = await getUserInfo(userRequestSessionID);
-    return userInfo;
+    if (!userRequestTokenAuthValue.error) {
+      const userRequestSessionID = await getSessionIDUser(userRequestTokenAuthValue.requestToken);
+      const userInfo = await getUserInfo(userRequestSessionID);
+      return { error: false, statusMessage: "", userInfo: userInfo };
+    } else {
+      return { error: true, statusMessage: userRequestTokenAuthValue.statusMessage, userInfo: {} };
+    }
   }
 };
 
@@ -33,9 +36,9 @@ const getRequestTokenUser = async (username: string, password: string, requestTo
   });
   const requestUserResult = await requestUser.json();
   if (requestUserResult.success) {
-    return requestUserResult.request_token;
+    return { error: false, requestToken: requestUserResult.request_token };
   } else {
-    return requestUserResult.status_message;
+    return { error: true, statusMessage: requestUserResult.status_message };
   }
 };
 

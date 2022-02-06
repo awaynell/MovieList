@@ -17,7 +17,7 @@ const Header = () => {
             </Typography>
             <Button variant='contained' color='primary' onClick={() => dispatch(isShowModal(true))}>
               <Typography fontWeight={400} letterSpacing={1.2} color='#efe1ce'>
-                Login
+                Войти
               </Typography>
             </Button>
           </Toolbar>

@@ -7,3 +7,5 @@ export const SET_YEARS_START = "SET_YEARS_START";
 export const SET_YEARS = "SET_YEARS";
 export const SET_SELECTED_YEAR = "SET_SELECTED_YEAR";
 export const IS_SHOW_MODAL = "IS_SHOW_MODAL";
+export const ADD_USERINFO = "ADD_USERINFO";
+export const ADD_USERINFO_START = "ADD_USERINFO_START";

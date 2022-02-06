@@ -1,11 +1,11 @@
-import { Button, FilledInput, FormControl, Grow, IconButton, InputAdornment, InputLabel, Modal, Typography } from "@mui/material";
+import { Button, FilledInput, FormControl, Grow, IconButton, InputAdornment, InputLabel, LinearProgress, Modal, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import "./LoginModal.scss";
 import { ThemeProvider } from "@emotion/react";
 import { theme } from "../../../theme/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { isShowModal } from "../../../redux/selectors";
-import { IS_SHOW_MODAL } from "../../../redux/actionTypes";
+import { ADD_USERINFO, IS_SHOW_MODAL } from "../../../redux/actionTypes";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import React, { useState } from "react";
@@ -13,6 +13,8 @@ import { getUser } from "../../../helpers/authHelpers/getUser";
 
 const LoginModal = () => {
   const [userInfo, setUserInfo] = useState<any>();
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const showModal = useSelector(isShowModal);
   const dispatch = useDispatch();
 
@@ -24,9 +26,12 @@ const LoginModal = () => {
   });
 
   const getUserInfo = async () => {
+    setLoading(true);
     const responseUserInfo = await getUser(authValue.login, authValue.password);
-    setUserInfo(responseUserInfo);
-    dispatch({ type: IS_SHOW_MODAL, payload: false });
+    if (responseUserInfo) {
+      responseUserInfo.error ? setError(responseUserInfo.statusMessage) : dispatch({ type: ADD_USERINFO, payload: responseUserInfo.userInfo });
+      setLoading(false);
+    }
   };
 
   const handleChange = (prop: any) => (event: any) => {
@@ -86,9 +91,14 @@ const LoginModal = () => {
                   }
                 />
               </FormControl>
-              <Button variant='outlined' sx={{ mt: 1 }} onClick={getUserInfo}>
-                Войти
-              </Button>
+              {loading ? (
+                <LinearProgress sx={{ mt: 1, width: "50%" }} />
+              ) : (
+                <Button variant='outlined' sx={{ mt: 1 }} onClick={getUserInfo}>
+                  Войти
+                </Button>
+              )}
+              {error.length !== 0 && <Typography>{error}</Typography>}
             </Box>
           </Grow>
         </Modal>
