@@ -51,7 +51,7 @@ const MoviesPage: FC = React.memo(() => {
     >
       <LoginModal />
       <Box>
-        <Box sx={{ display: "flex", justifyContent: "start", flexDirection: "column", pt: 0.75 }}>
+        <Box sx={{ display: "flex", justifyContent: "end", flexDirection: "column", pt: 0.75 }}>
           <FiltersContainer />
           <PaginationCont setPage={setPage} />
         </Box>
@@ -63,7 +63,7 @@ const MoviesPage: FC = React.memo(() => {
             <Loader display='flex' width='50vw' height='50vh' />
           </Box>
         ) : (
-          <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "start", width: "70vw" }}>
+          <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-end", width: "70vw" }}>
             {data.results.map((movie: any, i: number) => {
               return (
                 <ThemeProvider theme={theme} key={movie.id}>
