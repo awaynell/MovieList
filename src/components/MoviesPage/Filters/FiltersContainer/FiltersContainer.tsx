@@ -8,7 +8,7 @@ import { theme } from "../../../../theme/theme";
 const FiltersContainer = () => {
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{}}>
+      <Box>
         <Genres />
         <SortBy />
       </Box>

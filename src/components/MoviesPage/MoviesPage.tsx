@@ -2,6 +2,7 @@ import { ThemeProvider } from "@emotion/react";
 import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Fade, Grow, Rating, Typography, Zoom } from "@mui/material";
 import React, { FC, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { endpoint, apiKey } from "../../API/apiInfo";
 import { useData } from "../../hooks/useData";
 import { setDataAction, setYears, setYearsStarting } from "../../redux/actionCreators";
 import { selectedGenres, selectedYear, sortValue } from "../../redux/selectors";
@@ -11,34 +12,56 @@ import FiltersContainer from "./Filters/FiltersContainer/FiltersContainer";
 import Loader from "./Loader/Loader";
 import LoginModal from "./LoginModal/LoginModal";
 import PaginationCont from "./Pagination/PaginationContainer";
+import * as queryString from "query-string";
+
+const MovieList = React.lazy(() => import("../MoviesPage/MovieList"));
 
 const MoviesPage: FC = React.memo(() => {
   const [imgIsLoad, setImgIsLoad] = useState<boolean>(true);
   const [page, setPage] = useState<number>(1);
+  const [isLoad, setIsLoad] = useState<boolean>(true);
+  const [films, setFilms] = useState<any>([]);
 
   const genres: any[] = useSelector(selectedGenres);
   const sortBy = useSelector(sortValue);
   const year = useSelector(selectedYear);
 
-  const [data, loading, error] = useData("discover/movie", {
-    language: "ru-RU",
-    with_genres: genres.join(","),
-    page: page,
-    sort_by: sortBy,
-    primary_release_year: year,
-    limit: 10,
-  });
-
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(setDataAction(data));
-    setImgIsLoad(true);
-  }, [loading]);
+  // const [data, loading, error] = useData("discover/movie", {
+  //   language: "ru-RU",
+  //   with_genres: genres.join(","),
+  //   page: page,
+  //   sort_by: sortBy,
+  //   primary_release_year: year,
+  //   limit: 10,
+  // });
 
-  if (error.length !== 0) {
-    return <Box sx={{ width: "100vw", mt: 10, display: "flex", justifyContent: "center" }}>Ошибка! Что-то пошло не так.</Box>;
-  }
+  const fetchFilms = async (route: string, query: object) => {
+    const URL = `${endpoint}${route}?${"api_key=" + apiKey}&${queryString.stringify(query)}`;
+    const response = await fetch(URL);
+    const filmsData = await response.json();
+    setFilms(filmsData);
+    dispatch(setDataAction(filmsData));
+    setIsLoad(false);
+  };
+
+  useEffect(() => {
+    setIsLoad(true);
+    fetchFilms("discover/movie", {
+      language: "ru-RU",
+      with_genres: genres.join(","),
+      page: page,
+      sort_by: sortBy,
+      primary_release_year: year,
+      limit: 10,
+    });
+    // setImgIsLoad(true);
+  }, [genres, sortBy, year, page]);
+
+  // if (error.length !== 0) {
+  //   return <Box sx={{ width: "100vw", mt: 10, display: "flex", justifyContent: "center" }}>Ошибка! Что-то пошло не так.</Box>;
+  // }
 
   return (
     <Box
@@ -58,13 +81,13 @@ const MoviesPage: FC = React.memo(() => {
         <PageUp />
       </Box>
       <div>
-        {data && loading ? (
+        {isLoad ? (
           <Box sx={{ width: "70vw", height: "50vh" }}>
             <Loader display='flex' width='50vw' height='50vh' />
           </Box>
         ) : (
           <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-end", width: "70vw" }}>
-            {data.results.map((movie: any, i: number) => {
+            {/* {films.results.map((movie: any, i: number) => {
               return (
                 <ThemeProvider theme={theme} key={movie.id}>
                   <Zoom in={movie.length !== 0} unmountOnExit>
@@ -118,7 +141,10 @@ const MoviesPage: FC = React.memo(() => {
                   </Zoom>
                 </ThemeProvider>
               );
-            })}
+            })} */}
+            <Suspense fallback={<Loader display='flex' width='100%' height='100%' />}>
+              <MovieList films={films} imgIsLoad={imgIsLoad} setImgIsLoad={setImgIsLoad} />
+            </Suspense>
           </Box>
         )}
       </div>
