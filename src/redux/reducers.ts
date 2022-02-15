@@ -1,6 +1,7 @@
 import {
   ADD_GENRE,
   ADD_USERINFO,
+  DELETE_USERINFO,
   IS_SHOW_MODAL,
   REMOVE_GENRE,
   RESET_GENRES,
@@ -26,29 +27,31 @@ const dataReducer = (state: { data: Array<any>; isShowModal: boolean } = initial
       return { ...state, isShowModal: action.payload };
     case ADD_USERINFO:
       return { ...state, userInfo: action.payload };
+    case DELETE_USERINFO:
+      return { ...state, userInfo: {} };
     default:
       return state;
   }
 };
 
 const filtersInitialState = {
-  genres: [],
+  choosedGenres: [],
   sortBy: "popularity.desc",
   years: [],
   year: "",
 };
 
 const filtersReducer = (
-  state: { genres: Array<any>; years: Array<number>; year: string | number } = filtersInitialState,
+  state: { choosedGenres: Array<any>; years: Array<number>; year: string | number } = filtersInitialState,
   action: PayloadAction<any>
 ) => {
   switch (action.type) {
     case ADD_GENRE:
-      return { ...state, genres: action.payload };
+      return { ...state, choosedGenres: action.payload };
     case REMOVE_GENRE:
-      return { ...state, genres: state.genres.filter((genre) => genre.id !== action.payload) };
+      return { ...state, choosedGenres: state.choosedGenres.filter((genre) => genre.id !== action.payload) };
     case RESET_GENRES:
-      return { ...state, genres: [] };
+      return { ...state, choosedGenres: [] };
     case SET_SORT_VALUE:
       return { ...state, sortBy: action.payload };
     case SET_YEARS:

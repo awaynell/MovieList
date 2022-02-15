@@ -1,6 +1,10 @@
+import { getSessionIDFromCookie } from "./getSessionIDFromCookie";
 import { endpoint, apiKey } from "../../API/apiInfo";
 
 export const getUser = async (username: string, password: string) => {
+  if (getSessionIDFromCookie().value !== undefined) {
+    const userInfo = await getUserInfo(getSessionIDFromCookie().value);
+  }
   if (username.length === 0 || password.length === 0) {
     return false;
   }
@@ -57,18 +61,20 @@ const getSessionIDUser = async (requestToken: string) => {
   const sessionID = await requestSessionIDUser.json();
   if (sessionID.success) {
     console.log("sessionID.session_id: ", sessionID.session_id);
+    document.cookie = `sessionID=${sessionID.session_id}`;
     return sessionID.session_id;
   } else {
     console.log(sessionID.status_message);
   }
 };
 
-const getUserInfo = async (sessionID: string) => {
+export const getUserInfo = async (sessionID: string) => {
   const URL = `${endpoint}/account?${"api_key=" + apiKey}&${"session_id=" + sessionID}`;
   const userInfo = await fetch(URL)
     .then((data) => data.json())
     .then((json) => {
       return json;
     });
+  console.log(userInfo);
   return userInfo;
 };

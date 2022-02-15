@@ -1,4 +1,16 @@
-import { Button, FilledInput, FormControl, Grow, IconButton, InputAdornment, InputLabel, LinearProgress, Modal, Typography } from "@mui/material";
+import {
+  Button,
+  FilledInput,
+  FormControl,
+  FormHelperText,
+  Grow,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  LinearProgress,
+  Modal,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import "./LoginModal.scss";
 import { ThemeProvider } from "@emotion/react";
@@ -12,13 +24,11 @@ import React, { useState } from "react";
 import { getUser } from "../../../helpers/authHelpers/getUser";
 
 const LoginModal = () => {
-  const [userInfo, setUserInfo] = useState<any>();
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const showModal = useSelector(isShowModal);
   const dispatch = useDispatch();
 
-  console.log("userInfo: ", userInfo);
   const [authValue, setAuthValue] = React.useState({
     login: "",
     password: "",
@@ -26,10 +36,18 @@ const LoginModal = () => {
   });
 
   const getUserInfo = async () => {
+    if (authValue.login.length === 0 || authValue.password.length === 0) {
+      return false;
+    }
     setLoading(true);
     const responseUserInfo = await getUser(authValue.login, authValue.password);
     if (responseUserInfo) {
-      responseUserInfo.error ? setError(responseUserInfo.statusMessage) : dispatch({ type: ADD_USERINFO, payload: responseUserInfo.userInfo });
+      if (responseUserInfo.error) {
+        setError(responseUserInfo.statusMessage);
+      } else {
+        dispatch({ type: ADD_USERINFO, payload: responseUserInfo.userInfo });
+        dispatch({ type: IS_SHOW_MODAL, payload: false });
+      }
       setLoading(false);
     }
   };
@@ -72,32 +90,35 @@ const LoginModal = () => {
               }}
             >
               <Typography sx={{ width: "100%", textAlign: "center" }}>Вы можете войти, если у вас есть аккаунт на TheMovieDB</Typography>
-              <FormControl sx={{ width: "100%", mt: 1 }}>
-                <InputLabel sx={{ mt: 1 }}>Login</InputLabel>
-                <FilledInput margin='dense' onChange={handleChange("login")} />
-              </FormControl>
-              <FormControl sx={{ width: "100%", mt: 1 }}>
-                <InputLabel sx={{ mt: 1 }}>Password</InputLabel>
-                <FilledInput
-                  type={authValue.showPassword ? "text" : "password"}
-                  value={authValue.password}
-                  onChange={handleChange("password")}
-                  endAdornment={
-                    <InputAdornment position='end'>
-                      <IconButton aria-label='toggle password visibility' onClick={handleClickShowPassword} edge='end'>
-                        {authValue.showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </FormControl>
-              {loading ? (
-                <LinearProgress sx={{ mt: 1, width: "50%" }} />
-              ) : (
-                <Button variant='outlined' sx={{ mt: 1 }} onClick={getUserInfo}>
-                  Войти
-                </Button>
-              )}
+              <Box component='form' sx={{ display: "flex", width: "100%", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                <FormControl sx={{ width: "100%", mt: 1 }} required>
+                  <InputLabel sx={{ mt: 1 }}>Login</InputLabel>
+                  <FilledInput margin='dense' onChange={handleChange("login")} required />
+                </FormControl>
+                <FormControl sx={{ width: "100%", mt: 1 }} required>
+                  <InputLabel sx={{ mt: 1 }}>Password</InputLabel>
+                  <FilledInput
+                    type={authValue.showPassword ? "text" : "password"}
+                    value={authValue.password}
+                    onChange={handleChange("password")}
+                    endAdornment={
+                      <InputAdornment position='end'>
+                        <IconButton aria-label='toggle password visibility' onClick={handleClickShowPassword} edge='end'>
+                          {authValue.showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    required
+                  />
+                </FormControl>
+                {loading ? (
+                  <LinearProgress sx={{ mt: 1, width: "50%" }} />
+                ) : (
+                  <Button type='submit' variant='outlined' sx={{ mt: 1, width: "50%" }} onClick={getUserInfo}>
+                    Войти
+                  </Button>
+                )}
+              </Box>
               {error.length !== 0 && <Typography>{error}</Typography>}
             </Box>
           </Grow>

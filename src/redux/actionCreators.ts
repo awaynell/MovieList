@@ -1,4 +1,14 @@
-import { ADD_GENRE, IS_SHOW_MODAL, REMOVE_GENRE, SET_DATA, SET_SELECTED_YEAR, SET_SORT_VALUE, SET_YEARS, SET_YEARS_START } from "./actionTypes";
+import {
+  ADD_GENRE,
+  DELETE_USERINFO,
+  IS_SHOW_MODAL,
+  REMOVE_GENRE,
+  SET_DATA,
+  SET_SELECTED_YEAR,
+  SET_SORT_VALUE,
+  SET_YEARS,
+  SET_YEARS_START,
+} from "./actionTypes";
 
 export const setDataAction = (payload: any) => ({
   type: SET_DATA,
@@ -37,4 +47,8 @@ export const setSelectedYear = (payload: string | number) => ({
 export const isShowModal = (payload: boolean) => ({
   type: IS_SHOW_MODAL,
   payload,
+});
+
+export const deleteUserInfo = () => ({
+  type: DELETE_USERINFO,
 });

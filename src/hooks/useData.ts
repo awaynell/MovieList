@@ -9,19 +9,14 @@ export const useData = (route: string, query: object) => {
 
   const URL = `${endpoint}${route}?${"api_key=" + apiKey}&${queryString.stringify(query)}`;
 
+  const getData = async () => {
+    setLoading(true);
+    const response = await fetch(URL);
+    const data = await response.json();
+    setData(data);
+    setLoading(false);
+  };
   useEffect(() => {
-    const getData = async () => {
-      setLoading(true);
-      await fetch(URL)
-        .then((data) => data.json())
-        .then((json) => {
-          setData(json);
-          setLoading(false);
-        })
-        .catch((e) => {
-          setError(e);
-        });
-    };
     getData();
   }, [URL]);
   return [data, loading, error] as const;

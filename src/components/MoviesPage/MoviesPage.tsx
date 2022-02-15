@@ -36,14 +36,6 @@ const MoviesPage: FC = React.memo(() => {
     setImgIsLoad(true);
   }, [loading]);
 
-  // useEffect(() => {
-  //   if (data) {
-  //     data.results.map(({ some }) => {
-  //       console.log(some);
-  //     });
-  //   }
-  // });
-
   if (error.length !== 0) {
     return <Box sx={{ width: "100vw", mt: 10, display: "flex", justifyContent: "center" }}>Ошибка! Что-то пошло не так.</Box>;
   }
