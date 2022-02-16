@@ -13,7 +13,6 @@ const SortBy = React.memo(() => {
   const sortBy = useSelector(sortValue);
   const yearsArr = useSelector(years);
   const year = useSelector(selectedYear);
-  console.log("year: ", year);
 
   const saveSortValue = (event: SelectChangeEvent<any>) => {
     dispatch(setSortValue(event.target.value));

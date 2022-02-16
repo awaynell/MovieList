@@ -1,8 +1,8 @@
 import { ThemeProvider } from "@emotion/react";
 import { Zoom, Box, Card, Fade, CardMedia, CardContent, Typography, Rating } from "@mui/material";
 import React, { FC } from "react";
-import { theme } from "../../theme/theme";
-import Loader from "./Loader/Loader";
+import { theme } from "../../../theme/theme";
+import Loader from "../Loader/Loader";
 
 interface MovieListProps {
   films: any;
@@ -11,9 +11,7 @@ interface MovieListProps {
 }
 
 const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad }) => {
-  console.log(films.results.slice(0, 10));
-
-  return films.results.slice(0, 10).map((movie: any, i: number) => {
+  return films.results.map((movie: any, i: number) => {
     return (
       <ThemeProvider theme={theme} key={movie.id}>
         <Zoom in={movie.length !== 0} unmountOnExit>
