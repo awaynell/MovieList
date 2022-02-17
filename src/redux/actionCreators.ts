@@ -8,6 +8,8 @@ import {
   SET_SORT_VALUE,
   SET_YEARS,
   SET_YEARS_START,
+  UPDATE_FAVOURITES,
+  UPDATE_FAVOURITES_SUCCESS,
 } from "./actionTypes";
 
 export const setDataAction = (payload: any) => ({
@@ -51,4 +53,14 @@ export const isShowModal = (payload: boolean) => ({
 
 export const deleteUserInfo = () => ({
   type: DELETE_USERINFO,
+});
+
+export const updateFavourites = (payload: object) => ({
+  type: UPDATE_FAVOURITES,
+  payload,
+});
+
+export const setFavouritesMovies = (payload: Array<any>) => ({
+  type: UPDATE_FAVOURITES_SUCCESS,
+  payload,
 });

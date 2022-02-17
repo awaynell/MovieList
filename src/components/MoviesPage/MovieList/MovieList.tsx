@@ -1,8 +1,18 @@
 import { ThemeProvider } from "@emotion/react";
 import { Zoom, Box, Card, Fade, CardMedia, CardContent, Typography, Rating } from "@mui/material";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { theme } from "../../../theme/theme";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Loader from "../Loader/Loader";
+import { useDispatch, useSelector } from "react-redux";
+import { favouriteIDs, userInfo } from "../../../redux/selectors";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { apiKey } from "../../../API/apiInfo";
+import { getSessionIDFromCookie } from "../../../helpers/authHelpers/getSessionIDFromCookie";
+import { useData } from "../../../hooks/useData";
+import { setFavouriteFilm } from "../../../helpers/setFavouriteFilm";
+import { setFavouritesMovies, updateFavourites } from "../../../redux/actionCreators";
+import { getFavouriteMovies } from "../../../helpers/getFavouriteMovies";
 
 interface MovieListProps {
   films: any;
@@ -11,6 +21,29 @@ interface MovieListProps {
 }
 
 const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad }) => {
+  const { id: userID } = useSelector(userInfo);
+  const favID = useSelector(favouriteIDs);
+  const dispatch = useDispatch();
+
+  const buttonFavouriteHandler = (movieID: number) => {
+    const isFavourite = favID.includes(movieID);
+    console.log("buttonFavouriteHandler: work");
+    dispatch(updateFavourites({ userID, movieID, isFavourite }));
+  };
+
+  const getInitialData = async () => {
+    const favID = await getFavouriteMovies(userID, {
+      language: "ru-RU",
+    });
+    dispatch(setFavouritesMovies(favID));
+  };
+
+  useEffect(() => {
+    if (getSessionIDFromCookie().value !== null) {
+      getInitialData();
+    }
+  }, []);
+
   return films.results.map((movie: any, i: number) => {
     return (
       <ThemeProvider theme={theme} key={movie.id}>
@@ -58,7 +91,13 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad }) => {
                     : movie.overview.length > 150
                     ? movie.overview.substring(0, 150) + "..."
                     : movie.overview}
+                  {favID.includes(movie.id) && <div>true</div>}
                 </Typography>
+                {userID && !favID.includes(movie.id) ? (
+                  <FavoriteBorderIcon sx={{ cursor: "pointer" }} onClick={() => buttonFavouriteHandler(movie.id)} />
+                ) : (
+                  <FavoriteIcon sx={{ cursor: "pointer" }} onClick={() => buttonFavouriteHandler(movie.id)} />
+                )}
               </CardContent>
             </Card>
           </Box>

@@ -10,3 +10,4 @@ export const years = (state: RootStateOrAny) => state.filters.years;
 export const selectedYear = (state: RootStateOrAny) => state.filters.year;
 export const isShowModal = (state: RootStateOrAny) => state.data.isShowModal;
 export const userInfo = (state: RootStateOrAny) => state.data.userInfo;
+export const favouriteIDs = (state: RootStateOrAny) => state.favourites.favouriteIDs;

@@ -9,6 +9,8 @@ import {
   SET_SELECTED_YEAR,
   SET_SORT_VALUE,
   SET_YEARS,
+  UPDATE_FAVOURITES,
+  UPDATE_FAVOURITES_SUCCESS,
 } from "./actionTypes";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
@@ -63,7 +65,21 @@ const filtersReducer = (
   }
 };
 
+const favouriteInitialState = {
+  favouriteIDs: [],
+};
+
+const favouriteReducer = (state: { favouriteIDs: Array<any> } = favouriteInitialState, action: PayloadAction<any>) => {
+  switch (action.type) {
+    case UPDATE_FAVOURITES_SUCCESS:
+      return { ...state, favouriteIDs: action.payload.map((item: { id: number }) => item.id) };
+    default:
+      return state;
+  }
+};
+
 export const rootReducer = combineReducers({
   data: dataReducer,
   filters: filtersReducer,
+  favourites: favouriteReducer,
 });

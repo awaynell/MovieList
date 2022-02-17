@@ -58,6 +58,8 @@ const getSessionIDUser = async (requestToken: string) => {
     },
     body: JSON.stringify(body),
   });
+  console.log("requestSessionIDUser: ", requestSessionIDUser);
+
   const sessionID = await requestSessionIDUser.json();
   if (sessionID.success) {
     console.log("sessionID.session_id: ", sessionID.session_id);
