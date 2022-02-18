@@ -10,6 +10,8 @@ import {
   SET_YEARS_START,
   UPDATE_FAVOURITES,
   UPDATE_FAVOURITES_SUCCESS,
+  UPDATE_WATCHLIST,
+  UPDATE_WATCHLIST_SUCCESS,
 } from "./actionTypes";
 
 export const setDataAction = (payload: any) => ({
@@ -62,5 +64,15 @@ export const updateFavourites = (payload: object) => ({
 
 export const setFavouritesMovies = (payload: Array<any>) => ({
   type: UPDATE_FAVOURITES_SUCCESS,
+  payload,
+});
+
+export const updateWatchlist = (payload: object) => ({
+  type: UPDATE_WATCHLIST,
+  payload,
+});
+
+export const setWatchlist = (payload: Array<any>) => ({
+  type: UPDATE_WATCHLIST_SUCCESS,
   payload,
 });

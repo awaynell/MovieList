@@ -11,9 +11,10 @@ import {
   SET_YEARS,
   SET_YEARS_START,
   UPDATE_FAVOURITES,
+  UPDATE_WATCHLIST,
 } from "./actionTypes";
 import * as Effects from "redux-saga/effects";
-import { setFavouritesMovies, setYears } from "./actionCreators";
+import { setFavouritesMovies, setWatchlist, setYears } from "./actionCreators";
 import { logout } from "../helpers/authHelpers/logout";
 import { getSessionIDFromCookie } from "../helpers/authHelpers/getSessionIDFromCookie";
 import { PayloadAction } from "@reduxjs/toolkit";
@@ -22,6 +23,8 @@ import { useData } from "../hooks/useData";
 import { AnyCnameRecord } from "dns";
 import { getFavouriteMovies } from "../helpers/getFavouriteMovies";
 import { setFavouriteFilm } from "../helpers/setFavouriteFilm";
+import { setWatchlistMovie } from "../helpers/setWatchlistMovie";
+import { getWatchlist } from "../helpers/getWatchlist";
 
 const call: any = Effects.call;
 
@@ -36,11 +39,21 @@ function* getUserFromCookieSaga() {
 }
 
 function* updateFavouritesSaga(action: any) {
+  console.log("updateFavouritesSaga");
   yield call(setFavouriteFilm, action.payload.userID, action.payload.movieID, action.payload.isFavourite);
-  const favouriteMovies: Array<any> = yield call(getFavouriteMovies, action.payload.userID, {
+  const favouriteMovies: { results: [] } = yield call(getFavouriteMovies, action.payload.userID, {
     language: "ru-RU",
   });
-  yield put(setFavouritesMovies(favouriteMovies));
+  const res = favouriteMovies.results.map((item: { id: number }) => item.id);
+  yield put(setFavouritesMovies(res));
+}
+
+function* updateWatchlistSaga(action: any) {
+  yield call(setWatchlistMovie, action.payload.userID, action.payload.movieID, action.payload.isWatched);
+  const watchlistMovies: { results: [] } = yield call(getWatchlist, action.payload.userID, {
+    language: "ru-RU",
+  });
+  yield put(setWatchlist(watchlistMovies.results));
 }
 
 function* userLogoutSaga() {
@@ -52,4 +65,5 @@ export function* rootSaga() {
   yield takeEvery(DELETE_USERINFO, userLogoutSaga);
   yield takeEvery(ADD_USERINFO_START, getUserFromCookieSaga);
   yield takeEvery(UPDATE_FAVOURITES, updateFavouritesSaga);
+  yield takeEvery(UPDATE_WATCHLIST, updateWatchlistSaga);
 }

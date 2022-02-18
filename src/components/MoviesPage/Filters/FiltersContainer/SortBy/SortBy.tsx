@@ -61,6 +61,7 @@ const SortBy = React.memo(() => {
             id='YearReleaseSelect'
             defaultValue={"Без года"}
             label='Год релиза'
+            value={year.length === 0 ? "Без года" : year}
             onChange={saveSelectedYear}
             sx={{ backgroundColor: "#57595b" }}
             MenuProps={MenuProps}

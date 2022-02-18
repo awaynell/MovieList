@@ -11,11 +11,12 @@ import { ThemeProvider } from "@emotion/react";
 import { theme } from "../../../theme/theme";
 
 interface PaginationProps {
+  allOfPages: any;
   setPage: any;
 }
 
-const PaginationContainer: FC<PaginationProps> = React.memo(({ setPage }) => {
-  const allOfPages = useSelector(totalPages);
+const PaginationContainer: FC<PaginationProps> = React.memo(({ allOfPages, setPage }) => {
+  // const allOfPages = useSelector(totalPages);
 
   const handleChange = (event: React.ChangeEvent<unknown>, page: number): void => {
     setPage(page);

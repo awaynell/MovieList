@@ -11,6 +11,7 @@ import {
   SET_YEARS,
   UPDATE_FAVOURITES,
   UPDATE_FAVOURITES_SUCCESS,
+  UPDATE_WATCHLIST_SUCCESS,
 } from "./actionTypes";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
@@ -65,14 +66,20 @@ const filtersReducer = (
   }
 };
 
-const favouriteInitialState = {
+const favouriteAndWatchInitialState = {
   favouriteIDs: [],
+  watchlistIDs: [],
 };
 
-const favouriteReducer = (state: { favouriteIDs: Array<any> } = favouriteInitialState, action: PayloadAction<any>) => {
+const favouriteAndWatchReducer = (
+  state: { favouriteIDs: Array<number>; watchlistIDs: Array<number> } = favouriteAndWatchInitialState,
+  action: PayloadAction<any>
+) => {
   switch (action.type) {
     case UPDATE_FAVOURITES_SUCCESS:
-      return { ...state, favouriteIDs: action.payload.map((item: { id: number }) => item.id) };
+      return { ...state, favouriteIDs: action.payload };
+    case UPDATE_WATCHLIST_SUCCESS:
+      return { ...state, watchlistIDs: action.payload.map((item: { id: number }) => item.id) };
     default:
       return state;
   }
@@ -81,5 +88,5 @@ const favouriteReducer = (state: { favouriteIDs: Array<any> } = favouriteInitial
 export const rootReducer = combineReducers({
   data: dataReducer,
   filters: filtersReducer,
-  favourites: favouriteReducer,
+  favouritesAndWatchlist: favouriteAndWatchReducer,
 });

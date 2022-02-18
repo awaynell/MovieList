@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { endpoint, apiKey } from "../../API/apiInfo";
 import { useData } from "../../hooks/useData";
 import { setDataAction } from "../../redux/actionCreators";
-import { selectedGenres, selectedYear, sortValue } from "../../redux/selectors";
+import { selectedGenres, selectedYear, sortValue, totalPages } from "../../redux/selectors";
 import { theme } from "../../theme/theme";
 import PageUp from "../UI/PageUp/PageUp";
 import FiltersContainer from "./Filters/FiltersContainer/FiltersContainer";
@@ -14,8 +14,8 @@ import LoginModal from "./LoginModal/LoginModal";
 import PaginationCont from "./Pagination/PaginationContainer";
 import * as queryString from "query-string";
 import { RESET_GENRES } from "../../redux/actionTypes";
-
-const MovieList = React.lazy(() => import("./MovieList/MovieList"));
+import { useParams } from "react-router-dom";
+import MovieList from "./MovieList/MovieList";
 
 const MoviesPage: FC = React.memo(() => {
   const [imgIsLoad, setImgIsLoad] = useState<boolean>(true);
@@ -25,6 +25,7 @@ const MoviesPage: FC = React.memo(() => {
   const [error, setError] = useState<boolean>(false);
 
   const genres: any[] = useSelector(selectedGenres);
+  const allOfPages = useSelector(totalPages);
 
   const sortBy = useSelector(sortValue);
   const year = useSelector(selectedYear);
@@ -43,6 +44,7 @@ const MoviesPage: FC = React.memo(() => {
   const fetchFilms = async (route: string, query: object) => {
     const URL = `${endpoint}${route}?${"api_key=" + apiKey}&${queryString.stringify(query)}`;
     try {
+      setIsLoad(true);
       const response = await fetch(URL);
       const filmsData = await response.json();
       setFilms(filmsData);
@@ -59,8 +61,6 @@ const MoviesPage: FC = React.memo(() => {
     if (genres.length !== 0) {
       genres.map((genre) => genreIDs.push(genre.id));
     }
-    console.log("genreIDs: ", genreIDs);
-    setIsLoad(true);
     fetchFilms("discover/movie", {
       language: "ru-RU",
       with_genres: genreIDs.join(","),
@@ -70,7 +70,7 @@ const MoviesPage: FC = React.memo(() => {
       limit: 10,
     });
     genreIDs = [];
-    // setImgIsLoad(true);
+    setImgIsLoad(true);
   }, [genres, sortBy, year, page]);
 
   if (error) {
@@ -90,22 +90,18 @@ const MoviesPage: FC = React.memo(() => {
       <Box>
         <Box sx={{ display: "flex", justifyContent: "end", flexDirection: "column", pt: 0.75 }}>
           <FiltersContainer />
-          <PaginationCont setPage={setPage} />
+          <PaginationCont setPage={setPage} allOfPages={allOfPages} />
         </Box>
         <PageUp />
       </Box>
       <div>
-        {isLoad ? (
-          <Box sx={{ width: "70vw", height: "50vh" }}>
-            <Loader display='flex' width='50vw' height='50vh' />
-          </Box>
-        ) : (
-          <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-end", width: "70vw" }}>
-            <Suspense fallback={<Loader display='flex' width='100%' height='100%' />}>
-              <MovieList films={films} imgIsLoad={imgIsLoad} setImgIsLoad={setImgIsLoad} />
-            </Suspense>
-          </Box>
-        )}
+        <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-end", width: "70vw" }}>
+          {isLoad ? (
+            <Loader display='flex' width='100%' />
+          ) : (
+            <MovieList films={films} imgIsLoad={imgIsLoad} setImgIsLoad={setImgIsLoad} page={page} />
+          )}
+        </Box>
       </div>
     </Box>
   );

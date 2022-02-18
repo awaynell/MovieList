@@ -1,28 +1,35 @@
 import { ThemeProvider } from "@emotion/react";
-import { Zoom, Box, Card, Fade, CardMedia, CardContent, Typography, Rating } from "@mui/material";
+import { Zoom, Box, Card, Fade, CardMedia, CardContent, Typography, Rating, Tooltip } from "@mui/material";
 import React, { FC, useEffect } from "react";
 import { theme } from "../../../theme/theme";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Loader from "../Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { favouriteIDs, userInfo } from "../../../redux/selectors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import { favouriteIDs, userInfo, watchlistIDs } from "../../../redux/selectors";
 import { apiKey } from "../../../API/apiInfo";
 import { getSessionIDFromCookie } from "../../../helpers/authHelpers/getSessionIDFromCookie";
 import { useData } from "../../../hooks/useData";
 import { setFavouriteFilm } from "../../../helpers/setFavouriteFilm";
-import { setFavouritesMovies, updateFavourites } from "../../../redux/actionCreators";
+import { setFavouritesMovies, setWatchlist, updateFavourites, updateWatchlist } from "../../../redux/actionCreators";
 import { getFavouriteMovies } from "../../../helpers/getFavouriteMovies";
+import { getWatchlist } from "../../../helpers/getWatchlist";
+import { setWatchlistMovie } from "../../../helpers/setWatchlistMovie";
 
 interface MovieListProps {
   films: any;
   imgIsLoad: boolean;
   setImgIsLoad: any;
+  style?: object;
+  page?: number;
 }
 
-const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad }) => {
+const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, page }) => {
   const { id: userID } = useSelector(userInfo);
   const favID = useSelector(favouriteIDs);
+  const watchID = useSelector(watchlistIDs);
   const dispatch = useDispatch();
 
   const buttonFavouriteHandler = (movieID: number) => {
@@ -31,15 +38,26 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad }) => {
     dispatch(updateFavourites({ userID, movieID, isFavourite }));
   };
 
+  const buttonWatchlistHandler = (movieID: number) => {
+    const isWatched = watchID.includes(movieID);
+    console.log("buttonWatchlistHandler: work");
+    dispatch(updateWatchlist({ userID, movieID, isWatched }));
+  };
+
   const getInitialData = async () => {
     const favID = await getFavouriteMovies(userID, {
       language: "ru-RU",
     });
-    dispatch(setFavouritesMovies(favID));
+    const favIDs = favID.results.map((item: { id: number }) => item.id);
+    dispatch(setFavouritesMovies(favIDs));
+    // const watchlistID = await getWatchlist(userID, {
+    //   language: "ru-RU",
+    // });
+    // dispatch(setWatchlist(watchlistID.results));
   };
 
   useEffect(() => {
-    if (getSessionIDFromCookie().value !== null) {
+    if (getSessionIDFromCookie().value !== undefined) {
       getInitialData();
     }
   }, []);
@@ -49,13 +67,17 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad }) => {
       <ThemeProvider theme={theme} key={movie.id}>
         <Zoom in={movie.length !== 0} unmountOnExit>
           <Box
-            sx={{
-              p: 1.5,
-              display: "flex",
-              backgroundColor: "$backgroundColor",
-              width: "33vw",
-              flex: "1 1 auto",
-            }}
+            sx={
+              style && !!Object.keys(style).length
+                ? style
+                : {
+                    p: 1.5,
+                    display: "flex",
+                    backgroundColor: "$backgroundColor",
+                    width: "33vw",
+                    flex: "1 1 auto",
+                  }
+            }
           >
             <Card sx={{ display: "flex", flexDirection: "row", backgroundColor: "#383b47", color: "white", ml: 1.5, width: "100%" }}>
               <Loader display={imgIsLoad ? "flex" : "none"} width='50%' />
@@ -91,12 +113,29 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad }) => {
                     : movie.overview.length > 150
                     ? movie.overview.substring(0, 150) + "..."
                     : movie.overview}
-                  {favID.includes(movie.id) && <div>true</div>}
+                  {movie.id}
                 </Typography>
-                {userID && !favID.includes(movie.id) ? (
-                  <FavoriteBorderIcon sx={{ cursor: "pointer" }} onClick={() => buttonFavouriteHandler(movie.id)} />
-                ) : (
-                  <FavoriteIcon sx={{ cursor: "pointer" }} onClick={() => buttonFavouriteHandler(movie.id)} />
+                {userID !== undefined && (
+                  <Box sx={{ display: "flex", mt: "auto", width: "100%", justifyContent: "flex-end" }}>
+                    {!favID.includes(movie.id) ? (
+                      <Tooltip TransitionComponent={Fade} TransitionProps={{ timeout: 300 }} title='Добавить фильм в любимые'>
+                        <FavoriteBorderIcon sx={{ cursor: "pointer" }} onClick={() => buttonFavouriteHandler(movie.id)} />
+                      </Tooltip>
+                    ) : (
+                      <Tooltip TransitionComponent={Fade} TransitionProps={{ timeout: 300 }} title='Удалить фильм из любимых'>
+                        <FavoriteIcon sx={{ cursor: "pointer" }} onClick={() => buttonFavouriteHandler(movie.id)} />
+                      </Tooltip>
+                    )}
+                    {!watchID.includes(movie.id) ? (
+                      <Tooltip TransitionComponent={Fade} TransitionProps={{ timeout: 300 }} title='Добавить фильм в список просмотра'>
+                        <BookmarkBorderIcon sx={{ cursor: "pointer" }} onClick={() => buttonWatchlistHandler(movie.id)} />
+                      </Tooltip>
+                    ) : (
+                      <Tooltip TransitionComponent={Fade} TransitionProps={{ timeout: 300 }} title='Удалить фильм из списка просмотра'>
+                        <BookmarkIcon sx={{ cursor: "pointer" }} onClick={() => buttonWatchlistHandler(movie.id)} />
+                      </Tooltip>
+                    )}
+                  </Box>
                 )}
               </CardContent>
             </Card>
