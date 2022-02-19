@@ -113,7 +113,6 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
                     : movie.overview.length > 150
                     ? movie.overview.substring(0, 150) + "..."
                     : movie.overview}
-                  {movie.id}
                 </Typography>
                 {userID !== undefined && (
                   <Box sx={{ display: "flex", mt: "auto", width: "100%", justifyContent: "flex-end" }}>

@@ -43,7 +43,7 @@ const Header = React.memo(() => {
               <>
                 <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
                   <Button onClick={() => navigate("favourite")}>Favourite movies</Button>
-                  <Button onClick={() => navigate("favourite")}>My watchlist</Button>
+                  <Button onClick={() => navigate("watchlist")}>My watchlist</Button>
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
                   {userInfoData.avatar.tmdb.avatar_path === null ? (
