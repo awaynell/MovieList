@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@emotion/react";
-import { Zoom, Box, Card, Fade, CardMedia, CardContent, Typography, Rating, Tooltip } from "@mui/material";
-import React, { FC, useEffect } from "react";
+import { Zoom, Box, Card, Fade, CardMedia, CardContent, Typography, Rating, Tooltip, Alert, Snackbar } from "@mui/material";
+import React, { FC, useEffect, useState } from "react";
 import { theme } from "../../../theme/theme";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -28,6 +28,8 @@ interface MovieListProps {
 
 const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, page }) => {
   const { id: userID } = useSelector(userInfo);
+  const [openSuccessAdded, setOpenSuccessAdded] = useState<boolean>(false);
+  const [openSuccessDeleted, setOpenSuccessDeleted] = useState<boolean>(false);
   const favID = useSelector(favouriteIDs);
   const watchID = useSelector(watchlistIDs);
   const dispatch = useDispatch();
@@ -36,6 +38,12 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
     const isFavourite = favID.includes(movieID);
     console.log("buttonFavouriteHandler: work");
     dispatch(updateFavourites({ userID, movieID, isFavourite }));
+    if (!isFavourite) {
+      setOpenSuccessAdded(true);
+    }
+    if (isFavourite) {
+      setOpenSuccessDeleted(true);
+    }
   };
 
   const buttonWatchlistHandler = (movieID: number) => {
@@ -54,6 +62,14 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
     //   language: "ru-RU",
     // });
     // dispatch(setWatchlist(watchlistID.results));
+  };
+
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSuccessAdded(false);
+    setOpenSuccessDeleted(false);
   };
 
   useEffect(() => {
@@ -138,6 +154,16 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
                 )}
               </CardContent>
             </Card>
+            <Snackbar open={openSuccessAdded} autoHideDuration={1500} onClose={handleClose}>
+              <Alert onClose={handleClose} severity='success' sx={{ width: "100%" }}>
+                Добавлено успешно!
+              </Alert>
+            </Snackbar>
+            <Snackbar open={openSuccessDeleted} autoHideDuration={1500} onClose={handleClose}>
+              <Alert onClose={handleClose} severity='error' sx={{ width: "100%" }}>
+                Успешно удалено!
+              </Alert>
+            </Snackbar>
           </Box>
         </Zoom>
       </ThemeProvider>

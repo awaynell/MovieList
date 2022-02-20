@@ -18,6 +18,11 @@ export const MenuProps = {
   },
 };
 
+interface Genre {
+  id: string;
+  genreName: string;
+}
+
 const Genres = () => {
   const [data, loading, error] = useData("genre/movie/list", {
     language: "ru-RU",
@@ -73,7 +78,7 @@ const Genres = () => {
           <FormControl sx={{ m: 1, width: "20vw" }}>
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, color: "red", mb: 0.5 }}>
               {choosedGenres.length !== 0 &&
-                choosedGenres.map((genre: { id: string; genreName: string }) => (
+                choosedGenres.map((genre: Genre) => (
                   <Chip
                     key={genre.id}
                     label={genre.genreName}
