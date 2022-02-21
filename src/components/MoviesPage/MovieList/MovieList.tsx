@@ -17,6 +17,8 @@ import { setFavouritesMovies, setWatchlist, updateFavourites, updateWatchlist } 
 import { getFavouriteMovies } from "../../../helpers/getFavouriteMovies";
 import { getWatchlist } from "../../../helpers/getWatchlist";
 import { setWatchlistMovie } from "../../../helpers/setWatchlistMovie";
+import { Route, Routes, useNavigate, useParams } from "react-router-dom";
+import MoviePage from "../../MoviePage/MoviePage";
 
 interface MovieListProps {
   films: any;
@@ -27,12 +29,16 @@ interface MovieListProps {
 }
 
 const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, page }) => {
-  const { id: userID } = useSelector(userInfo);
   const [openSuccessAdded, setOpenSuccessAdded] = useState<boolean>(false);
   const [openSuccessDeleted, setOpenSuccessDeleted] = useState<boolean>(false);
+
+  const { id: userID } = useSelector(userInfo);
   const favID = useSelector(favouriteIDs);
   const watchID = useSelector(watchlistIDs);
+
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const buttonFavouriteHandler = (movieID: number) => {
     const isFavourite = favID.includes(movieID);
@@ -50,6 +56,12 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
     const isWatched = watchID.includes(movieID);
     console.log("buttonWatchlistHandler: work");
     dispatch(updateWatchlist({ userID, movieID, isWatched }));
+    if (!isWatched) {
+      setOpenSuccessAdded(true);
+    }
+    if (isWatched) {
+      setOpenSuccessDeleted(true);
+    }
   };
 
   const getInitialData = async () => {
@@ -58,10 +70,11 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
     });
     const favIDs = favID.results.map((item: { id: number }) => item.id);
     dispatch(setFavouritesMovies(favIDs));
-    // const watchlistID = await getWatchlist(userID, {
-    //   language: "ru-RU",
-    // });
-    // dispatch(setWatchlist(watchlistID.results));
+    const watchlistID = await getWatchlist(userID, {
+      language: "ru-RU",
+    });
+    const watchlistIDs = watchlistID.results.map((item: { id: number }) => item.id);
+    dispatch(setWatchlist(watchlistIDs));
   };
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
@@ -115,9 +128,10 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
                       display: "",
                     },
                   ]}
+                  onClick={() => navigate(`/movie/${movie.id}`)}
                 />
               </Fade>
-              <CardContent sx={{ display: "flex", flexDirection: "column", width: "50%" }}>
+              <CardContent sx={{ display: "flex", flexDirection: "column", width: "50%" }} onClick={() => navigate(`/movie/${movie.id}`)}>
                 <Typography gutterBottom variant='h5' component='div'>
                   {movie.title}
                 </Typography>

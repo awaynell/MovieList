@@ -53,7 +53,8 @@ function* updateWatchlistSaga(action: any) {
   const watchlistMovies: { results: [] } = yield call(getWatchlist, action.payload.userID, {
     language: "ru-RU",
   });
-  yield put(setWatchlist(watchlistMovies.results));
+  const res = watchlistMovies.results.map((item: { id: number }) => item.id);
+  yield put(setWatchlist(res));
 }
 
 function* userLogoutSaga() {

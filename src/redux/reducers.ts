@@ -79,7 +79,7 @@ const favouriteAndWatchReducer = (
     case UPDATE_FAVOURITES_SUCCESS:
       return { ...state, favouriteIDs: action.payload };
     case UPDATE_WATCHLIST_SUCCESS:
-      return { ...state, watchlistIDs: action.payload.map((item: { id: number }) => item.id) };
+      return { ...state, watchlistIDs: action.payload };
     default:
       return state;
   }
