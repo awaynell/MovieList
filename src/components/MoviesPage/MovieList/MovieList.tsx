@@ -126,17 +126,26 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
                     },
                     !imgIsLoad && {
                       display: "",
+                      cursor: "pointer",
                     },
                   ]}
                   onClick={() => navigate(`/movie/${movie.id}`)}
                 />
               </Fade>
-              <CardContent sx={{ display: "flex", flexDirection: "column", width: "50%" }} onClick={() => navigate(`/movie/${movie.id}`)}>
-                <Typography gutterBottom variant='h5' component='div'>
+              <CardContent sx={{ display: "flex", flexDirection: "column", width: "50%" }}>
+                <Typography gutterBottom variant='h5' component='div' onClick={() => navigate(`/movie/${movie.id}`)} sx={{ cursor: "pointer" }}>
                   {movie.title}
                 </Typography>
                 <Typography component='legend'>Рейтинг: {movie.vote_average} stars</Typography>
-                <Rating precision={0.1} size='small' readOnly defaultValue={movie.vote_average} max={10} sx={{ color: "$primaryColor" }} />
+                <Rating
+                  precision={0.5}
+                  size='small'
+                  readOnly
+                  defaultValue={movie.vote_average}
+                  onChange={(event, newValue) => console.log(newValue)}
+                  max={10}
+                  sx={{ color: "$primaryColor" }}
+                />
                 <Typography sx={{ mt: 1, width: "100%" }}>
                   {movie.overview.length === 0
                     ? "Описание отсутствует"

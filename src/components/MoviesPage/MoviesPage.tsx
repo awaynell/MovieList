@@ -86,7 +86,6 @@ const MoviesPage: FC = React.memo(() => {
         flexDirection: "row-reverse",
       }}
     >
-      <LoginModal />
       <Box>
         <Box sx={{ display: "flex", justifyContent: "end", flexDirection: "column", pt: 0.75 }}>
           <FiltersContainer />
