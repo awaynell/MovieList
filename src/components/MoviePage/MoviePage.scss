@@ -14,7 +14,6 @@
 
 .movie-wrapper {
   width: 100vw;
-  height: 80vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,13 +21,22 @@
 }
 .movie-details {
   display: flex;
-  padding: 50px;
+  width: 80%;
+}
+.movie-poster {
+  margin-right: 30px;
+  img {
+    display: block;
+    margin: 0 auto;
+    width: 25vw;
+    height: auto;
+  }
 }
 .MuiChip-root {
-  margin: 5px;
+  margin: 5px 5px 0 0;
   border: 1px solid $primaryColor !important;
   color: $primaryColor !important;
-  font-size: 1vw !important;
+  font-size: 0.5em !important;
   .MuiChip-label {
     margin-bottom: 2px !important;
   }

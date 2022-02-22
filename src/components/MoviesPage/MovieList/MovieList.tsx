@@ -94,7 +94,7 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
   return films.results.map((movie: any, i: number) => {
     return (
       <ThemeProvider theme={theme} key={movie.id}>
-        <Zoom in={movie.length !== 0} unmountOnExit>
+        <Fade in={movie.length !== 0} unmountOnExit style={{ transitionDelay: `${100 * i}ms` }}>
           <Box
             sx={
               style && !!Object.keys(style).length
@@ -188,7 +188,7 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
               </Alert>
             </Snackbar>
           </Box>
-        </Zoom>
+        </Fade>
       </ThemeProvider>
     );
   });
