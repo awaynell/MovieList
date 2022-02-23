@@ -1,11 +1,12 @@
 import "./MoviePage.scss";
-import { Box, Chip, Fade, Rating, ThemeProvider, Typography } from "@mui/material";
-import React, { FC } from "react";
+import { Box, Button, Chip, Fade, Rating, ThemeProvider, Typography } from "@mui/material";
+import React, { FC, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useData } from "../../hooks/useData";
 import { theme } from "../../theme/theme";
 import Loader from "../MoviesPage/Loader/Loader";
 import StarIcon from "@mui/icons-material/Star";
+import ModalTrailer from "./ModalTrailer/ModalTrailer";
 
 interface MoviePageProps {
   movie?: object;
@@ -13,6 +14,7 @@ interface MoviePageProps {
 
 const MoviePage: FC<MoviePageProps> = ({ movie }) => {
   const { id } = useParams();
+  const [isOpenModalTrailer, setIsOpenModalTrailer] = useState<boolean>(false);
   const [movieDetails, loadingMovieDetails, error] = useData(`/movie/${id}`, {
     language: "ru-RU",
   });
@@ -21,7 +23,7 @@ const MoviePage: FC<MoviePageProps> = ({ movie }) => {
   });
 
   console.log(movieDetails);
-  console.log("movieTrailers: ", movieTrailers);
+  console.log("movieTrailers: ", movieTrailers.results);
   return (
     <ThemeProvider theme={theme}>
       {loadingMovieDetails ? (
@@ -37,7 +39,7 @@ const MoviePage: FC<MoviePageProps> = ({ movie }) => {
           <Box className='movie-wrapper' sx={{ mt: 4 }}>
             <Box className='movie-details'>
               <Fade in={!loadingMovieDetails} style={{ transitionDelay: "150ms" }}>
-                <Box className='movie-poster' sx={{ width: "50%", height: "100%" }}>
+                <Box className='movie-poster' sx={{ width: "50%", height: "100%", mt: 1 }}>
                   <img src={`https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`} />
                 </Box>
               </Fade>
@@ -48,7 +50,7 @@ const MoviePage: FC<MoviePageProps> = ({ movie }) => {
                 <Box sx={{ display: "flex", flexDirection: "column" }}>
                   <Fade in={!loadingMovieDetails} style={{ transitionDelay: "600ms" }}>
                     <Box>
-                      <Typography sx={{ fontSize: "0.7em", width: "60%" }}>{movieDetails.overview}</Typography>
+                      <Typography sx={{ fontSize: "0.7em", width: "80%" }}>{movieDetails.overview}</Typography>
                     </Box>
                   </Fade>
                   <Fade in={!loadingMovieDetails} style={{ transitionDelay: "900ms" }}>
@@ -71,6 +73,13 @@ const MoviePage: FC<MoviePageProps> = ({ movie }) => {
                       })}
                     </Box>
                   </Fade>
+                  {!loadingMovieTrailers && movieTrailers.results.length !== 0 && (
+                    <>
+                      <ModalTrailer youtubeID={movieTrailers.results[0].key} isOpen={isOpenModalTrailer} setIsOpen={setIsOpenModalTrailer} />
+                      <Button onClick={() => setIsOpenModalTrailer(true)}>Смотреть трейлер</Button>
+                    </>
+                  )}
+                  {!loadingMovieTrailers && movieTrailers.results.length === 0 && <Typography>Трейлеры отсутствуют</Typography>}
                 </Box>
               </Box>
             </Box>
