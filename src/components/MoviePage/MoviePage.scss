@@ -21,7 +21,7 @@
 }
 .movie-details {
   display: flex;
-  width: 80%;
+  width: 90%;
 }
 .movie-poster {
   margin-right: 30px;
@@ -30,6 +30,13 @@
     margin: 0 auto;
     width: 25vw;
     height: auto;
+  }
+}
+.movie-overview {
+  font-size: 0.6em !important;
+  width: 90%;
+  @media (max-width: 900px) {
+    font-size: 0.5em !important;
   }
 }
 .MuiChip-root {

@@ -7,23 +7,24 @@ import { theme } from "../../theme/theme";
 import Loader from "../MoviesPage/Loader/Loader";
 import StarIcon from "@mui/icons-material/Star";
 import ModalTrailer from "./ModalTrailer/ModalTrailer";
+import CarouselContainer from "./Carousel/CarouselContainer";
 
-interface MoviePageProps {
-  movie?: object;
-}
-
-const MoviePage: FC<MoviePageProps> = ({ movie }) => {
+const MoviePage = () => {
   const { id } = useParams();
   const [isOpenModalTrailer, setIsOpenModalTrailer] = useState<boolean>(false);
+
   const [movieDetails, loadingMovieDetails, error] = useData(`/movie/${id}`, {
     language: "ru-RU",
   });
   const [movieTrailers, loadingMovieTrailers, errorMovieTrailers] = useData(`/movie/${id}/videos`, {
     language: "ru-RU",
   });
+  const [movieCast, loadingMovieCast, errorMovieCast] = useData(`/movie/${id}/credits`, {
+    language: "ru-RU",
+  });
 
-  console.log(movieDetails);
-  console.log("movieTrailers: ", movieTrailers.results);
+  console.log("movieCast: ", movieCast);
+
   return (
     <ThemeProvider theme={theme}>
       {loadingMovieDetails ? (
@@ -39,7 +40,7 @@ const MoviePage: FC<MoviePageProps> = ({ movie }) => {
           <Box className='movie-wrapper' sx={{ mt: 4 }}>
             <Box className='movie-details'>
               <Fade in={!loadingMovieDetails} style={{ transitionDelay: "150ms" }}>
-                <Box className='movie-poster' sx={{ width: "50%", height: "100%", mt: 1 }}>
+                <Box className='movie-poster' sx={{ width: "45%", height: "100%", mt: 1 }}>
                   <img src={`https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`} />
                 </Box>
               </Fade>
@@ -47,17 +48,17 @@ const MoviePage: FC<MoviePageProps> = ({ movie }) => {
                 <Fade in={!loadingMovieDetails} style={{ transitionDelay: "300ms" }}>
                   <Typography sx={{ fontWeight: "500", fontSize: "1.3em", mr: 3, width: "100%" }}>{movieDetails.title}</Typography>
                 </Fade>
-                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <Box sx={{ display: "flex", flexDirection: "column", mb: 2 }}>
                   <Fade in={!loadingMovieDetails} style={{ transitionDelay: "600ms" }}>
                     <Box>
-                      <Typography sx={{ fontSize: "0.7em", width: "80%" }}>{movieDetails.overview}</Typography>
+                      <Typography className='movie-overview'>{movieDetails.overview}</Typography>
                     </Box>
                   </Fade>
                   <Fade in={!loadingMovieDetails} style={{ transitionDelay: "900ms" }}>
                     <Box sx={{ display: "flex", alignItems: "center" }}>
                       <Rating
                         precision={0.1}
-                        size='large'
+                        size='medium'
                         readOnly
                         defaultValue={movieDetails.vote_average}
                         max={10}
@@ -76,11 +77,20 @@ const MoviePage: FC<MoviePageProps> = ({ movie }) => {
                   {!loadingMovieTrailers && movieTrailers.results.length !== 0 && (
                     <>
                       <ModalTrailer youtubeID={movieTrailers.results[0].key} isOpen={isOpenModalTrailer} setIsOpen={setIsOpenModalTrailer} />
-                      <Button onClick={() => setIsOpenModalTrailer(true)}>Смотреть трейлер</Button>
+                      <Fade in={!loadingMovieTrailers} style={{ transitionDelay: "1200ms" }}>
+                        <Button sx={{ width: "20%", mt: 2 }} onClick={() => setIsOpenModalTrailer(true)}>
+                          Смотреть трейлер
+                        </Button>
+                      </Fade>
                     </>
                   )}
-                  {!loadingMovieTrailers && movieTrailers.results.length === 0 && <Typography>Трейлеры отсутствуют</Typography>}
+                  {!loadingMovieTrailers && movieTrailers.results.length === 0 && (
+                    <Fade in={!loadingMovieTrailers} style={{ transitionDelay: "1200ms" }}>
+                      <Typography sx={{ mt: 2 }}>Трейлеры отсутствуют</Typography>
+                    </Fade>
+                  )}
                 </Box>
+                {!loadingMovieCast && <CarouselContainer cast={movieCast.cast} />}
               </Box>
             </Box>
           </Box>
