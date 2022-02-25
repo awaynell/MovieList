@@ -27,7 +27,7 @@ const Header = React.memo(() => {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ flexGrow: 1, height: "8.5vh" }} className='header'>
-        <AppBar position='static' sx={{ backgroundColor: "#282D3C", color: "#efe1ce" }}>
+        <AppBar position='static' sx={{ backgroundColor: "transparent", color: "#efe1ce" }}>
           <Toolbar sx={{ display: "flex" }}>
             <Typography
               fontWeight={300}

@@ -19,6 +19,7 @@ import { getWatchlist } from "../../../helpers/getWatchlist";
 import { setWatchlistMovie } from "../../../helpers/setWatchlistMovie";
 import { Route, Routes, useNavigate, useParams } from "react-router-dom";
 import MoviePage from "../../MoviePage/MoviePage";
+import StarIcon from "@mui/icons-material/Star";
 
 interface MovieListProps {
   films: any;
@@ -143,6 +144,7 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
                   readOnly
                   defaultValue={movie.vote_average}
                   onChange={(event, newValue) => console.log(newValue)}
+                  emptyIcon={<StarIcon style={{ opacity: 0.5, color: "#efe1ce" }} fontSize='inherit' />}
                   max={10}
                   sx={{ color: "$primaryColor" }}
                 />

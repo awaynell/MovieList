@@ -43,10 +43,10 @@ const CarouselContainer: FC<CarouselProps> = ({ cast }) => {
         .filter((item: any) => item.profile_path !== null)
         .map((actor: any, i: number) => {
           return (
-            <SwiperSlide key={actor.id}>
+            <SwiperSlide key={actor.id} style={{ width: "90%" }}>
               <Box sx={{ width: "90%" }}>
                 <img
-                  style={{ width: "90%", borderRadius: "5px" }}
+                  style={{ height: "25vh", border: "none", borderRadius: "5px" }}
                   className='swiper-lazy'
                   data-src={`https://image.tmdb.org/t/p/w300${actor.profile_path}`}
                 />

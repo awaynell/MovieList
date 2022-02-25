@@ -12,6 +12,7 @@ import CarouselContainer from "./Carousel/CarouselContainer";
 const MoviePage = () => {
   const { id } = useParams();
   const [isOpenModalTrailer, setIsOpenModalTrailer] = useState<boolean>(false);
+  const [backdropLoading, setBackdropLoading] = useState<boolean>(true);
 
   const [movieDetails, loadingMovieDetails, error] = useData(`/movie/${id}`, {
     language: "ru-RU",
@@ -31,12 +32,14 @@ const MoviePage = () => {
         <Loader display='flex' width='100%' />
       ) : (
         <>
-          <Box
-            className='movie-backdrop'
-            sx={{
-              background: `url(https://image.tmdb.org/t/p/original/${movieDetails.backdrop_path}) no-repeat`,
-            }}
-          ></Box>
+          <Fade in={!loadingMovieDetails} style={{ transitionDelay: "300ms" }}>
+            <img
+              className='movie-backdrop'
+              onLoad={() => setBackdropLoading(false)}
+              src={`https://image.tmdb.org/t/p/original/${movieDetails.backdrop_path}`}
+              style={{ opacity: backdropLoading ? 0 : 1, transition: "1s opacity" }}
+            ></img>
+          </Fade>
           <Box className='movie-wrapper' sx={{ mt: 4 }}>
             <Box className='movie-details'>
               <Fade in={!loadingMovieDetails} style={{ transitionDelay: "150ms" }}>

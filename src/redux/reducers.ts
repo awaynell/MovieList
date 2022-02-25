@@ -1,6 +1,7 @@
 import {
   ADD_GENRE,
   ADD_USERINFO,
+  CURRENT_PAGE,
   DELETE_USERINFO,
   IS_SHOW_MODAL,
   REMOVE_GENRE,
@@ -20,6 +21,7 @@ const initialState = {
   data: [],
   userInfo: {},
   isShowModal: false,
+  currentPage: 1,
 };
 
 const dataReducer = (state: { data: Array<any>; isShowModal: boolean } = initialState, action: PayloadAction<any>) => {
@@ -32,6 +34,8 @@ const dataReducer = (state: { data: Array<any>; isShowModal: boolean } = initial
       return { ...state, userInfo: action.payload };
     case DELETE_USERINFO:
       return { ...state, userInfo: {} };
+    case CURRENT_PAGE:
+      return { ...state, currentPage: action.payload };
     default:
       return state;
   }

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { endpoint, apiKey } from "../../API/apiInfo";
 import { useData } from "../../hooks/useData";
 import { setDataAction } from "../../redux/actionCreators";
-import { selectedGenres, selectedYear, sortValue, totalPages } from "../../redux/selectors";
+import { currentPage, selectedGenres, selectedYear, sortValue, totalPages } from "../../redux/selectors";
 import { theme } from "../../theme/theme";
 import PageUp from "../UI/PageUp/PageUp";
 import FiltersContainer from "./Filters/FiltersContainer/FiltersContainer";
@@ -28,6 +28,7 @@ const MoviesPage: FC = React.memo(() => {
   const allOfPages = useSelector(totalPages);
 
   const sortBy = useSelector(sortValue);
+  const curPage = useSelector(currentPage);
   const year = useSelector(selectedYear);
 
   const dispatch = useDispatch();
@@ -64,14 +65,14 @@ const MoviesPage: FC = React.memo(() => {
     fetchFilms("discover/movie", {
       language: "ru-RU",
       with_genres: genreIDs.join(","),
-      page: page,
+      page: curPage,
       sort_by: sortBy,
       primary_release_year: year,
       limit: 10,
     });
     genreIDs = [];
     setImgIsLoad(true);
-  }, [genres, sortBy, year, page]);
+  }, [genres, sortBy, year, curPage]);
 
   if (error) {
     return <Box sx={{ width: "100vw", mt: 10, display: "flex", justifyContent: "center" }}>Ошибка! Что-то пошло не так.</Box>;
@@ -87,7 +88,7 @@ const MoviesPage: FC = React.memo(() => {
       }}
     >
       <Box>
-        <Box sx={{ display: "flex", justifyContent: "end", flexDirection: "column", pt: 0.75 }}>
+        <Box sx={{ display: "flex", justifyContent: "end", flexDirection: "column", pt: 0.75, width: "25vw" }}>
           <FiltersContainer />
           <PaginationCont setPage={setPage} allOfPages={allOfPages} />
         </Box>
@@ -95,11 +96,7 @@ const MoviesPage: FC = React.memo(() => {
       </Box>
       <div>
         <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-end", width: "70vw" }}>
-          {isLoad ? (
-            <Loader display='flex' width='100%' />
-          ) : (
-            <MovieList films={films} imgIsLoad={imgIsLoad} setImgIsLoad={setImgIsLoad} page={page} />
-          )}
+          {isLoad ? <Loader display='flex' width='80%' /> : <MovieList films={films} imgIsLoad={imgIsLoad} setImgIsLoad={setImgIsLoad} page={page} />}
         </Box>
       </div>
     </Box>

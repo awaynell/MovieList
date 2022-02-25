@@ -1,5 +1,6 @@
 import {
   ADD_GENRE,
+  CURRENT_PAGE,
   DELETE_USERINFO,
   IS_SHOW_MODAL,
   REMOVE_GENRE,
@@ -74,5 +75,10 @@ export const updateWatchlist = (payload: object) => ({
 
 export const setWatchlist = (payload: Array<any>) => ({
   type: UPDATE_WATCHLIST_SUCCESS,
+  payload,
+});
+
+export const setCurrentPage = (payload: number) => ({
+  type: CURRENT_PAGE,
   payload,
 });
