@@ -4,8 +4,7 @@ import { makeStyles } from "@mui/styles";
 
 export const theme = createTheme({
   typography: {
-    fontFamily: ["Oswald", "cursive"].join(","),
-    fontWeightLight: 300,
+    fontFamily: ["Oswald"].join(","),
   },
   palette: {
     primary: {

@@ -1,12 +1,18 @@
 import { ThemeProvider } from "@emotion/react";
 import { Box, CircularProgress } from "@mui/material";
-import React from "react";
+import React, { FC } from "react";
 import { theme } from "../../../theme/theme";
 
-const Loader = () => {
+interface LoaderProps {
+  width: string;
+  height?: string;
+  display: string;
+}
+
+const Loader: FC<LoaderProps> = ({ width, height, display }) => {
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ width: "50vw", height: "50vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <Box sx={{ width: { width }, height: { height }, display: { display }, alignItems: "center", justifyContent: "center" }}>
         <CircularProgress disableShrink color='primary' />
       </Box>
     </ThemeProvider>

@@ -1,31 +1,38 @@
-import { ButtonGroup, Button, PaginationItem, Box } from "@mui/material";
+import React, { FC, SetStateAction } from "react";
+import { Box } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useDispatch, useSelector } from "react-redux";
-import { totalPages } from "../../../redux/selectors";
+import { currentPage, totalPages } from "../../../redux/selectors";
 import Pagination from "@mui/material/Pagination";
 import "./Pagination.scss";
 import { useState } from "react";
-import { setPage } from "../../../redux/actionCreators";
 import { ThemeProvider } from "@emotion/react";
 import { theme } from "../../../theme/theme";
+import { setCurrentPage } from "../../../redux/actionCreators";
 
-const PaginationCont = () => {
-  const allOfPages = useSelector(totalPages);
+interface PaginationProps {
+  allOfPages: any;
+  setPage: any;
+}
 
+const PaginationContainer: FC<PaginationProps> = React.memo(({ allOfPages, setPage }) => {
+  const curPage = useSelector(currentPage);
   const dispatch = useDispatch();
 
-  const handleChange = (event: React.ChangeEvent<unknown>, page: number) => {
-    dispatch(setPage(page));
+  const handleChange = (event: React.ChangeEvent<unknown>, page: number): void => {
+    setPage(page);
+    dispatch(setCurrentPage(page));
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ width: "100%" }}>
+      <Box sx={{ width: "85%", pl: 0.5 }}>
         <Pagination
           variant='text'
           color='primary'
-          defaultPage={1}
+          defaultPage={curPage ? curPage : 1}
+          page={curPage}
           siblingCount={1}
           size='small'
           count={allOfPages > 500 ? 500 : allOfPages}
@@ -35,6 +42,6 @@ const PaginationCont = () => {
       </Box>
     </ThemeProvider>
   );
-};
+});
 
-export default PaginationCont;
+export default PaginationContainer;
