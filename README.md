@@ -1,6 +1,6 @@
 # <p align="center">Movielist / Moviesearcher app</p>
 
-### На данный момент находится в разработке
+###  <p align="center">На данный момент находится в разработке</p>
 
 ## Демо: https://tmdbmovie.vercel.app/
 
