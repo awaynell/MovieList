@@ -7,6 +7,7 @@ import {
   REMOVE_GENRE,
   RESET_GENRES,
   SET_DATA,
+  SET_SEARCH_QUERY,
   SET_SELECTED_YEAR,
   SET_SORT_VALUE,
   SET_YEARS,
@@ -22,6 +23,7 @@ const initialState = {
   userInfo: {},
   isShowModal: false,
   currentPage: 1,
+  searchQuery: "",
 };
 
 const dataReducer = (state: { data: Array<any>; isShowModal: boolean } = initialState, action: PayloadAction<any>) => {
@@ -36,6 +38,8 @@ const dataReducer = (state: { data: Array<any>; isShowModal: boolean } = initial
       return { ...state, userInfo: {} };
     case CURRENT_PAGE:
       return { ...state, currentPage: action.payload };
+    case SET_SEARCH_QUERY:
+      return { ...state, searchQuery: action.payload };
     default:
       return state;
   }
