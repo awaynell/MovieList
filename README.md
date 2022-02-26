@@ -4,7 +4,14 @@
 
 ## Демо: https://tmdbmovie.vercel.app/
 
-
+## Стек технологий
+* Typescript
+* React + Hooks
+* Redux + Redux Saga
+* React-router
+* Material UI
+* SCSS
+* Swiper
 
 
 
