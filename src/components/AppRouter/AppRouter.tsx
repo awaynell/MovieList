@@ -1,4 +1,4 @@
-import { Home } from "@material-ui/icons";
+import { Home, Search } from "@material-ui/icons";
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import MoviePage from "../MoviePage/MoviePage";
@@ -13,6 +13,7 @@ const AppRouter = () => {
       <Route path='favourite' element={<FavouriteMovieList />} />
       <Route path='watchlist' element={<Watchlist />} />
       <Route path='movie/:id' element={<MoviePage />} />
+      <Route path='search' element={<Search />} />
     </Routes>
   );
 };

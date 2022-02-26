@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AppBar, Avatar, Box, Button, Link, Toolbar, Typography } from "@mui/material";
+import { AppBar, Avatar, Box, Button, Link, TextField, Toolbar, Typography } from "@mui/material";
 import { ThemeProvider } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
 import { isShowModal } from "../../redux/actionCreators";
@@ -45,6 +45,14 @@ const Header = React.memo(() => {
                   <Button onClick={() => navigate("favourite")}>Favourite movies</Button>
                   <Button onClick={() => navigate("watchlist")}>My watchlist</Button>
                 </Box>
+                {/* <TextField
+                  sx={{ width: "50%", mr: 2 }}
+                  size='small'
+                  onClick={() => navigate("search")}
+                  onChange={(e) => {
+                    console.log(e.target.value);
+                  }}
+                ></TextField> */}
                 <Box sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
                   {userInfoData.avatar.tmdb.avatar_path === null ? (
                     <Avatar sx={{ backgroundColor: avatarBackground, mr: 0.5 }} />
