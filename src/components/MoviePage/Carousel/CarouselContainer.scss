@@ -1,0 +1,19 @@
+@keyframes fadeCustom {
+  0% {
+    opacity: 0 !important;
+  }
+  100% {
+    opacity: 1 !important;
+  }
+}
+
+.swiper-lazy-loaded {
+  transition: 0.7s opacity !important;
+  opacity: 1 !important;
+}
+.swiper-lazy-loading {
+  opacity: 0 !important;
+}
+.swiper-lazy-preloader {
+  opacity: 0 !important;
+}

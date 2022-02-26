@@ -1,35 +1,89 @@
-import { ADD_GENRE, CURRENT_PAGE, REMOVE_GENRE, RESET_GENRES, SET_DATA } from "./actionTypes";
+import {
+  ADD_GENRE,
+  ADD_USERINFO,
+  CURRENT_PAGE,
+  DELETE_USERINFO,
+  IS_SHOW_MODAL,
+  REMOVE_GENRE,
+  RESET_GENRES,
+  SET_DATA,
+  SET_SELECTED_YEAR,
+  SET_SORT_VALUE,
+  SET_YEARS,
+  UPDATE_FAVOURITES,
+  UPDATE_FAVOURITES_SUCCESS,
+  UPDATE_WATCHLIST_SUCCESS,
+} from "./actionTypes";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 
 const initialState = {
   data: [],
+  userInfo: {},
+  isShowModal: false,
+  currentPage: 1,
 };
 
-const dataReducer = (state: { data: Array<any> } = initialState, action: PayloadAction<any>) => {
+const dataReducer = (state: { data: Array<any>; isShowModal: boolean } = initialState, action: PayloadAction<any>) => {
   switch (action.type) {
     case SET_DATA:
       return { ...state, data: action.payload };
+    case IS_SHOW_MODAL:
+      return { ...state, isShowModal: action.payload };
+    case ADD_USERINFO:
+      return { ...state, userInfo: action.payload };
+    case DELETE_USERINFO:
+      return { ...state, userInfo: {} };
+    case CURRENT_PAGE:
+      return { ...state, currentPage: action.payload };
     default:
       return state;
   }
 };
 
 const filtersInitialState = {
-  genres: [],
-  currentPage: 1,
+  choosedGenres: [],
+  sortBy: "popularity.desc",
+  years: [],
+  year: "",
 };
 
-const filtersReducer = (state: { genres: Array<any>; currentPage: number } = filtersInitialState, action: PayloadAction<any>) => {
+const filtersReducer = (
+  state: { choosedGenres: Array<any>; years: Array<number>; year: string | number } = filtersInitialState,
+  action: PayloadAction<any>
+) => {
   switch (action.type) {
     case ADD_GENRE:
-      return { ...state, genres: action.payload };
+      return { ...state, choosedGenres: action.payload };
     case REMOVE_GENRE:
-      return { ...state, genres: state.genres.filter((genre) => genre.id !== action.payload) };
+      return { ...state, choosedGenres: state.choosedGenres.filter((genre) => genre.id !== action.payload) };
     case RESET_GENRES:
-      return { ...state, genres: [] };
-    case CURRENT_PAGE:
-      return { ...state, currentPage: action.payload };
+      return { ...state, choosedGenres: [] };
+    case SET_SORT_VALUE:
+      return { ...state, sortBy: action.payload };
+    case SET_YEARS:
+      return { ...state, years: action.payload };
+    case SET_SELECTED_YEAR:
+      return { ...state, year: action.payload };
+    default:
+      return state;
+  }
+};
+
+const favouriteAndWatchInitialState = {
+  favouriteIDs: [],
+  watchlistIDs: [],
+};
+
+const favouriteAndWatchReducer = (
+  state: { favouriteIDs: Array<number>; watchlistIDs: Array<number> } = favouriteAndWatchInitialState,
+  action: PayloadAction<any>
+) => {
+  switch (action.type) {
+    case UPDATE_FAVOURITES_SUCCESS:
+      return { ...state, favouriteIDs: action.payload };
+    case UPDATE_WATCHLIST_SUCCESS:
+      return { ...state, watchlistIDs: action.payload };
     default:
       return state;
   }
@@ -38,4 +92,5 @@ const filtersReducer = (state: { genres: Array<any>; currentPage: number } = fil
 export const rootReducer = combineReducers({
   data: dataReducer,
   filters: filtersReducer,
+  favouritesAndWatchlist: favouriteAndWatchReducer,
 });

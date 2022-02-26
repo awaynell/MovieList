@@ -1,87 +1,110 @@
 import { ThemeProvider } from "@emotion/react";
-import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Rating, Typography } from "@mui/material";
-import React, { FC, useState } from "react";
+import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Fade, Grow, Rating, Typography, Zoom } from "@mui/material";
+import React, { FC, Suspense, useCallback, useEffect, useRef, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { endpoint, apiKey } from "../../API/apiInfo";
+import { useData } from "../../hooks/useData";
+import { setDataAction } from "../../redux/actionCreators";
+import { currentPage, selectedGenres, selectedYear, sortValue, totalPages } from "../../redux/selectors";
 import { theme } from "../../theme/theme";
+import PageUp from "../UI/PageUp/PageUp";
 import FiltersContainer from "./Filters/FiltersContainer/FiltersContainer";
 import Loader from "./Loader/Loader";
-import PaginationCont from "./Pagination/PaginationCont";
+import LoginModal from "./LoginModal/LoginModal";
+import PaginationCont from "./Pagination/PaginationContainer";
+import * as queryString from "query-string";
+import { RESET_GENRES } from "../../redux/actionTypes";
+import { useParams } from "react-router-dom";
+import MovieList from "./MovieList/MovieList";
 
-interface MoviesPageProps {
-  data: any;
-  loading: boolean;
-  error?: any;
-}
+const MoviesPage: FC = React.memo(() => {
+  const [imgIsLoad, setImgIsLoad] = useState<boolean>(true);
+  const [page, setPage] = useState<number>(1);
+  const [isLoad, setIsLoad] = useState<boolean>(true);
+  const [films, setFilms] = useState<any>([]);
+  const [error, setError] = useState<boolean>(false);
 
-const MoviesPage: FC<MoviesPageProps> = ({ data, loading, error }) => {
-  console.log("data: ", data);
+  const genres: any[] = useSelector(selectedGenres);
+  const allOfPages = useSelector(totalPages);
 
-  if (error.length !== 0) {
-    return <div>Ошибка! {error[0]}</div>;
+  const sortBy = useSelector(sortValue);
+  const curPage = useSelector(currentPage);
+  const year = useSelector(selectedYear);
+
+  const dispatch = useDispatch();
+
+  // const [data, loading, error] = useData("discover/movie", {
+  //   language: "ru-RU",
+  //   with_genres: genres.join(","),
+  //   page: page,
+  //   sort_by: sortBy,
+  //   primary_release_year: year,
+  //   limit: 10,
+  // });
+
+  const fetchFilms = async (route: string, query: object) => {
+    const URL = `${endpoint}${route}?${"api_key=" + apiKey}&${queryString.stringify(query)}`;
+    try {
+      setIsLoad(true);
+      const response = await fetch(URL);
+      const filmsData = await response.json();
+      setFilms(filmsData);
+      dispatch(setDataAction(filmsData));
+    } catch {
+      setError(true);
+    } finally {
+      setIsLoad(false);
+    }
+  };
+
+  useEffect(() => {
+    let genreIDs: any = [];
+    if (genres.length !== 0) {
+      genres.map((genre) => genreIDs.push(genre.id));
+    }
+    fetchFilms("discover/movie", {
+      language: "ru-RU",
+      with_genres: genreIDs.join(","),
+      page: curPage,
+      sort_by: sortBy,
+      primary_release_year: year,
+      limit: 10,
+    });
+    genreIDs = [];
+    setImgIsLoad(true);
+  }, [genres, sortBy, year, curPage]);
+
+  if (error) {
+    return <Box sx={{ width: "100vw", mt: 10, display: "flex", justifyContent: "center" }}>Ошибка! Что-то пошло не так.</Box>;
   }
+
   return (
     <Box
       sx={{
         mt: 2,
         display: "flex",
         flexWrap: "nowrap",
+        flexDirection: "row-reverse",
       }}
     >
       <Box>
-        <Box sx={{ display: "flex", justifyContent: "start", flexDirection: "column" }}>
+        <Box sx={{ display: "flex", justifyContent: "end", flexDirection: "column", pt: 0.75, width: "25vw" }}>
           <FiltersContainer />
-          <PaginationCont />
+          <PaginationCont setPage={setPage} allOfPages={allOfPages} />
         </Box>
+        <PageUp />
       </Box>
       <div>
-        {loading && data ? (
-          <Loader />
-        ) : (
-          <>
-            <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "start", width: "70vw" }}>
-              {data.results.map((movie: any) => {
-                return (
-                  <ThemeProvider theme={theme} key={movie.id}>
-                    <Box
-                      sx={{
-                        p: 1.5,
-                        display: "flex",
-                        backgroundColor: "$backgroundColor",
-                        justifyContent: "start",
-                        width: "33vw",
-                        flex: "1 1 auto",
-                      }}
-                    >
-                      <Card sx={{ display: "flex", flexDirection: "row", backgroundColor: "#383b47", color: "white", ml: 1.5 }}>
-                        <CardMedia
-                          component='img'
-                          src={
-                            movie.poster_path === null
-                              ? `https://cdn.shopk.it/assets/store/img/no-img.png`
-                              : `https://image.tmdb.org/t/p/w300/${movie.poster_path}`
-                          }
-                          sx={{ width: "45%" }}
-                        />
-                        <CardContent sx={{ display: "flex", flexDirection: "column", width: "50%" }}>
-                          <Typography gutterBottom variant='h5' component='div'>
-                            {movie.title}
-                          </Typography>
-                          <Typography component='legend'>Rating: {movie.vote_average} stars</Typography>
-                          <Rating precision={0.1} size='small' readOnly defaultValue={movie.vote_average} max={10} sx={{ color: "$primaryColor" }} />
-                          <Typography sx={{ mt: 1 }}>
-                            {movie.overview.length > 150 ? movie.overview.substring(0, 150) + "..." : movie.overview}
-                          </Typography>
-                        </CardContent>
-                      </Card>
-                    </Box>
-                  </ThemeProvider>
-                );
-              })}
-            </Box>
-          </>
-        )}
+        <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-end", width: "70vw" }}>
+          {isLoad ? <Loader display='flex' width='80%' /> : <MovieList films={films} imgIsLoad={imgIsLoad} setImgIsLoad={setImgIsLoad} page={page} />}
+        </Box>
       </div>
     </Box>
   );
-};
+});
+
+// TODO
+// Разобраться почему при переходе на список фильмов к просмотру не появляются значки добавленного в watchlist
+// Сделать роуты на фильмы
 
 export default MoviesPage;
