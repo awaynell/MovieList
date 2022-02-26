@@ -34,7 +34,7 @@ const CarouselContainer: FC<CarouselProps> = ({ cast }) => {
       slidesPerView={2}
       mousewheel={true}
       style={{
-        width: "45vw",
+        width: "55vw",
         marginLeft: 0,
         opacity: loadCast ? 0 : 1,
         transition: "1s opacity",
