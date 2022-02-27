@@ -5,6 +5,9 @@ import {
   IS_SHOW_MODAL,
   REMOVE_GENRE,
   SET_DATA,
+  SET_SEARCHED_FILMS_SUCCESS,
+  SET_SEARCH_PAGE,
+  SET_SEARCH_QUERY,
   SET_SELECTED_YEAR,
   SET_SORT_VALUE,
   SET_YEARS,
@@ -80,5 +83,20 @@ export const setWatchlist = (payload: Array<any>) => ({
 
 export const setCurrentPage = (payload: number) => ({
   type: CURRENT_PAGE,
+  payload,
+});
+
+export const setSearchQuery = (payload: string) => ({
+  type: SET_SEARCH_QUERY,
+  payload,
+});
+
+export const setSearchPage = (payload: number) => ({
+  type: SET_SEARCH_PAGE,
+  payload,
+});
+
+export const setSearchedFilms = (payload: object) => ({
+  type: SET_SEARCHED_FILMS_SUCCESS,
   payload,
 });

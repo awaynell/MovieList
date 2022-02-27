@@ -1,5 +1,5 @@
 import { getUser, getUserInfo } from "./../helpers/authHelpers/getUser";
-import { put, take, takeEvery, takeLatest, takeLeading } from "redux-saga/effects";
+import { debounce, put, select, take, takeEvery, takeLatest, takeLeading } from "redux-saga/effects";
 import { getYears } from "../helpers/getYears";
 import {
   ADD_GENRE,
@@ -8,13 +8,16 @@ import {
   DELETE_USERINFO,
   REMOVE_GENRE,
   RESET_GENRES,
+  SET_SEARCH_PAGE,
+  SET_SEARCH_QUERY,
   SET_YEARS,
   SET_YEARS_START,
   UPDATE_FAVOURITES,
+  UPDATE_SEARCH_LOADING,
   UPDATE_WATCHLIST,
 } from "./actionTypes";
 import * as Effects from "redux-saga/effects";
-import { setFavouritesMovies, setWatchlist, setYears } from "./actionCreators";
+import { setFavouritesMovies, setSearchedFilms, setWatchlist, setYears } from "./actionCreators";
 import { logout } from "../helpers/authHelpers/logout";
 import { getSessionIDFromCookie } from "../helpers/authHelpers/getSessionIDFromCookie";
 import { PayloadAction } from "@reduxjs/toolkit";
@@ -25,6 +28,8 @@ import { getFavouriteMovies } from "../helpers/getFavouriteMovies";
 import { setFavouriteFilm } from "../helpers/setFavouriteFilm";
 import { setWatchlistMovie } from "../helpers/setWatchlistMovie";
 import { getWatchlist } from "../helpers/getWatchlist";
+import { searchPage, searchQuery } from "./selectors";
+import { getSearchedMovies } from "../helpers/getSearchedMovie";
 
 const call: any = Effects.call;
 
@@ -61,10 +66,21 @@ function* userLogoutSaga() {
   yield call(logout);
 }
 
+function* searchFilms() {
+  yield put({ type: UPDATE_SEARCH_LOADING, payload: true });
+  const searchQ: string = yield select(searchQuery);
+  const page: number = yield select(searchPage);
+  const result: object = yield call(getSearchedMovies, { query: searchQ, language: "ru-RU", page: page });
+  yield put(setSearchedFilms(result));
+  yield put({ type: UPDATE_SEARCH_LOADING, payload: false });
+}
+
 export function* rootSaga() {
   yield takeLeading(SET_YEARS_START, getYearsSaga);
   yield takeEvery(DELETE_USERINFO, userLogoutSaga);
   yield takeEvery(ADD_USERINFO_START, getUserFromCookieSaga);
   yield takeEvery(UPDATE_FAVOURITES, updateFavouritesSaga);
   yield takeEvery(UPDATE_WATCHLIST, updateWatchlistSaga);
+  yield debounce(700, SET_SEARCH_QUERY, searchFilms);
+  yield takeEvery(SET_SEARCH_PAGE, searchFilms);
 }

@@ -1,3 +1,4 @@
+import { searchedMovies } from "./selectors";
 import {
   ADD_GENRE,
   ADD_USERINFO,
@@ -7,12 +8,15 @@ import {
   REMOVE_GENRE,
   RESET_GENRES,
   SET_DATA,
+  SET_SEARCHED_FILMS_SUCCESS,
+  SET_SEARCH_PAGE,
   SET_SEARCH_QUERY,
   SET_SELECTED_YEAR,
   SET_SORT_VALUE,
   SET_YEARS,
   UPDATE_FAVOURITES,
   UPDATE_FAVOURITES_SUCCESS,
+  UPDATE_SEARCH_LOADING,
   UPDATE_WATCHLIST_SUCCESS,
 } from "./actionTypes";
 import { PayloadAction } from "@reduxjs/toolkit";
@@ -23,7 +27,6 @@ const initialState = {
   userInfo: {},
   isShowModal: false,
   currentPage: 1,
-  searchQuery: "",
 };
 
 const dataReducer = (state: { data: Array<any>; isShowModal: boolean } = initialState, action: PayloadAction<any>) => {
@@ -38,8 +41,6 @@ const dataReducer = (state: { data: Array<any>; isShowModal: boolean } = initial
       return { ...state, userInfo: {} };
     case CURRENT_PAGE:
       return { ...state, currentPage: action.payload };
-    case SET_SEARCH_QUERY:
-      return { ...state, searchQuery: action.payload };
     default:
       return state;
   }
@@ -93,8 +94,31 @@ const favouriteAndWatchReducer = (
   }
 };
 
+const searchInitialState = {
+  searchQuery: "",
+  page: 1,
+  searchedMovies: {},
+  loading: true,
+};
+
+const searchReducer = (state: { searchQuery: string; page: number; searchedMovies: object } = searchInitialState, action: PayloadAction<any>) => {
+  switch (action.type) {
+    case SET_SEARCH_QUERY:
+      return { ...state, searchQuery: action.payload };
+    case SET_SEARCH_PAGE:
+      return { ...state, page: action.payload };
+    case SET_SEARCHED_FILMS_SUCCESS:
+      return { ...state, searchedMovies: action.payload };
+    case UPDATE_SEARCH_LOADING:
+      return { ...state, loading: action.payload };
+    default:
+      return state;
+  }
+};
+
 export const rootReducer = combineReducers({
   data: dataReducer,
   filters: filtersReducer,
   favouritesAndWatchlist: favouriteAndWatchReducer,
+  search: searchReducer,
 });

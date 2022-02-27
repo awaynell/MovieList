@@ -12,3 +12,7 @@ export const isShowModal = (state: RootStateOrAny) => state.data.isShowModal;
 export const userInfo = (state: RootStateOrAny) => state.data.userInfo;
 export const favouriteIDs = (state: RootStateOrAny) => state.favouritesAndWatchlist.favouriteIDs;
 export const watchlistIDs = (state: RootStateOrAny) => state.favouritesAndWatchlist.watchlistIDs;
+export const searchQuery = (state: RootStateOrAny) => state.search.searchQuery;
+export const searchPage = (state: RootStateOrAny) => state.search.page;
+export const searchedMovies = (state: RootStateOrAny) => state.search.searchedMovies;
+export const searchLoading = (state: RootStateOrAny) => state.search.loading;

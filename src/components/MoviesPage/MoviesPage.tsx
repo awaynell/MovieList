@@ -4,7 +4,7 @@ import React, { FC, Suspense, useCallback, useEffect, useRef, useState } from "r
 import { useSelector, useDispatch } from "react-redux";
 import { endpoint, apiKey } from "../../API/apiInfo";
 import { useData } from "../../hooks/useData";
-import { setDataAction } from "../../redux/actionCreators";
+import { setCurrentPage, setDataAction } from "../../redux/actionCreators";
 import { currentPage, selectedGenres, selectedYear, sortValue, totalPages } from "../../redux/selectors";
 import { theme } from "../../theme/theme";
 import PageUp from "../UI/PageUp/PageUp";
@@ -18,8 +18,10 @@ import { useParams } from "react-router-dom";
 import MovieList from "./MovieList/MovieList";
 
 const MoviesPage: FC = React.memo(() => {
+  const curPage = useSelector(currentPage);
+
   const [imgIsLoad, setImgIsLoad] = useState<boolean>(true);
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(curPage);
   const [isLoad, setIsLoad] = useState<boolean>(true);
   const [films, setFilms] = useState<any>([]);
   const [error, setError] = useState<boolean>(false);
@@ -28,7 +30,6 @@ const MoviesPage: FC = React.memo(() => {
   const allOfPages = useSelector(totalPages);
 
   const sortBy = useSelector(sortValue);
-  const curPage = useSelector(currentPage);
   const year = useSelector(selectedYear);
 
   const dispatch = useDispatch();
@@ -57,6 +58,7 @@ const MoviesPage: FC = React.memo(() => {
     }
   };
 
+  dispatch(setCurrentPage(page));
   useEffect(() => {
     let genreIDs: any = [];
     if (genres.length !== 0) {

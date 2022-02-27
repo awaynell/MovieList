@@ -22,7 +22,6 @@ const PaginationContainer: FC<PaginationProps> = React.memo(({ allOfPages, setPa
 
   const handleChange = (event: React.ChangeEvent<unknown>, page: number): void => {
     setPage(page);
-    dispatch(setCurrentPage(page));
   };
 
   return (

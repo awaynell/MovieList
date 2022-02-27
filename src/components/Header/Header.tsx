@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AppBar, Avatar, Box, Button, Link, TextField, Toolbar, Typography } from "@mui/material";
 import { ThemeProvider } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
-import { isShowModal } from "../../redux/actionCreators";
+import { isShowModal, setSearchPage, setSearchQuery } from "../../redux/actionCreators";
 import { userInfo } from "../../redux/selectors";
 import { theme } from "../../theme/theme";
 import { ADD_USERINFO_START, DELETE_USERINFO } from "../../redux/actionTypes";
@@ -23,6 +23,15 @@ const Header = React.memo(() => {
     setAvatarBackground(`#${Math.floor(Math.random() * 16777215).toString(15)}`);
     console.log("render");
   }, []);
+
+  const handleChange = (searchQuery: string) => {
+    if (searchQuery.length === 0) {
+      return;
+    }
+    dispatch(setSearchQuery(searchQuery));
+    dispatch(setSearchPage(1));
+    navigate(`search?query=${searchQuery}`);
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -45,14 +54,13 @@ const Header = React.memo(() => {
                   <Button onClick={() => navigate("favourite")}>Favourite movies</Button>
                   <Button onClick={() => navigate("watchlist")}>My watchlist</Button>
                 </Box>
-                {/* <TextField
+                <TextField
                   sx={{ width: "50%", mr: 2 }}
                   size='small'
-                  onClick={() => navigate("search")}
                   onChange={(e) => {
-                    console.log(e.target.value);
+                    handleChange(e.target.value);
                   }}
-                ></TextField> */}
+                ></TextField>
                 <Box sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
                   {userInfoData.avatar.tmdb.avatar_path === null ? (
                     <Avatar sx={{ backgroundColor: avatarBackground, mr: 0.5 }} />

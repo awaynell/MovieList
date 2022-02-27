@@ -10,8 +10,6 @@ import "swiper/css/mousewheel";
 import { FC, useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import { Fade, Typography } from "@mui/material";
-import { uniqArr } from "../../../helpers/uniqArr";
-import { AnyARecord } from "dns";
 
 interface CarouselProps {
   cast: Array<any>;
