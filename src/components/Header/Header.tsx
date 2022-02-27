@@ -30,7 +30,7 @@ const Header = React.memo(() => {
     }
     dispatch(setSearchQuery(searchQuery));
     dispatch(setSearchPage(1));
-    navigate(`search?query=${searchQuery}`);
+    navigate(`search`);
   };
 
   return (
@@ -48,20 +48,27 @@ const Header = React.memo(() => {
             >
               MOVIE LIST
             </Typography>
+            <TextField
+              sx={{ width: "10%", ml: 2, mr: 2, mb: 1, display: userInfoData.id ? "none" : "block" }}
+              size='small'
+              onChange={(e) => {
+                handleChange(e.target.value.trim());
+              }}
+            ></TextField>
             {userInfoData.id ? (
               <>
                 <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
                   <Button onClick={() => navigate("favourite")}>Favourite movies</Button>
                   <Button onClick={() => navigate("watchlist")}>My watchlist</Button>
                 </Box>
-                <TextField
-                  sx={{ width: "50%", mr: 2 }}
-                  size='small'
-                  onChange={(e) => {
-                    handleChange(e.target.value);
-                  }}
-                ></TextField>
                 <Box sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
+                  <TextField
+                    sx={{ width: "50%", ml: 2, mr: 2 }}
+                    size='small'
+                    onChange={(e) => {
+                      handleChange(e.target.value);
+                    }}
+                  ></TextField>
                   {userInfoData.avatar.tmdb.avatar_path === null ? (
                     <Avatar sx={{ backgroundColor: avatarBackground, mr: 0.5 }} />
                   ) : (

@@ -41,11 +41,11 @@ const Search = React.memo(() => {
   // console.log("searchedMovie: ", searchedMovie);
   return (
     <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-start", width: "95vw" }}>
-      {loading && <Loader display='flex' width='60%' />}
+      {loading && <Loader display='flex' width='100%' height='50%' />}
       {loading === false && (
         <>
           <MovieList
-            style={{ display: "flex", flex: "1 1 auto", width: "33%", p: 1, alignItems: "stretch" }}
+            style={{ display: "flex", width: "33%", flex: "1 1 auto", p: 1, alignItems: "stretch" }}
             films={searchedFilms}
             imgIsLoad={imgIsLoad}
             setImgIsLoad={setImgIsLoad}
