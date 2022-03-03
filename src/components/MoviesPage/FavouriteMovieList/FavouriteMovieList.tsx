@@ -57,7 +57,6 @@ const FavouriteMovieList = () => {
             page={page}
           />
           <PageUp />
-          <PaginationContainer allOfPages={favMovies.total_pages} setPage={setPage} />
         </>
       )}
     </Box>

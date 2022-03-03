@@ -71,8 +71,7 @@ const Genres = () => {
               defaultValue={[""]}
               value={genresName}
               onChange={handleChange}
-              sx={{ backgroundColor: "#57595b" }}
-              placeholder='genres'
+              sx={{ backgroundColor: "#57595b", overflowX: "hidden" }}
               renderValue={(selected) => {
                 if (selected.length === 0) {
                   return <div>Жанры</div>;
@@ -80,6 +79,7 @@ const Genres = () => {
                 return (selected.length = 0);
               }}
               MenuProps={MenuProps}
+              displayEmpty
               inputProps={{ "aria-label": "Without label" }}
             >
               <MenuItem disabled value=''>

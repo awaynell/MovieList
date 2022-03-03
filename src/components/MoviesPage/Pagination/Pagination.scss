@@ -3,12 +3,15 @@
 .MuiPagination-root .MuiPaginationItem-root {
   color: $primaryColor !important;
 }
-.MuiPagination-ul {
-  flex-wrap: nowrap !important;
-  // display: flex !important;
-  // justify-content: space-around !important;
-  li button {
-    font-size: 15px !important;
-    line-height: 1px;
+@media (max-width: 1024px) {
+  .MuiPagination-ul {
+    flex-wrap: nowrap !important;
+    li button {
+      min-width: 15px;
+      border-radius: 15px;
+      font-size: 15px !important;
+      padding: 0 2px;
+      line-height: 1px;
+    }
   }
 }

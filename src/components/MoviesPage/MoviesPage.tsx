@@ -93,16 +93,9 @@ const MoviesPage: FC = React.memo(() => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box
-        sx={{
-          mt: 2,
-          display: "flex",
-          justifyContent: "start",
-          flexDirection: "row-reverse",
-        }}
-      >
+      <Box className='moviesPage-wrapper'>
         <Box>
-          <Box sx={{ display: "flex", justifyContent: "end", flexDirection: "column", pt: 0.75, width: "15vw" }}>
+          <Box sx={{ display: "flex", justifyContent: "end", flexDirection: "column", pt: 0.75, width: "15vw", mt: 5 }}>
             <FiltersContainer />
             <PaginationCont setPage={setPage} allOfPages={allOfPages} />
           </Box>

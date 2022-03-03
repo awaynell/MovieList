@@ -46,7 +46,6 @@ const Watchlist = () => {
             page={page}
           />
           <PageUp />
-          <PaginationContainer allOfPages={watchedMovies.total_pages} setPage={setPage} />
         </>
       )}
     </Box>
