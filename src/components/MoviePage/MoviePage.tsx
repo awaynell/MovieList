@@ -17,14 +17,13 @@ const MoviePage = () => {
   const [movieDetails, loadingMovieDetails, error] = useData(`/movie/${id}`, {
     language: "ru-RU",
   });
+  console.log("movieDetails: ", movieDetails);
   const [movieTrailers, loadingMovieTrailers, errorMovieTrailers] = useData(`/movie/${id}/videos`, {
     language: "ru-RU",
   });
   const [movieCast, loadingMovieCast, errorMovieCast] = useData(`/movie/${id}/credits`, {
     language: "ru-RU",
   });
-
-  console.log("movieCast: ", movieCast);
 
   return (
     <ThemeProvider theme={theme}>
@@ -49,7 +48,10 @@ const MoviePage = () => {
               </Fade>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <Fade in={!loadingMovieDetails} style={{ transitionDelay: "300ms" }}>
-                  <Typography sx={{ fontWeight: "500", fontSize: "1.3em", mr: 3, width: "100%" }}>{movieDetails.title}</Typography>
+                  <Box>
+                    <Typography sx={{ fontWeight: "500", fontSize: "1.3em", mr: 3, width: "100%" }}>{movieDetails.title}</Typography>
+                    <Typography sx={{ color: "gray", mb: 2, fontSize: "0.7em" }}>{movieDetails.original_title}</Typography>
+                  </Box>
                 </Fade>
                 <Box sx={{ display: "flex", flexDirection: "column", mb: 2 }}>
                   <Fade in={!loadingMovieDetails} style={{ transitionDelay: "600ms" }}>

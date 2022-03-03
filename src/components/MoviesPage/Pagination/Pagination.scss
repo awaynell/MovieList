@@ -4,6 +4,11 @@
   color: $primaryColor !important;
 }
 .MuiPagination-ul {
-  display: flex !important;
-  justify-content: space-around !important;
+  flex-wrap: nowrap !important;
+  // display: flex !important;
+  // justify-content: space-around !important;
+  li button {
+    font-size: 15px !important;
+    line-height: 1px;
+  }
 }

@@ -101,11 +101,11 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
               style && !!Object.keys(style).length
                 ? style
                 : {
-                    p: 1.5,
+                    p: 2,
                     display: "flex",
                     backgroundColor: "$backgroundColor",
-                    width: "33vw",
-                    flex: "1 1 auto",
+                    flex: "1 1 37vw",
+                    flexWrap: "wrap",
                   }
             }
           >

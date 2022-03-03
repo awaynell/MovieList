@@ -6,3 +6,12 @@
 .MuiRating-root .MuiRating-iconEmpty {
   color: red !important;
 }
+
+.genres-chip {
+  font-size: 33px;
+  padding-left: 20px;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 2px 2px;
+  color: red;
+}

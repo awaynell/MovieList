@@ -22,7 +22,6 @@ const Search = React.memo(() => {
   const loading = useSelector(searchLoading);
   const pageOfSearch = useSelector(searchPage);
   const searchedFilms = useSelector(searchedMovies);
-  console.log("searchedFilms: ", searchedFilms);
 
   const handleChange = (event: React.ChangeEvent<unknown>, page: number): void => {
     setPage(page);

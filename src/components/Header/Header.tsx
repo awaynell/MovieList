@@ -25,9 +25,6 @@ const Header = React.memo(() => {
   }, []);
 
   const handleChange = (searchQuery: string) => {
-    if (searchQuery.length === 0) {
-      return;
-    }
     dispatch(setSearchQuery(searchQuery));
     dispatch(setSearchPage(1));
     navigate(`search`);
@@ -52,7 +49,7 @@ const Header = React.memo(() => {
               sx={{ width: "10%", ml: 2, mr: 2, mb: 1, display: userInfoData.id ? "none" : "block" }}
               size='small'
               onChange={(e) => {
-                handleChange(e.target.value.trim());
+                handleChange(e.target.value);
               }}
             ></TextField>
             {userInfoData.id ? (

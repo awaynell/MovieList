@@ -31,7 +31,7 @@ const SortBy = React.memo(() => {
   }, []);
 
   return (
-    <Box sx={{ width: "20.15vw" }}>
+    <Box>
       <FormControl sx={{ pl: 2, width: "100%" }}>
         <InputLabel id='SortBy' sx={{ pl: 2.5, width: "100%" }}>
           Сортировка

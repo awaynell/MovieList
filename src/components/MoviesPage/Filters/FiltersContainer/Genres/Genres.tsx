@@ -18,7 +18,7 @@ export const MenuProps = {
   },
 };
 
-interface Genre {
+export interface Genre {
   id: string;
   genreName: string;
 }
@@ -42,24 +42,14 @@ const Genres = () => {
   };
 
   const addGenreToState = (id: string, genreName: string) => {
-    let newArray: any = [...genres];
-    for (let i = 0; i < newArray.length; i++) {
-      if (newArray[i].id === id) {
-        newArray = newArray.filter((genreObj: any) => genreObj.id !== id);
-        dispatch(removeGenre(id));
-        setGenres(newArray);
-        return false;
-      }
-    }
-    newArray = [...genres, { id: id, genreName: genreName }];
-    setGenres(newArray);
+    let newArray: any = [...choosedGenres];
+    newArray = [...choosedGenres, { id: id, genreName: genreName }];
     dispatch(addGenre(newArray));
   };
 
   const resetGenres = () => {
     dispatch({ type: RESET_GENRES });
     setGenresName([]);
-    setGenres([]);
   };
 
   return (
@@ -76,17 +66,6 @@ const Genres = () => {
           }}
         >
           <FormControl sx={{ m: 1, width: "20vw" }}>
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, color: "red", mb: 0.5 }}>
-              {choosedGenres.length !== 0 &&
-                choosedGenres.map((genre: Genre) => (
-                  <Chip
-                    key={genre.id}
-                    label={genre.genreName}
-                    sx={{ color: "#363945", backgroundColor: red[400] }}
-                    onDelete={() => addGenreToState(genre.id, genre.genreName)}
-                  />
-                ))}
-            </Box>
             <Select
               multiple
               defaultValue={[""]}
