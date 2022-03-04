@@ -25,16 +25,17 @@ export const App = () => {
 
   return (
     <>
-      {/* {mobileView ? (
+      {mobileView ? (
         <Box sx={{ width: "100vw", height: "100vh", justifyContent: "center", display: "flex", alignItems: "center" }}>
           Мобильная версия появится позже
         </Box>
-      ) : ( */}
-      {/* <> */}
-      <Header />
-      <LoginModal />
-      <AppRouter />
-      {/* </> */}
+      ) : (
+        <>
+          <Header />
+          <LoginModal />
+          <AppRouter />
+        </>
+      )}
     </>
   );
 };
