@@ -1,8 +1,31 @@
 @import "../../../root.scss";
 
+input:-webkit-autofill {
+  background-color: rgba(0, 0, 0, 0.151) !important;
+}
+
 .MuiInputBase-root {
   color: darken($color: $primaryColor, $amount: 10) !important;
 }
 .MuiButtonBase-root .MuiSvgIcon-root {
   color: $primaryColor !important;
+}
+.loginModal-wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loginModal-content {
+  background-color: #282d3c;
+  box-shadow: 1px 3px 34px 4px rgba(34, 60, 80, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 30vw;
+  height: 50vh;
+  border-radius: 10px;
+  padding: 7rem;
 }

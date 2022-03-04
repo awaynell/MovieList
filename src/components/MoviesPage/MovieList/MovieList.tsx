@@ -94,7 +94,7 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
         <Fade in={movie.length !== 0} unmountOnExit style={{ transitionDelay: `${100 * i}ms` }}>
           <Box className='movieCard-wrapper' sx={style}>
             <Card className='movieCard'>
-              <Loader display={imgIsLoad ? "flex" : "none"} width='50%' />
+              <Loader display={imgIsLoad ? "flex" : "none"} width='50%' height='100%' />
               <Fade in={!imgIsLoad} style={{ transitionDelay: "100ms" }}>
                 <CardMedia
                   component='img'
@@ -139,7 +139,7 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
                     : movie.overview}
                 </Typography>
                 {userID !== undefined && (
-                  <Box sx={{ display: "flex", mt: "auto", width: "100%", justifyContent: "flex-end" }}>
+                  <Box className='movieCard-buttons'>
                     {!favID.includes(movie.id) ? (
                       <Tooltip TransitionComponent={Fade} TransitionProps={{ timeout: 300 }} title='Добавить фильм в любимые'>
                         <FavoriteBorderIcon sx={{ cursor: "pointer" }} onClick={() => buttonFavouriteHandler(movie.id)} />
