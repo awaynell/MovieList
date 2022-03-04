@@ -1,0 +1,31 @@
+@import "../../../root.scss";
+
+.movieCard-wrapper {
+  padding: 0.6rem !important;
+  display: flex;
+  background-color: $backgroundColor;
+  flex: 1 1 38.5vw;
+  flex-wrap: wrap;
+  .MuiPaper-root {
+    background-color: transparent;
+    border-radius: 5px;
+  }
+}
+.movieCard {
+  display: flex;
+  flex-direction: row;
+  margin-left: 1.5rem;
+  background-color: $secondaryBgColor;
+  width: 100%;
+}
+
+.movieCard-content {
+  display: flex;
+  flex-direction: column;
+  background-color: $secondaryBgColor;
+  width: 50%;
+}
+
+.movieCard-rating {
+  font-size: 1rem;
+}

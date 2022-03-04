@@ -1,5 +1,6 @@
 import { ThemeProvider } from "@emotion/react";
-import { Zoom, Box, Card, Fade, CardMedia, CardContent, Typography, Rating, Tooltip, Alert, Snackbar } from "@mui/material";
+import "./MovieList.scss";
+import { Box, Card, Fade, CardMedia, CardContent, Typography, Rating, Tooltip, Alert, Snackbar } from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
 import { theme } from "../../../theme/theme";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -8,18 +9,13 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Loader from "../Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { favouriteIDs, userInfo, watchlistIDs } from "../../../redux/selectors";
-import { apiKey } from "../../../API/apiInfo";
-import { getSessionIDFromCookie } from "../../../helpers/authHelpers/getSessionIDFromCookie";
-import { useData } from "../../../hooks/useData";
-import { setFavouriteFilm } from "../../../helpers/setFavouriteFilm";
-import { setFavouritesMovies, setWatchlist, updateFavourites, updateWatchlist } from "../../../redux/actionCreators";
 import { getFavouriteMovies } from "../../../helpers/getFavouriteMovies";
-import { getWatchlist } from "../../../helpers/getWatchlist";
-import { setWatchlistMovie } from "../../../helpers/setWatchlistMovie";
-import { Route, Routes, useNavigate, useParams } from "react-router-dom";
-import MoviePage from "../../MoviePage/MoviePage";
 import StarIcon from "@mui/icons-material/Star";
+import { useNavigate } from "react-router-dom";
+import { getSessionIDFromCookie } from "../../../helpers/authHelpers/getSessionIDFromCookie";
+import { getWatchlist } from "../../../helpers/getWatchlist";
+import { updateFavourites, updateWatchlist, setFavouritesMovies, setWatchlist } from "../../../redux/actionCreators";
+import { userInfo, favouriteIDs, watchlistIDs } from "../../../redux/selectors";
 
 interface MovieListProps {
   films: any;
@@ -96,20 +92,8 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
     return (
       <ThemeProvider theme={theme} key={movie.id}>
         <Fade in={movie.length !== 0} unmountOnExit style={{ transitionDelay: `${100 * i}ms` }}>
-          <Box
-            sx={
-              style && !!Object.keys(style).length
-                ? style
-                : {
-                    p: 2,
-                    display: "flex",
-                    backgroundColor: "$backgroundColor",
-                    flex: "1 1 37vw",
-                    flexWrap: "wrap",
-                  }
-            }
-          >
-            <Card sx={{ display: "flex", flexDirection: "row", backgroundColor: "#383b47", color: "white", ml: 1.5, width: "100%" }}>
+          <Box className='movieCard-wrapper' sx={style}>
+            <Card className='movieCard'>
               <Loader display={imgIsLoad ? "flex" : "none"} width='50%' />
               <Fade in={!imgIsLoad} style={{ transitionDelay: "100ms" }}>
                 <CardMedia
@@ -118,7 +102,7 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
                   src={
                     movie.poster_path === null
                       ? `https://cdn.shopk.it/assets/store/img/no-img.png`
-                      : `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                      : `https://image.tmdb.org/t/p/w780/${movie.poster_path}`
                   }
                   sx={[
                     { width: "50%" },
@@ -133,20 +117,19 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
                   onClick={() => navigate(`/movie/${movie.id}`)}
                 />
               </Fade>
-              <CardContent sx={{ display: "flex", flexDirection: "column", width: "50%" }}>
+              <CardContent className='movieCard-content'>
                 <Typography gutterBottom variant='h5' component='div' onClick={() => navigate(`/movie/${movie.id}`)} sx={{ cursor: "pointer" }}>
                   {movie.title}
                 </Typography>
                 <Typography component='legend'>Рейтинг: {movie.vote_average} stars</Typography>
                 <Rating
+                  className='movieCard-rating'
                   precision={0.5}
                   size='small'
                   readOnly
                   defaultValue={movie.vote_average}
-                  onChange={(event, newValue) => console.log(newValue)}
                   emptyIcon={<StarIcon style={{ opacity: 0.5, color: "#efe1ce" }} fontSize='inherit' />}
                   max={10}
-                  sx={{ color: "$primaryColor" }}
                 />
                 <Typography sx={{ mt: 1, width: "100%" }}>
                   {movie.overview.length === 0

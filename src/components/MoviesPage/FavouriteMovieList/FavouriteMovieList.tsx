@@ -53,7 +53,7 @@ const FavouriteMovieList = () => {
             films={favMovies}
             imgIsLoad={imgIsLoad}
             setImgIsLoad={setImgIsLoad}
-            style={{ display: "flex", flex: "1 1 auto", width: "33vw", p: 1, alignItems: "flex-end" }}
+            style={{ display: "flex", flex: "0 1 46vw", flexWrap: "wrap", width: "100vw", p: 1 }}
             page={page}
           />
           <PageUp />
