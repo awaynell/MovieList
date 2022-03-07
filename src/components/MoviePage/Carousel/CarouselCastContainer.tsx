@@ -1,6 +1,6 @@
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-import "./CarouselContainer.scss";
+import "./CarouselCastContainer.scss";
 import { Lazy, Mousewheel } from "swiper";
 
 // Import Swiper styles
@@ -16,7 +16,7 @@ interface CarouselProps {
   cast: Array<any>;
 }
 
-const CarouselContainer: FC<CarouselProps> = ({ cast }) => {
+const CarouselCastContainer: FC<CarouselProps> = ({ cast }) => {
   const [loadCast, setloadCast] = useState(true);
   const [imgIsLoad, setImgIsLoad] = useState(true);
 
@@ -72,4 +72,4 @@ const CarouselContainer: FC<CarouselProps> = ({ cast }) => {
   );
 };
 
-export default CarouselContainer;
+export default CarouselCastContainer;

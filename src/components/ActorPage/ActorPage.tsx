@@ -1,22 +1,33 @@
 import { ThemeProvider } from "@emotion/react";
 import { Fade, Box, Typography, Rating, Chip, Button } from "@mui/material";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Swiper, { Lazy, Mousewheel } from "swiper";
+import { SwiperSlide } from "swiper/react";
 import { useData } from "../../hooks/useData";
 import { theme } from "../../theme/theme";
 import Loader from "../MoviesPage/Loader/Loader";
 import "./ActorPage.scss";
 
+import "swiper/css";
+import "swiper/css/mousewheel";
+
 const ActorPage = () => {
   const { id } = useParams();
   const [backdropLoading, setBackdropLoading] = useState<boolean>(true);
+
+  const navigate = useNavigate();
 
   console.log(id);
 
   const [actorDetails, loadingActorDetails, errorActorDetails] = useData(`/person/${id}`, {
     language: "ru_RU",
   });
-  console.log("actorDetails: ", actorDetails);
+
+  const [movieCredits, loadingMovieCredits, errorMovieCredits] = useData(`/person/${id}/movie_credits`, {
+    language: "ru_RU",
+  });
+  console.log("movieCredits: ", movieCredits);
 
   return (
     <ThemeProvider theme={theme}>
@@ -54,6 +65,19 @@ const ActorPage = () => {
                       <Typography component='legend'>{actorDetails.vote_average}</Typography>
                     </Box>
                   </Fade>
+                  <Box sx={{ width: "60vw", display: "flex", position: "relative", overflowX: "scroll" }}>
+                    {!loadingMovieCredits &&
+                      movieCredits.cast
+                        .filter((film: { poster_path: string }) => film.poster_path !== null)
+                        .map((film: { title: string; poster_path: string; id: number }) => {
+                          return (
+                            <Box sx={{ width: "20vw", mr: 2, cursor: "pointer" }} onClick={() => navigate(`/movie/${film.id}`)}>
+                              <img style={{ width: "10vw", height: "auto" }} src={`https://image.tmdb.org/t/p/w500/${film.poster_path}`} />
+                              <Typography>{film.title}</Typography>
+                            </Box>
+                          );
+                        })}
+                  </Box>
                 </Box>
               </Box>
             </Box>

@@ -7,7 +7,7 @@ import { theme } from "../../theme/theme";
 import Loader from "../MoviesPage/Loader/Loader";
 import StarIcon from "@mui/icons-material/Star";
 import ModalTrailer from "./ModalTrailer/ModalTrailer";
-import CarouselContainer from "./Carousel/CarouselContainer";
+import CarouselContainer from "./Carousel/CarouselCastContainer";
 
 const MoviePage = () => {
   const { id } = useParams();
