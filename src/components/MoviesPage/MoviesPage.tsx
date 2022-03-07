@@ -12,7 +12,6 @@ import Loader from "./Loader/Loader";
 import PaginationCont from "./Pagination/PaginationContainer";
 import * as queryString from "query-string";
 import MovieList from "./MovieList/MovieList";
-import { red } from "@mui/material/colors";
 import { Genre } from "./Filters/FiltersContainer/Genres/Genres";
 import { theme } from "../../theme/theme";
 

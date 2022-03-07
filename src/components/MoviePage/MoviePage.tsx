@@ -17,7 +17,6 @@ const MoviePage = () => {
   const [movieDetails, loadingMovieDetails, error] = useData(`/movie/${id}`, {
     language: "ru-RU",
   });
-  console.log("movieDetails: ", movieDetails);
   const [movieTrailers, loadingMovieTrailers, errorMovieTrailers] = useData(`/movie/${id}/videos`, {
     language: "ru-RU",
   });

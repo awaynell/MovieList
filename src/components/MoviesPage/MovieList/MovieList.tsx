@@ -91,7 +91,7 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
   return films.results.map((movie: any, i: number) => {
     return (
       <ThemeProvider theme={theme} key={movie.id}>
-        <Fade in={movie.length !== 0} unmountOnExit style={{ transitionDelay: `${100 * i}ms` }}>
+        <Fade in={movie.length !== 0} style={{ transitionDelay: `${100 * i}ms` }}>
           <Box className='movieCard-wrapper' sx={style}>
             <Card className='movieCard'>
               <Loader display={imgIsLoad ? "flex" : "none"} width='50%' height='100%' />
@@ -102,7 +102,7 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
                   src={
                     movie.poster_path === null
                       ? `https://cdn.shopk.it/assets/store/img/no-img.png`
-                      : `https://image.tmdb.org/t/p/w780/${movie.poster_path}`
+                      : `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
                   }
                   sx={[
                     { width: "50%" },
@@ -162,12 +162,12 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
                 )}
               </CardContent>
             </Card>
-            <Snackbar open={openSuccessAdded} autoHideDuration={1500} onClose={handleClose}>
+            <Snackbar className='successAddSnackbar' open={openSuccessAdded} autoHideDuration={1500} onClose={handleClose}>
               <Alert onClose={handleClose} severity='success' sx={{ width: "100%" }}>
                 Добавлено успешно!
               </Alert>
             </Snackbar>
-            <Snackbar open={openSuccessDeleted} autoHideDuration={1500} onClose={handleClose}>
+            <Snackbar className='successDeleteSnackbar' open={openSuccessDeleted} autoHideDuration={1500000} onClose={handleClose}>
               <Alert onClose={handleClose} severity='error' sx={{ width: "100%" }}>
                 Успешно удалено!
               </Alert>

@@ -7,7 +7,6 @@
   flex: 1 1 38.5vw;
   flex-wrap: wrap;
   .MuiPaper-root {
-    background-color: transparent;
     border-radius: 5px;
   }
 }
@@ -35,4 +34,11 @@
   margin-top: auto;
   width: 100%;
   justify-content: flex-end;
+}
+
+.successDeleteSnackbar,
+.successAddSnackbar {
+  .MuiButtonBase-root .MuiSvgIcon-root {
+    color: lighten($color: black, $amount: 70) !important;
+  }
 }

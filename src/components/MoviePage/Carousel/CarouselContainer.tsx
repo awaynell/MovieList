@@ -10,6 +10,7 @@ import "swiper/css/mousewheel";
 import { FC, useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import { Fade, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 interface CarouselProps {
   cast: Array<any>;
@@ -18,6 +19,8 @@ interface CarouselProps {
 const CarouselContainer: FC<CarouselProps> = ({ cast }) => {
   const [loadCast, setloadCast] = useState(true);
   const [imgIsLoad, setImgIsLoad] = useState(true);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
@@ -52,7 +55,7 @@ const CarouselContainer: FC<CarouselProps> = ({ cast }) => {
           .map((actor: any, i: number) => {
             return (
               <SwiperSlide key={actor.id} style={{ width: "90%" }}>
-                <Box sx={{ width: "90%" }}>
+                <Box sx={{ width: "90%", cursor: "pointer" }} onClick={() => navigate(`/person/${actor.id}`)}>
                   <img
                     style={{ height: "25vh", border: "none", borderRadius: "5px" }}
                     className='swiper-lazy'
