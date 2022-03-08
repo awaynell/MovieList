@@ -16,16 +16,17 @@ import { getSessionIDFromCookie } from "../../../helpers/authHelpers/getSessionI
 import { getWatchlist } from "../../../helpers/getWatchlist";
 import { updateFavourites, updateWatchlist, setFavouritesMovies, setWatchlist } from "../../../redux/actionCreators";
 import { userInfo, favouriteIDs, watchlistIDs } from "../../../redux/selectors";
+import Slide, { SlideProps } from "@mui/material/Slide";
 
 interface MovieListProps {
   films: any;
   imgIsLoad: boolean;
-  setImgIsLoad: any;
+  setImgIsLoad: (load: boolean) => void;
   style?: object;
   page?: number;
 }
 
-const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, page }) => {
+const MovieList: FC<MovieListProps> = React.memo(({ films, imgIsLoad, setImgIsLoad, style, page }) => {
   const [openSuccessAdded, setOpenSuccessAdded] = useState<boolean>(false);
   const [openSuccessDeleted, setOpenSuccessDeleted] = useState<boolean>(false);
 
@@ -39,25 +40,25 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
 
   const buttonFavouriteHandler = (movieID: number) => {
     const isFavourite = favID.includes(movieID);
-    console.log("buttonFavouriteHandler: work");
-    dispatch(updateFavourites({ userID, movieID, isFavourite }));
     if (!isFavourite) {
       setOpenSuccessAdded(true);
     }
     if (isFavourite) {
       setOpenSuccessDeleted(true);
     }
+    dispatch(updateFavourites({ userID, movieID, isFavourite }));
   };
 
   const buttonWatchlistHandler = (movieID: number) => {
     const isWatched = watchID.includes(movieID);
-    console.log("buttonWatchlistHandler: work");
     dispatch(updateWatchlist({ userID, movieID, isWatched }));
     if (!isWatched) {
       setOpenSuccessAdded(true);
+      return;
     }
     if (isWatched) {
       setOpenSuccessDeleted(true);
+      return;
     }
   };
 
@@ -87,6 +88,10 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
       getInitialData();
     }
   }, []);
+
+  const SlideFunc = (props: SlideProps) => {
+    return <Slide {...props} direction='up' />;
+  };
 
   return films.results.map((movie: any, i: number) => {
     return (
@@ -162,12 +167,12 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
                 )}
               </CardContent>
             </Card>
-            <Snackbar className='successAddSnackbar' open={openSuccessAdded} autoHideDuration={1500} onClose={handleClose}>
+            <Snackbar className='successAddSnackbar' open={openSuccessAdded} autoHideDuration={500} onClose={handleClose}>
               <Alert onClose={handleClose} severity='success' sx={{ width: "100%" }}>
                 Добавлено успешно!
               </Alert>
             </Snackbar>
-            <Snackbar className='successDeleteSnackbar' open={openSuccessDeleted} autoHideDuration={1500000} onClose={handleClose}>
+            <Snackbar className='successDeleteSnackbar' open={openSuccessDeleted} autoHideDuration={500} onClose={handleClose}>
               <Alert onClose={handleClose} severity='error' sx={{ width: "100%" }}>
                 Успешно удалено!
               </Alert>
@@ -177,6 +182,6 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
       </ThemeProvider>
     );
   });
-};
+});
 
 export default MovieList;
