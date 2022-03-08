@@ -23,7 +23,7 @@ const CarouselCastContainer: FC<CarouselProps> = ({ cast }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
+    const loadTimeout = setTimeout(() => {
       setloadCast(false);
     }, 1500);
   });

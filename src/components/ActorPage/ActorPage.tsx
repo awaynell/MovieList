@@ -2,8 +2,8 @@ import { ThemeProvider } from "@emotion/react";
 import { Fade, Box, Typography, Rating, Chip, Button } from "@mui/material";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Swiper, { Lazy, Mousewheel } from "swiper";
-import { SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Lazy, Mousewheel } from "swiper";
 import { useData } from "../../hooks/useData";
 import { theme } from "../../theme/theme";
 import Loader from "../MoviesPage/Loader/Loader";
@@ -21,11 +21,11 @@ const ActorPage = () => {
   console.log(id);
 
   const [actorDetails, loadingActorDetails, errorActorDetails] = useData(`/person/${id}`, {
-    language: "ru_RU",
+    language: "ru-RU",
   });
 
   const [movieCredits, loadingMovieCredits, errorMovieCredits] = useData(`/person/${id}/movie_credits`, {
-    language: "ru_RU",
+    language: "ru-RU",
   });
   console.log("movieCredits: ", movieCredits);
 
@@ -60,24 +60,52 @@ const ActorPage = () => {
                       <Typography>{`Биография: ${actorDetails.biography}`}</Typography>
                     </Box>
                   </Fade>
-                  <Fade in={!loadingActorDetails} style={{ transitionDelay: "900ms" }}>
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
-                      <Typography component='legend'>{actorDetails.vote_average}</Typography>
+                  <Fade in={!loadingMovieCredits} style={{ transitionDelay: "1000ms" }}>
+                    <Box>
+                      {!loadingMovieCredits && (
+                        <Swiper
+                          modules={[Lazy, Mousewheel]}
+                          lazy={true}
+                          spaceBetween={20}
+                          slidesPerView={2}
+                          mousewheel={true}
+                          style={{
+                            width: "55vw",
+                            marginLeft: 0,
+                            opacity: loadingMovieCredits ? 0 : 1,
+                            transition: "1s opacity",
+                          }}
+                          breakpoints={{
+                            1000: {
+                              slidesPerView: 5,
+                            },
+                            700: {
+                              slidesPerView: 3,
+                            },
+                          }}
+                        >
+                          {movieCredits.cast
+                            .filter((movie: any) => movie.poster_path !== null)
+                            .map((movie: any, i: number) => {
+                              return (
+                                <SwiperSlide key={movie.id} style={{ width: "90%" }}>
+                                  <Box sx={{ width: "90%", cursor: "pointer" }} onClick={() => navigate(`/movie/${movie.id}`)}>
+                                    <img
+                                      style={{ height: "25vh", border: "none", borderRadius: "5px" }}
+                                      className='swiper-lazy'
+                                      data-src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+                                    />
+                                    <Typography sx={{ opacity: 0 }} className='swiper-lazy' data-src={null}>
+                                      {movie.title}
+                                    </Typography>
+                                  </Box>
+                                </SwiperSlide>
+                              );
+                            })}
+                        </Swiper>
+                      )}
                     </Box>
                   </Fade>
-                  <Box sx={{ width: "60vw", display: "flex", position: "relative", overflowX: "scroll" }}>
-                    {!loadingMovieCredits &&
-                      movieCredits.cast
-                        .filter((film: { poster_path: string }) => film.poster_path !== null)
-                        .map((film: { title: string; poster_path: string; id: number }) => {
-                          return (
-                            <Box sx={{ width: "20vw", mr: 2, cursor: "pointer" }} onClick={() => navigate(`/movie/${film.id}`)}>
-                              <img style={{ width: "10vw", height: "auto" }} src={`https://image.tmdb.org/t/p/w500/${film.poster_path}`} />
-                              <Typography>{film.title}</Typography>
-                            </Box>
-                          );
-                        })}
-                  </Box>
                 </Box>
               </Box>
             </Box>
