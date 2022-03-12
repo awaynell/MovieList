@@ -21,3 +21,18 @@
     }
   }
 }
+@media (max-width: 1024px) {
+  .pagination {
+    width: 89vw;
+    margin-left: 2rem;
+    .MuiPagination-ul {
+      li button {
+        min-width: 25px;
+        border-radius: 15px;
+        font-size: 15px !important;
+        padding: 0 3px;
+        line-height: 1px;
+      }
+    }
+  }
+}

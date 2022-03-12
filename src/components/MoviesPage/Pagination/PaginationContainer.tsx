@@ -26,7 +26,7 @@ const PaginationContainer: FC<PaginationProps> = React.memo(({ allOfPages, setPa
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ width: "100%", ml: 2 }}>
+      <Box className='pagination'>
         <Pagination
           variant='text'
           color='primary'
@@ -34,8 +34,8 @@ const PaginationContainer: FC<PaginationProps> = React.memo(({ allOfPages, setPa
           page={curPage}
           siblingCount={1}
           boundaryCount={1}
-          hideNextButton={true}
-          hidePrevButton={true}
+          hideNextButton={document.body.offsetWidth <= 1024 ? false : true}
+          hidePrevButton={document.body.offsetWidth <= 1024 ? false : true}
           size='small'
           count={allOfPages > 500 ? 500 : allOfPages}
           onChange={handleChange}

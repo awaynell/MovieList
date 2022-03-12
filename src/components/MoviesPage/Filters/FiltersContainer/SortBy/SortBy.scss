@@ -25,3 +25,10 @@
   background-color: $secondaryBgColor !important;
   color: $primaryColor !important;
 }
+.sortBy {
+  @media (max-width: 1024px) {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+  }
+}

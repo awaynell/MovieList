@@ -4,11 +4,12 @@ import React from "react";
 import Genres from "./Genres/Genres";
 import SortBy from "./SortBy/SortBy";
 import { theme } from "../../../../theme/theme";
+import "./FiltersContainer.scss";
 
 const FiltersContainer = () => {
   return (
     <ThemeProvider theme={theme}>
-      <Box>
+      <Box className='filters'>
         <Genres />
         <SortBy />
       </Box>

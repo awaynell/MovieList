@@ -18,7 +18,7 @@ export const App = () => {
         setMobileView(false);
       }
     }
-    window.addEventListener("resize", resizeOnMobile);
+    // window.addEventListener("resize", resizeOnMobile);
 
     return () => window.removeEventListener("resize", resizeOnMobile);
   });

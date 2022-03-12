@@ -33,15 +33,6 @@ const MoviesPage: FC = React.memo(() => {
 
   const dispatch = useDispatch();
 
-  // const [data, loading, error] = useData("discover/movie", {
-  //   language: "ru-RU",
-  //   with_genres: genres.join(","),
-  //   page: page,
-  //   sort_by: sortBy,
-  //   primary_release_year: year,
-  //   limit: 10,
-  // });
-
   const fetchFilms = async (route: string, query: object) => {
     const URL = `${endpoint}${route}?${"api_key=" + apiKey}&${queryString.stringify(query)}`;
     try {
@@ -94,7 +85,7 @@ const MoviesPage: FC = React.memo(() => {
     <ThemeProvider theme={theme}>
       <Box className='moviesPage-wrapper'>
         <Box>
-          <Box sx={{ display: "flex", justifyContent: "end", flexDirection: "column", pt: 0.75, width: "15vw", mt: 5 }}>
+          <Box className='moviesPage-sidebar'>
             <FiltersContainer />
             <PaginationCont setPage={setPage} allOfPages={allOfPages} />
           </Box>
@@ -113,7 +104,7 @@ const MoviesPage: FC = React.memo(() => {
                 />
               ))}
           </Box>
-          <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-end", width: "80vw" }}>
+          <Box className='moviesPage-content'>
             {isLoad ? (
               <Loader display='flex' width='80%' />
             ) : (
@@ -125,9 +116,5 @@ const MoviesPage: FC = React.memo(() => {
     </ThemeProvider>
   );
 });
-
-// TODO
-// Разобраться почему при переходе на список фильмов к просмотру не появляются значки добавленного в watchlist
-// Сделать роуты на фильмы
 
 export default MoviesPage;

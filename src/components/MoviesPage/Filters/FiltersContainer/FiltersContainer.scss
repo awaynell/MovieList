@@ -1,0 +1,7 @@
+.filters {
+  @media (max-width: 1024px) {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+  }
+}

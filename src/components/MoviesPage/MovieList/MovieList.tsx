@@ -89,10 +89,6 @@ const MovieList: FC<MovieListProps> = React.memo(({ films, imgIsLoad, setImgIsLo
     }
   }, []);
 
-  const SlideFunc = (props: SlideProps) => {
-    return <Slide {...props} direction='up' />;
-  };
-
   return films.results.map((movie: any, i: number) => {
     return (
       <ThemeProvider theme={theme} key={movie.id}>
