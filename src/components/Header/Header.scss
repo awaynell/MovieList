@@ -3,3 +3,17 @@
 .header {
   position: relative;
 }
+.searchInput-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  margin-right: 20px;
+  .MuiFormControl-root {
+    width: 50%;
+    transition: 0.7s all ease-in;
+    &:hover {
+      transition: all 0.7s ease-out;
+      width: 100% !important;
+    }
+  }
+}

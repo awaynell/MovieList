@@ -9,6 +9,7 @@ import { ADD_USERINFO_START, DELETE_USERINFO } from "../../redux/actionTypes";
 import { getSessionIDFromCookie } from "../../helpers/authHelpers/getSessionIDFromCookie";
 import { getUser, getUserInfo } from "../../helpers/authHelpers/getUser";
 import { useNavigate } from "react-router-dom";
+import "./Header.scss";
 
 const Header = React.memo(() => {
   const [avatarBackground, setAvatarBackground] = useState<string>("gray");
@@ -45,27 +46,36 @@ const Header = React.memo(() => {
             >
               MOVIE LIST
             </Typography>
-            <TextField
-              sx={{ width: "10%", ml: 2, mr: 2, mb: 1, display: userInfoData.id ? "none" : "block" }}
-              size='small'
-              onChange={(e) => {
-                handleChange(e.target.value);
+            <Box
+              className='searchInput-wrapper'
+              sx={{ order: userInfoData.id ? 3 : 0 }}
+              component='form'
+              onFocus={(e: EventTarget | any) => {
+                const target: HTMLInputElement | HTMLTextAreaElement = e.target.offsetParent.offsetParent;
+                console.log(target);
+                target.style.width = "100%";
               }}
-            ></TextField>
+              onBlur={(e: EventTarget | any) => {
+                const target: HTMLInputElement | HTMLTextAreaElement = e.target.offsetParent.offsetParent;
+                console.log(target);
+                target.style.width = "50%";
+              }}
+            >
+              <TextField
+                placeholder='Пишите для поиска..'
+                size='small'
+                onChange={(e) => {
+                  handleChange(e.target.value);
+                }}
+              ></TextField>
+            </Box>
             {userInfoData.id ? (
               <>
-                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
+                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "50%", mr: "auto" }}>
                   <Button onClick={() => navigate("favourite")}>Favourite movies</Button>
                   <Button onClick={() => navigate("watchlist")}>My watchlist</Button>
                 </Box>
-                <Box sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
-                  <TextField
-                    sx={{ width: "50%", ml: 2, mr: 2 }}
-                    size='small'
-                    onChange={(e) => {
-                      handleChange(e.target.value);
-                    }}
-                  ></TextField>
+                <Box sx={{ display: "flex", alignItems: "center", order: 4 }}>
                   {userInfoData.avatar.tmdb.avatar_path === null ? (
                     <Avatar sx={{ backgroundColor: avatarBackground, mr: 0.5 }} />
                   ) : (
