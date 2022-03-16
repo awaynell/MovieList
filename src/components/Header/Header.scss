@@ -8,6 +8,11 @@
   align-items: center;
   justify-content: end;
   margin-right: 20px;
+  @media (max-width: 600px) {
+    order: 0 !important;
+    width: 100%;
+    margin-left: 2rem;
+  }
   .MuiFormControl-root {
     width: 50%;
     transition: 0.7s all ease-in;

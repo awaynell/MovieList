@@ -98,6 +98,7 @@ const MovieList: FC<MovieListProps> = React.memo(({ films, imgIsLoad, setImgIsLo
               <Loader display={imgIsLoad ? "flex" : "none"} width='50%' height='100%' />
               <Fade in={!imgIsLoad} style={{ transitionDelay: "100ms" }}>
                 <CardMedia
+                className="movie-img"
                   component='img'
                   onLoad={() => setImgIsLoad(false)}
                   src={

@@ -16,6 +16,14 @@
   margin-left: 1.5rem;
   background-color: $secondaryBgColor !important;
   width: 100%;
+  @media (max-width: 426px) {
+    margin-left: 1rem;
+    .movie-img {
+      object-fit: contain;
+      height: 100%;
+      width: 40%;
+    }
+  }
 }
 
 .movieCard-content {
@@ -23,6 +31,9 @@
   flex-direction: column;
   background-color: $secondaryBgColor !important;
   width: 50%;
+  @media (max-width: 426px) {
+    height: 50% !important;
+  }
 }
 
 .movieCard-rating {

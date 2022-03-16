@@ -57,15 +57,8 @@ const Genres = () => {
       {loading && data ? (
         <div></div>
       ) : (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            padding: "0 10px 0 10px",
-          }}
-        >
-          <FormControl sx={{ m: 1, width: "20vw" }}>
+        <Box className='genres-wrapper'>
+          <FormControl sx={{ m: 1, width: "20vw" }} className='genres'>
             <Select
               multiple
               defaultValue={[""]}
