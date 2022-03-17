@@ -36,20 +36,20 @@ const MoviePage = () => {
               onLoad={() => setBackdropLoading(false)}
               src={`https://image.tmdb.org/t/p/original/${movieDetails.backdrop_path}`}
               style={{ opacity: backdropLoading ? 0 : 1, transition: "1s opacity" }}
-            ></img>
+            />
           </Fade>
           <Box className='movie-wrapper' sx={{ mt: 4 }}>
             <Box className='movie-details'>
               <Fade in={!loadingMovieDetails} style={{ transitionDelay: "150ms" }}>
-                <Box className='movie-poster' sx={{ width: "45%", height: "100%", mt: 1 }}>
+                <Box className='movie-poster' sx={{}}>
                   <img src={`https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`} />
                 </Box>
               </Fade>
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <Box className='movie-titles'>
                 <Fade in={!loadingMovieDetails} style={{ transitionDelay: "300ms" }}>
                   <Box>
-                    <Typography sx={{ fontWeight: "500", fontSize: "1.3em", mr: 3, width: "100%" }}>{movieDetails.title}</Typography>
-                    <Typography sx={{ color: "gray", mb: 2, fontSize: "0.7em" }}>{movieDetails.original_title}</Typography>
+                    <Typography className='movie-title'>{movieDetails.title}</Typography>
+                    <Typography className='movie-titleOriginal'>{movieDetails.original_title}</Typography>
                   </Box>
                 </Fade>
                 <Box sx={{ display: "flex", flexDirection: "column", mb: 2 }}>

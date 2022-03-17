@@ -9,13 +9,15 @@
   .MuiPaper-root {
     border-radius: 5px;
   }
+  @media (max-width: 1024px) {
+    height: auto;
+    justify-content: center;
+  }
   @media (max-width: 426px) {
     .MuiPaper-root {
       height: 100%;
       border-radius: 5px;
     }
-    height: auto;
-    justify-content: center;
   }
 }
 .movieCard {
@@ -23,7 +25,7 @@
   flex-direction: row;
   margin-left: 1.5rem;
   background-color: $secondaryBgColor !important;
-  width: 80%;
+  width: 100%;
   @media (max-width: 426px) {
     height: auto;
     flex-direction: column;

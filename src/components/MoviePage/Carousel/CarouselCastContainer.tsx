@@ -42,7 +42,8 @@ const CarouselCastContainer: FC<CarouselProps> = ({ cast }) => {
       }}
       breakpoints={{
         1000: {
-          slidesPerView: 5,
+          slidesPerView: 4,
+          spaceBetween: 65,
         },
         700: {
           slidesPerView: 3,
