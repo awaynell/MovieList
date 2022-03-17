@@ -10,11 +10,13 @@ import { getSessionIDFromCookie } from "../../helpers/authHelpers/getSessionIDFr
 import { getUser, getUserInfo } from "../../helpers/authHelpers/getUser";
 import { useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
+import ClearIcon from "@mui/icons-material/Clear";
 import "./Header.scss";
 
 const Header = React.memo(() => {
   const [avatarBackground, setAvatarBackground] = useState<string>("gray");
   const [openMobileMenu, setOpenMobieMenu] = useState<boolean>(false);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const dispatch = useDispatch();
   const userInfoData = useSelector(userInfo);
   const navigate = useNavigate();
@@ -31,6 +33,10 @@ const Header = React.memo(() => {
     dispatch(setSearchQuery(searchQuery));
     dispatch(setSearchPage(1));
     navigate(`search`);
+  };
+
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
   };
 
   return (
@@ -82,46 +88,63 @@ const Header = React.memo(() => {
                     display: { xs: "block", sm: "none" },
                   }}
                 >
-                  <IconButton
-                    size='large'
-                    aria-label='account of current user'
-                    aria-controls='menu-appbar'
-                    aria-haspopup='true'
-                    color='inherit'
-                    onClick={() => setOpenMobieMenu(true)}
-                    sx={{ order: 3 }}
-                  >
-                    <MenuIcon />
-                  </IconButton>
+                  {Boolean(anchorElNav) ? (
+                    <IconButton
+                      size='large'
+                      aria-label='account of current user'
+                      aria-controls='menu-appbar'
+                      aria-haspopup='true'
+                      color='inherit'
+                      onClick={() => setAnchorElNav(null)}
+                      sx={{ order: 3, zIndex: 99 }}
+                    >
+                      <ClearIcon />
+                    </IconButton>
+                  ) : (
+                    <IconButton
+                      size='large'
+                      aria-label='account of current user'
+                      aria-controls='menu-appbar'
+                      aria-haspopup='true'
+                      color='inherit'
+                      onClick={handleOpenNavMenu}
+                      sx={{ order: 3, zIndex: 99 }}
+                    >
+                      <MenuIcon />
+                    </IconButton>
+                  )}
+
                   <Menu
-                    open={openMobileMenu}
-                    onClose={() => setOpenMobieMenu(false)}
-                    anchorOrigin={{
-                      vertical: "center",
-                      horizontal: "center",
-                    }}
+                    open={Boolean(anchorElNav)}
+                    onClose={() => setAnchorElNav(null)}
+                    anchorEl={anchorElNav}
+                    sx={{ zIndex: 98, overflow: "hidden" }}
                   >
-                    <MenuList sx={{ width: "100%", height: "100%", p: 0, m: 0 }}>
-                      <MenuItem onClick={() => setOpenMobieMenu(false)}>
+                    <MenuList sx={{ width: "100vw", height: "100vh", p: 0, m: 0 }}>
+                      <MenuItem className='header-mobileItem' onClick={() => setAnchorElNav(null)}>
                         <Button onClick={() => navigate("favourite")} sx={{ width: "100%", fontSize: "1rem" }}>
                           Favourite movies
                         </Button>
                       </MenuItem>
-                      <MenuItem onClick={() => setOpenMobieMenu(false)}>
+                      <MenuItem className='header-mobileItem' onClick={() => setAnchorElNav(null)}>
                         <Button onClick={() => navigate("watchlist")} sx={{ width: "100%", fontSize: "1rem" }}>
                           My watchlist
                         </Button>
                       </MenuItem>
-                      <MenuItem>
+                      <MenuItem className='header-mobileItem' sx={{ width: "100%", justifyContent: "center" }}>
                         {userInfoData.avatar.tmdb.avatar_path === null ? (
                           <Avatar sx={{ backgroundColor: avatarBackground, mr: 0.5 }} />
                         ) : (
                           <Avatar alt='Remy Sharp' src={`https://image.tmdb.org/t/p/w500/${userInfoData.avatar.tmdb.avatar_path}`} sx={{ mr: 0.5 }} />
                         )}
-                        <Typography sx={{ mr: 2, width: "100%", fontSize: "1rem", justifyContent: "center" }}>{userInfoData.username}</Typography>
+                        <Typography sx={{ mr: 2, fontSize: "1rem", textAlign: "center" }}>{userInfoData.username}</Typography>
                       </MenuItem>
-                      <MenuItem onClick={() => setOpenMobieMenu(false)} sx={{ mr: 2, width: "100%", fontSize: "1rem", justifyContent: "center" }}>
-                        <Button variant='contained' color='primary' onClick={() => dispatch({ type: DELETE_USERINFO })}>
+                      <MenuItem
+                        className='header-mobileItem'
+                        onClick={() => setAnchorElNav(null)}
+                        sx={{ mr: 2, width: "100%", fontSize: "1rem", justifyContent: "center" }}
+                      >
+                        <Button variant='contained' color='primary' onClick={() => dispatch({ type: DELETE_USERINFO })} sx={{ width: "80%" }}>
                           <Typography fontWeight={400} letterSpacing={1.2} color='#efe1ce'>
                             Выйти
                           </Typography>

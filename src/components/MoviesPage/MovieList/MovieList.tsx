@@ -95,10 +95,10 @@ const MovieList: FC<MovieListProps> = React.memo(({ films, imgIsLoad, setImgIsLo
         <Fade in={movie.length !== 0} style={{ transitionDelay: `${100 * i}ms` }}>
           <Box className='movieCard-wrapper' sx={style}>
             <Card className='movieCard'>
-              <Loader display={imgIsLoad ? "flex" : "none"} width='50%' height='100%' />
+              <Loader display={imgIsLoad ? "flex" : "none"} width='100%' height='100%' />
               <Fade in={!imgIsLoad} style={{ transitionDelay: "100ms" }}>
                 <CardMedia
-                className="movie-img"
+                  className='movie-img'
                   component='img'
                   onLoad={() => setImgIsLoad(false)}
                   src={
