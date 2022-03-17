@@ -119,6 +119,7 @@ const Header = React.memo(() => {
                     onClose={() => setAnchorElNav(null)}
                     anchorEl={anchorElNav}
                     sx={{ zIndex: 98, overflow: "hidden" }}
+                    className='header-mobileMenu'
                   >
                     <MenuList sx={{ width: "100vw", height: "100vh", p: 0, m: 0 }}>
                       <MenuItem className='header-mobileItem' onClick={() => setAnchorElNav(null)}>

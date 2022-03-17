@@ -41,6 +41,10 @@ const CarouselCastContainer: FC<CarouselProps> = ({ cast }) => {
         transition: "1s opacity",
       }}
       breakpoints={{
+        1200: {
+          slidesPerView: 5,
+          spaceBetween: 65,
+        },
         1000: {
           slidesPerView: 4,
           spaceBetween: 65,

@@ -182,3 +182,7 @@ const MovieList: FC<MovieListProps> = React.memo(({ films, imgIsLoad, setImgIsLo
 });
 
 export default MovieList;
+
+//TODO
+// Пофиксить выпадающие меню в Filters
+// Пофиксить паддинги в LoginModal
