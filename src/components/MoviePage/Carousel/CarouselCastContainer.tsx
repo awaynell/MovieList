@@ -34,10 +34,10 @@ const CarouselCastContainer: FC<CarouselProps> = ({ cast }) => {
       spaceBetween={20}
       slidesPerView={2}
       mousewheel={true}
+      className='swiper-wrapper'
       style={{
-        width: "55vw",
-        marginLeft: 0,
         opacity: loadCast ? 0 : 1,
+        marginLeft: 0,
         transition: "1s opacity",
       }}
       breakpoints={{
@@ -50,7 +50,16 @@ const CarouselCastContainer: FC<CarouselProps> = ({ cast }) => {
           spaceBetween: 65,
         },
         700: {
+          slidesPerView: 5,
+          spaceBetween: 90,
+        },
+        400: {
           slidesPerView: 3,
+          spaceBetween: 5,
+        },
+        350: {
+          slidesPerView: 3,
+          spaceBetween: 2,
         },
       }}
     >
