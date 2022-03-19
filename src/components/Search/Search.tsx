@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useData } from "../../hooks/useData";
-import { searchedMovies, searchLoading, searchPage, searchQuery } from "../../redux/selectors";
+import { prevRoutePath, searchedMovies, searchLoading, searchPage, searchQuery } from "../../redux/selectors";
 import MovieList from "../MoviesPage/MovieList/MovieList";
 import * as queryString from "query-string";
 import PaginationContainer from "../MoviesPage/Pagination/PaginationContainer";
@@ -25,6 +25,7 @@ const Search = React.memo(() => {
   const loading = useSelector(searchLoading);
   const pageOfSearch = useSelector(searchPage);
   const searchedFilms = useSelector(searchedMovies);
+  const previousRoutePath = useSelector(prevRoutePath);
 
   const handleChange = (event: React.ChangeEvent<unknown>, page: number): void => {
     setPage(page);
@@ -35,7 +36,7 @@ const Search = React.memo(() => {
   }, [page]);
 
   if (searchQ.length === 0) {
-    navigate("/");
+    navigate(String(previousRoutePath));
     return <Typography sx={{ width: "100%", height: "100%", textAlign: "center", mt: 10 }}>Введите текст в поисковую строку</Typography>;
   }
   if (!loading && searchedFilms.results.length === 0) {

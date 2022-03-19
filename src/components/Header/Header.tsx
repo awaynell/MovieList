@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AppBar, Avatar, Box, Button, IconButton, Link, Menu, MenuItem, MenuList, TextField, Toolbar, Typography } from "@mui/material";
 import { ThemeProvider } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
-import { isShowModal, setSearchPage, setSearchQuery } from "../../redux/actionCreators";
+import { isShowModal, setPreviousRoutePath, setSearchPage, setSearchQuery } from "../../redux/actionCreators";
 import { userInfo } from "../../redux/selectors";
 import { theme } from "../../theme/theme";
 import { ADD_USERINFO_START, DELETE_USERINFO } from "../../redux/actionTypes";
@@ -31,6 +31,9 @@ const Header = React.memo(() => {
   }, []);
 
   const handleChange: any = (searchQuery: string) => {
+    if (window.location.pathname !== "/search") {
+      dispatch(setPreviousRoutePath(window.location.pathname));
+    }
     dispatch(setSearchQuery(searchQuery));
     dispatch(setSearchPage(1));
     navigate(`search`);
@@ -75,7 +78,7 @@ const Header = React.memo(() => {
                 size='small'
                 onChange={debounce((e) => {
                   handleChange(e.target.value);
-                }, 200)}
+                }, 500)}
               ></TextField>
             </Box>
             {userInfoData.id ? (

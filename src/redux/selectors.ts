@@ -16,3 +16,4 @@ export const searchQuery = (state: RootStateOrAny) => state.search.searchQuery;
 export const searchPage = (state: RootStateOrAny) => state.search.page;
 export const searchedMovies = (state: RootStateOrAny) => state.search.searchedMovies;
 export const searchLoading = (state: RootStateOrAny) => state.search.loading;
+export const prevRoutePath = (state: RootStateOrAny) => state.search.prevRoutePath;

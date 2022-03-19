@@ -5,6 +5,7 @@ import {
   IS_SHOW_MODAL,
   REMOVE_GENRE,
   SET_DATA,
+  SET_PREVIOUS_ROUTEPATH,
   SET_SEARCHED_FILMS_SUCCESS,
   SET_SEARCH_PAGE,
   SET_SEARCH_QUERY,
@@ -98,5 +99,10 @@ export const setSearchPage = (payload: number) => ({
 
 export const setSearchedFilms = (payload: object) => ({
   type: SET_SEARCHED_FILMS_SUCCESS,
+  payload,
+});
+
+export const setPreviousRoutePath = (payload: string) => ({
+  type: SET_PREVIOUS_ROUTEPATH,
   payload,
 });
