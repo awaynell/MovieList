@@ -108,9 +108,8 @@ const Header = React.memo(() => {
                       aria-haspopup='true'
                       color='inherit'
                       onClick={handleOpenNavMenu}
-                      sx={{ order: 3, zIndex: 99 }}
                     >
-                      <MenuIcon />
+                      <MenuIcon sx={{ order: 3, position: "relative", zIndex: 99 }} />
                     </IconButton>
                   )}
 
@@ -118,7 +117,7 @@ const Header = React.memo(() => {
                     open={Boolean(anchorElNav)}
                     onClose={() => setAnchorElNav(null)}
                     anchorEl={anchorElNav}
-                    sx={{ zIndex: 98, overflow: "hidden" }}
+                    sx={{ zIndex: 95, overflow: "hidden" }}
                     className='header-mobileMenu'
                   >
                     <MenuList sx={{ width: "100vw", height: "100vh", p: 0, m: 0 }}>

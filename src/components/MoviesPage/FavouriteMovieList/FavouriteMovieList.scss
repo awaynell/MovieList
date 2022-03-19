@@ -4,6 +4,16 @@
   justify-content: flex-start;
   width: 96vw;
   padding: 0.3rem;
+  // @media (max-width: 1024px) {
+  //   height: auto;
+  //   justify-content: center;
+  // }
+  // @media (max-width: 426px) {
+  //   .MuiPaper-root {
+  //     height: 100%;
+  //     border-radius: 5px;
+  //   }
+  // }
 }
 
 .favMovies-undefined {

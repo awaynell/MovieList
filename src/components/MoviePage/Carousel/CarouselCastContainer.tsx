@@ -53,13 +53,9 @@ const CarouselCastContainer: FC<CarouselProps> = ({ cast }) => {
           slidesPerView: 5,
           spaceBetween: 90,
         },
-        400: {
+        300: {
           slidesPerView: 3,
-          spaceBetween: 5,
-        },
-        350: {
-          slidesPerView: 3,
-          spaceBetween: 2,
+          spaceBetween: 50,
         },
       }}
     >
