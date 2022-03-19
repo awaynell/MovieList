@@ -11,6 +11,7 @@ import { Box, Typography } from "@mui/material";
 import { getFavouriteMovies } from "../../../helpers/getFavouriteMovies";
 import PageUp from "../../UI/PageUp/PageUp";
 import PaginationContainer from "../Pagination/PaginationContainer";
+import "./FavouriteMovieList.scss";
 
 const FavouriteMovieList = () => {
   const [imgIsLoad, setImgIsLoad] = useState<boolean>(true);
@@ -42,22 +43,15 @@ const FavouriteMovieList = () => {
   }, [favID, page]);
 
   return (
-    <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-start", width: "95vw" }}>
+    <Box className='favMovies-wrapper'>
       {loading ? (
         <Loader display='flex' width='100%' />
       ) : favMovies.results.length === 0 ? (
-        <Typography sx={{ width: "100%", textAlign: "center", mt: 3 }}>У вас нет любимых фильмов</Typography>
+        <Typography className='favMovies-undefined'>У вас нет любимых фильмов</Typography>
       ) : (
         <>
-          <MovieList
-            films={favMovies}
-            imgIsLoad={imgIsLoad}
-            setImgIsLoad={setImgIsLoad}
-            style={{ display: "flex", flex: "1 1 auto", width: "33vw", p: 1, alignItems: "flex-end" }}
-            page={page}
-          />
+          <MovieList films={favMovies} imgIsLoad={imgIsLoad} setImgIsLoad={setImgIsLoad} page={page} style={{ flex: "1 1 48%" }} />
           <PageUp />
-          <PaginationContainer allOfPages={favMovies.total_pages} setPage={setPage} />
         </>
       )}
     </Box>

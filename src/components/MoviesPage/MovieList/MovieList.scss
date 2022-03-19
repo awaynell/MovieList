@@ -1,0 +1,69 @@
+@import "../../../root.scss";
+
+.movieCard-wrapper {
+  padding: 0.6rem !important;
+  display: flex;
+  background-color: $backgroundColor;
+  flex: 1 1 47.6%;
+  flex-wrap: wrap;
+  .MuiPaper-root {
+    border-radius: 5px;
+  }
+  @media (max-width: 1024px) {
+    height: auto;
+    justify-content: center;
+  }
+  @media (max-width: 426px) {
+    .MuiPaper-root {
+      height: 100%;
+      border-radius: 5px;
+    }
+  }
+}
+.movieCard {
+  display: flex;
+  flex-direction: row;
+  margin-left: 1.5rem;
+  background-color: $secondaryBgColor !important;
+  width: 100%;
+  @media (max-width: 426px) {
+    height: auto;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 1rem;
+    .movie-img {
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
+
+.movieCard-content {
+  display: flex;
+  flex-direction: column;
+  background-color: $secondaryBgColor !important;
+  width: 50%;
+  @media (max-width: 426px) {
+    width: 90%;
+    height: 150% !important;
+  }
+}
+
+.movieCard-rating {
+  font-size: 1rem;
+}
+
+.movieCard-buttons {
+  display: flex;
+  margin-top: auto;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.successDeleteSnackbar,
+.successAddSnackbar {
+  .MuiButtonBase-root .MuiSvgIcon-root {
+    color: lighten($color: black, $amount: 70) !important;
+  }
+}

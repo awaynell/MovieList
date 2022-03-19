@@ -19,3 +19,17 @@
   background-color: $secondaryBgColor !important;
   color: $primaryColor !important;
 }
+
+.genres-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 10px 0 10px;
+  .genres {
+    margin: 0.5rem;
+    width: 20vw;
+    @media (max-width: 600px) {
+      width: 50vw;
+    }
+  }
+}

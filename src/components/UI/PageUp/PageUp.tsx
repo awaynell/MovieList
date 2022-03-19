@@ -10,7 +10,7 @@ const PageUp = React.memo(() => {
   const [style, setStyle] = useState<object>({ opacity: "0", transition: "0.3s opacity" });
 
   window.onscroll = (event: Event) => {
-    if (document.documentElement.scrollTop > 400) {
+    if (document.documentElement.scrollTop > 850) {
       setIsVisible(true);
       setStyle({ opacity: "1", transition: "0.3s opacity" });
     } else if (document.documentElement.scrollTop < 200) {

@@ -1,5 +1,6 @@
 import { ThemeProvider } from "@emotion/react";
-import { Zoom, Box, Card, Fade, CardMedia, CardContent, Typography, Rating, Tooltip, Alert, Snackbar } from "@mui/material";
+import "./MovieList.scss";
+import { Box, Card, Fade, CardMedia, CardContent, Typography, Rating, Tooltip, Alert, Snackbar } from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
 import { theme } from "../../../theme/theme";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -8,28 +9,24 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Loader from "../Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
-import { favouriteIDs, userInfo, watchlistIDs } from "../../../redux/selectors";
-import { apiKey } from "../../../API/apiInfo";
-import { getSessionIDFromCookie } from "../../../helpers/authHelpers/getSessionIDFromCookie";
-import { useData } from "../../../hooks/useData";
-import { setFavouriteFilm } from "../../../helpers/setFavouriteFilm";
-import { setFavouritesMovies, setWatchlist, updateFavourites, updateWatchlist } from "../../../redux/actionCreators";
 import { getFavouriteMovies } from "../../../helpers/getFavouriteMovies";
-import { getWatchlist } from "../../../helpers/getWatchlist";
-import { setWatchlistMovie } from "../../../helpers/setWatchlistMovie";
-import { Route, Routes, useNavigate, useParams } from "react-router-dom";
-import MoviePage from "../../MoviePage/MoviePage";
 import StarIcon from "@mui/icons-material/Star";
+import { useNavigate } from "react-router-dom";
+import { getSessionIDFromCookie } from "../../../helpers/authHelpers/getSessionIDFromCookie";
+import { getWatchlist } from "../../../helpers/getWatchlist";
+import { updateFavourites, updateWatchlist, setFavouritesMovies, setWatchlist } from "../../../redux/actionCreators";
+import { userInfo, favouriteIDs, watchlistIDs } from "../../../redux/selectors";
+import Slide, { SlideProps } from "@mui/material/Slide";
 
 interface MovieListProps {
   films: any;
   imgIsLoad: boolean;
-  setImgIsLoad: any;
+  setImgIsLoad: (load: boolean) => void;
   style?: object;
   page?: number;
 }
 
-const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, page }) => {
+const MovieList: FC<MovieListProps> = React.memo(({ films, imgIsLoad, setImgIsLoad, style, page }) => {
   const [openSuccessAdded, setOpenSuccessAdded] = useState<boolean>(false);
   const [openSuccessDeleted, setOpenSuccessDeleted] = useState<boolean>(false);
 
@@ -43,25 +40,25 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
 
   const buttonFavouriteHandler = (movieID: number) => {
     const isFavourite = favID.includes(movieID);
-    console.log("buttonFavouriteHandler: work");
-    dispatch(updateFavourites({ userID, movieID, isFavourite }));
     if (!isFavourite) {
       setOpenSuccessAdded(true);
     }
     if (isFavourite) {
       setOpenSuccessDeleted(true);
     }
+    dispatch(updateFavourites({ userID, movieID, isFavourite }));
   };
 
   const buttonWatchlistHandler = (movieID: number) => {
     const isWatched = watchID.includes(movieID);
-    console.log("buttonWatchlistHandler: work");
     dispatch(updateWatchlist({ userID, movieID, isWatched }));
     if (!isWatched) {
       setOpenSuccessAdded(true);
+      return;
     }
     if (isWatched) {
       setOpenSuccessDeleted(true);
+      return;
     }
   };
 
@@ -95,24 +92,13 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
   return films.results.map((movie: any, i: number) => {
     return (
       <ThemeProvider theme={theme} key={movie.id}>
-        <Fade in={movie.length !== 0} unmountOnExit style={{ transitionDelay: `${100 * i}ms` }}>
-          <Box
-            sx={
-              style && !!Object.keys(style).length
-                ? style
-                : {
-                    p: 1.5,
-                    display: "flex",
-                    backgroundColor: "$backgroundColor",
-                    width: "33vw",
-                    flex: "1 1 auto",
-                  }
-            }
-          >
-            <Card sx={{ display: "flex", flexDirection: "row", backgroundColor: "#383b47", color: "white", ml: 1.5, width: "100%" }}>
-              <Loader display={imgIsLoad ? "flex" : "none"} width='50%' />
+        <Fade in={movie.length !== 0} style={{ transitionDelay: `${100 * i}ms` }}>
+          <Box className='movieCard-wrapper' sx={style}>
+            <Card className='movieCard'>
+              <Loader display={imgIsLoad ? "flex" : "none"} width='100%' height='100%' />
               <Fade in={!imgIsLoad} style={{ transitionDelay: "100ms" }}>
                 <CardMedia
+                  className='movie-img'
                   component='img'
                   onLoad={() => setImgIsLoad(false)}
                   src={
@@ -133,20 +119,19 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
                   onClick={() => navigate(`/movie/${movie.id}`)}
                 />
               </Fade>
-              <CardContent sx={{ display: "flex", flexDirection: "column", width: "50%" }}>
+              <CardContent className='movieCard-content'>
                 <Typography gutterBottom variant='h5' component='div' onClick={() => navigate(`/movie/${movie.id}`)} sx={{ cursor: "pointer" }}>
                   {movie.title}
                 </Typography>
                 <Typography component='legend'>Рейтинг: {movie.vote_average} stars</Typography>
                 <Rating
+                  className='movieCard-rating'
                   precision={0.5}
                   size='small'
                   readOnly
                   defaultValue={movie.vote_average}
-                  onChange={(event, newValue) => console.log(newValue)}
                   emptyIcon={<StarIcon style={{ opacity: 0.5, color: "#efe1ce" }} fontSize='inherit' />}
                   max={10}
-                  sx={{ color: "$primaryColor" }}
                 />
                 <Typography sx={{ mt: 1, width: "100%" }}>
                   {movie.overview.length === 0
@@ -156,7 +141,7 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
                     : movie.overview}
                 </Typography>
                 {userID !== undefined && (
-                  <Box sx={{ display: "flex", mt: "auto", width: "100%", justifyContent: "flex-end" }}>
+                  <Box className='movieCard-buttons'>
                     {!favID.includes(movie.id) ? (
                       <Tooltip TransitionComponent={Fade} TransitionProps={{ timeout: 300 }} title='Добавить фильм в любимые'>
                         <FavoriteBorderIcon sx={{ cursor: "pointer" }} onClick={() => buttonFavouriteHandler(movie.id)} />
@@ -179,12 +164,12 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
                 )}
               </CardContent>
             </Card>
-            <Snackbar open={openSuccessAdded} autoHideDuration={1500} onClose={handleClose}>
+            <Snackbar className='successAddSnackbar' open={openSuccessAdded} autoHideDuration={500} onClose={handleClose}>
               <Alert onClose={handleClose} severity='success' sx={{ width: "100%" }}>
                 Добавлено успешно!
               </Alert>
             </Snackbar>
-            <Snackbar open={openSuccessDeleted} autoHideDuration={1500} onClose={handleClose}>
+            <Snackbar className='successDeleteSnackbar' open={openSuccessDeleted} autoHideDuration={500} onClose={handleClose}>
               <Alert onClose={handleClose} severity='error' sx={{ width: "100%" }}>
                 Успешно удалено!
               </Alert>
@@ -194,6 +179,9 @@ const MovieList: FC<MovieListProps> = ({ films, imgIsLoad, setImgIsLoad, style, 
       </ThemeProvider>
     );
   });
-};
+});
 
 export default MovieList;
+
+//TODO
+// Пофиксить паддинги в LoginModal

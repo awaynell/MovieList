@@ -67,42 +67,37 @@ const LoginModal = () => {
     <ThemeProvider theme={theme}>
       <Box>
         <Modal
+          className='loginModal-wrapper'
           keepMounted
           open={showModal}
           onClose={() => dispatch({ type: IS_SHOW_MODAL, payload: false })}
           aria-labelledby='keep-mounted-modal-title'
           aria-describedby='keep-mounted-modal-description'
-          sx={{ width: "100vw", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}
         >
           <Grow in={showModal}>
-            <Box
-              sx={{
-                backgroundColor: "#282d3c",
-                boxShadow: "1px 3px 34px 4px rgba(34, 60, 80, 0.2)",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "30vw",
-                height: "50vh",
-                borderRadius: "10px",
-                p: 10,
-              }}
-            >
+            <Box className='loginModal-content'>
               <Typography sx={{ width: "100%", textAlign: "center" }}>Вы можете войти, если у вас есть аккаунт на TheMovieDB</Typography>
-              <Box component='form' sx={{ display: "flex", width: "100%", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+              <Box
+                component='form'
+                sx={{
+                  display: "flex",
+                  width: "100%",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <FormControl sx={{ width: "100%", mt: 1 }} required>
                   <InputLabel sx={{ mt: 1 }}>Login</InputLabel>
                   <FilledInput margin='dense' onChange={handleChange("login")} required />
                 </FormControl>
-                <FormControl sx={{ width: "100%", mt: 1 }} required>
+                <FormControl sx={{ width: "100%", mt: 1, backgroundColor: "transparent" }} required>
                   <InputLabel sx={{ mt: 1 }}>Password</InputLabel>
                   <FilledInput
                     type={authValue.showPassword ? "text" : "password"}
-                    value={authValue.password}
                     onChange={handleChange("password")}
                     endAdornment={
-                      <InputAdornment position='end'>
+                      <InputAdornment position='end' sx={{ pl: 4 }}>
                         <IconButton aria-label='toggle password visibility' onClick={handleClickShowPassword} edge='end'>
                           {authValue.showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                         </IconButton>

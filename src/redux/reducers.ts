@@ -8,6 +8,7 @@ import {
   REMOVE_GENRE,
   RESET_GENRES,
   SET_DATA,
+  SET_PREVIOUS_ROUTEPATH,
   SET_SEARCHED_FILMS_SUCCESS,
   SET_SEARCH_PAGE,
   SET_SEARCH_QUERY,
@@ -99,9 +100,13 @@ const searchInitialState = {
   page: 1,
   searchedMovies: {},
   loading: true,
+  prevRoutePath: "/",
 };
 
-const searchReducer = (state: { searchQuery: string; page: number; searchedMovies: object } = searchInitialState, action: PayloadAction<any>) => {
+const searchReducer = (
+  state: { searchQuery: string; page: number; searchedMovies: object; prevRoutePath: string } = searchInitialState,
+  action: PayloadAction<any>
+) => {
   switch (action.type) {
     case SET_SEARCH_QUERY:
       return { ...state, searchQuery: action.payload };
@@ -111,6 +116,8 @@ const searchReducer = (state: { searchQuery: string; page: number; searchedMovie
       return { ...state, searchedMovies: action.payload };
     case UPDATE_SEARCH_LOADING:
       return { ...state, loading: action.payload };
+    case SET_PREVIOUS_ROUTEPATH:
+      return { ...state, prevRoutePath: action.payload };
     default:
       return state;
   }

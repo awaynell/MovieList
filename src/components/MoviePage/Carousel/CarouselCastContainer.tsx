@@ -1,6 +1,6 @@
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-import "./CarouselContainer.scss";
+import "./CarouselCastContainer.scss";
 import { Lazy, Mousewheel } from "swiper";
 
 // Import Swiper styles
@@ -10,14 +10,17 @@ import "swiper/css/mousewheel";
 import { FC, useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import { Fade, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 interface CarouselProps {
   cast: Array<any>;
 }
 
-const CarouselContainer: FC<CarouselProps> = ({ cast }) => {
+const CarouselCastContainer: FC<CarouselProps> = ({ cast }) => {
   const [loadCast, setloadCast] = useState(true);
   const [imgIsLoad, setImgIsLoad] = useState(true);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
@@ -31,18 +34,28 @@ const CarouselContainer: FC<CarouselProps> = ({ cast }) => {
       spaceBetween={20}
       slidesPerView={2}
       mousewheel={true}
+      className='swiper-wrapper'
       style={{
-        width: "55vw",
-        marginLeft: 0,
         opacity: loadCast ? 0 : 1,
+        marginLeft: 0,
         transition: "1s opacity",
       }}
       breakpoints={{
-        1000: {
+        1200: {
           slidesPerView: 5,
+          spaceBetween: 65,
+        },
+        1000: {
+          slidesPerView: 4,
+          spaceBetween: 65,
         },
         700: {
+          slidesPerView: 5,
+          spaceBetween: 90,
+        },
+        300: {
           slidesPerView: 3,
+          spaceBetween: 50,
         },
       }}
     >
@@ -52,7 +65,7 @@ const CarouselContainer: FC<CarouselProps> = ({ cast }) => {
           .map((actor: any, i: number) => {
             return (
               <SwiperSlide key={actor.id} style={{ width: "90%" }}>
-                <Box sx={{ width: "90%" }}>
+                <Box sx={{ width: "90%", cursor: "pointer" }} onClick={() => navigate(`/person/${actor.id}`)}>
                   <img
                     style={{ height: "25vh", border: "none", borderRadius: "5px" }}
                     className='swiper-lazy'
@@ -69,4 +82,4 @@ const CarouselContainer: FC<CarouselProps> = ({ cast }) => {
   );
 };
 
-export default CarouselContainer;
+export default CarouselCastContainer;

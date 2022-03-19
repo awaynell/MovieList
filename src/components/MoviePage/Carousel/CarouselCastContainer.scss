@@ -17,3 +17,12 @@
 .swiper-lazy-preloader {
   opacity: 0 !important;
 }
+
+.swiper-wrapper {
+  width: 55vw;
+  @media (max-width: 768px) {
+    width: 100vw;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+}

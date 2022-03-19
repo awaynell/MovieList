@@ -6,3 +6,48 @@
 .MuiRating-root .MuiRating-iconEmpty {
   color: red !important;
 }
+
+.genres-chip {
+  font-size: 33px;
+  padding-left: 20px;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 2px 2px;
+  color: red;
+}
+.moviesPage-wrapper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: start;
+  flex-direction: row-reverse;
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    margin-top: 5px;
+  }
+  .moviesPage-sidebar {
+    display: flex;
+    justify-content: end;
+    flex-direction: column;
+    padding-top: 0.75em;
+    width: 15vw;
+    margin-top: 2.5rem;
+    @media (max-width: 1024px) {
+      width: 95%;
+      align-items: center;
+      padding-left: 1rem;
+      margin-top: 0;
+    }
+  }
+  .moviesPage-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    width: 80vw;
+    @media (max-width: 1024px) {
+      width: 100%;
+    }
+  }
+  .MuiPaper-root {
+    background-color: white;
+  }
+}

@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { AppBar, Avatar, Box, Button, Link, TextField, Toolbar, Typography } from "@mui/material";
+import { AppBar, Avatar, Box, Button, IconButton, Link, Menu, MenuItem, MenuList, TextField, Toolbar, Typography } from "@mui/material";
 import { ThemeProvider } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
-import { isShowModal, setSearchPage, setSearchQuery } from "../../redux/actionCreators";
+import { isShowModal, setPreviousRoutePath, setSearchPage, setSearchQuery } from "../../redux/actionCreators";
 import { userInfo } from "../../redux/selectors";
 import { theme } from "../../theme/theme";
 import { ADD_USERINFO_START, DELETE_USERINFO } from "../../redux/actionTypes";
 import { getSessionIDFromCookie } from "../../helpers/authHelpers/getSessionIDFromCookie";
 import { getUser, getUserInfo } from "../../helpers/authHelpers/getUser";
 import { useNavigate } from "react-router-dom";
+import MenuIcon from "@mui/icons-material/Menu";
+import ClearIcon from "@mui/icons-material/Clear";
+import "./Header.scss";
+import { debounce } from "../../helpers/debounce";
 
 const Header = React.memo(() => {
   const [avatarBackground, setAvatarBackground] = useState<string>("gray");
+  const [openMobileMenu, setOpenMobieMenu] = useState<boolean>(false);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const dispatch = useDispatch();
   const userInfoData = useSelector(userInfo);
   const navigate = useNavigate();
@@ -24,13 +30,17 @@ const Header = React.memo(() => {
     console.log("render");
   }, []);
 
-  const handleChange = (searchQuery: string) => {
-    if (searchQuery.length === 0) {
-      return;
+  const handleChange: any = (searchQuery: string) => {
+    if (window.location.pathname !== "/search") {
+      dispatch(setPreviousRoutePath(window.location.pathname));
     }
     dispatch(setSearchQuery(searchQuery));
     dispatch(setSearchPage(1));
-    navigate(`search?query=${searchQuery}`);
+    navigate(`search`);
+  };
+
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
   };
 
   return (
@@ -48,20 +58,106 @@ const Header = React.memo(() => {
             >
               MOVIE LIST
             </Typography>
+            <Box
+              className='searchInput-wrapper'
+              sx={[{ order: userInfoData.id ? 3 : 0 }]}
+              component='form'
+              onFocus={(e: EventTarget | any) => {
+                const target: HTMLInputElement | HTMLTextAreaElement = e.target.offsetParent.offsetParent;
+                console.log(target);
+                target.style.width = "100%";
+              }}
+              onBlur={(e: EventTarget | any) => {
+                const target: HTMLInputElement | HTMLTextAreaElement = e.target.offsetParent.offsetParent;
+                console.log(target);
+                target.style.width = "50%";
+              }}
+            >
+              <TextField
+                placeholder='Пишите для поиска..'
+                size='small'
+                onChange={debounce((e) => {
+                  handleChange(e.target.value);
+                }, 500)}
+              ></TextField>
+            </Box>
             {userInfoData.id ? (
               <>
-                <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
+                <Box sx={{ display: { xs: "none", sm: "flex" }, alignItems: "center", justifyContent: "center", width: "50%", mr: "auto" }}>
                   <Button onClick={() => navigate("favourite")}>Favourite movies</Button>
                   <Button onClick={() => navigate("watchlist")}>My watchlist</Button>
                 </Box>
-                <TextField
-                  sx={{ width: "50%", mr: 2 }}
-                  size='small'
-                  onChange={(e) => {
-                    handleChange(e.target.value);
+                <Box
+                  sx={{
+                    display: { xs: "block", sm: "none" },
                   }}
-                ></TextField>
-                <Box sx={{ display: "flex", alignItems: "center", ml: "auto" }}>
+                >
+                  {Boolean(anchorElNav) ? (
+                    <IconButton
+                      size='large'
+                      aria-label='account of current user'
+                      aria-controls='menu-appbar'
+                      aria-haspopup='true'
+                      color='inherit'
+                      onClick={() => setAnchorElNav(null)}
+                      sx={{ order: 3, zIndex: 99 }}
+                    >
+                      <ClearIcon />
+                    </IconButton>
+                  ) : (
+                    <IconButton
+                      size='large'
+                      aria-label='account of current user'
+                      aria-controls='menu-appbar'
+                      aria-haspopup='true'
+                      color='inherit'
+                      onClick={handleOpenNavMenu}
+                    >
+                      <MenuIcon sx={{ order: 3, position: "relative", zIndex: 99 }} />
+                    </IconButton>
+                  )}
+
+                  <Menu
+                    open={Boolean(anchorElNav)}
+                    onClose={() => setAnchorElNav(null)}
+                    anchorEl={anchorElNav}
+                    sx={{ zIndex: 95, overflow: "hidden" }}
+                    className='header-mobileMenu'
+                  >
+                    <MenuList sx={{ width: "100vw", height: "100vh", p: 0, m: 0 }}>
+                      <MenuItem className='header-mobileItem' onClick={() => setAnchorElNav(null)}>
+                        <Button onClick={() => navigate("favourite")} sx={{ width: "100%", fontSize: "1rem" }}>
+                          Favourite movies
+                        </Button>
+                      </MenuItem>
+                      <MenuItem className='header-mobileItem' onClick={() => setAnchorElNav(null)}>
+                        <Button onClick={() => navigate("watchlist")} sx={{ width: "100%", fontSize: "1rem" }}>
+                          My watchlist
+                        </Button>
+                      </MenuItem>
+                      <MenuItem className='header-mobileItem' sx={{ width: "100%", justifyContent: "center" }}>
+                        {userInfoData.avatar.tmdb.avatar_path === null ? (
+                          <Avatar sx={{ backgroundColor: avatarBackground, mr: 0.5 }} />
+                        ) : (
+                          <Avatar alt='Remy Sharp' src={`https://image.tmdb.org/t/p/w500/${userInfoData.avatar.tmdb.avatar_path}`} sx={{ mr: 0.5 }} />
+                        )}
+                        <Typography sx={{ mr: 2, fontSize: "1rem", textAlign: "center" }}>{userInfoData.username}</Typography>
+                      </MenuItem>
+                      <MenuItem
+                        className='header-mobileItem'
+                        onClick={() => setAnchorElNav(null)}
+                        sx={{ mr: 2, width: "100%", fontSize: "1rem", justifyContent: "center" }}
+                      >
+                        <Button variant='contained' color='primary' onClick={() => dispatch({ type: DELETE_USERINFO })} sx={{ width: "80%" }}>
+                          <Typography fontWeight={400} letterSpacing={1.2} color='#efe1ce'>
+                            Выйти
+                          </Typography>
+                        </Button>
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
+                </Box>
+                <Box sx={{ display: { xs: "none", sm: "flex" }, alignItems: "center", order: 4 }}>
                   {userInfoData.avatar.tmdb.avatar_path === null ? (
                     <Avatar sx={{ backgroundColor: avatarBackground, mr: 0.5 }} />
                   ) : (

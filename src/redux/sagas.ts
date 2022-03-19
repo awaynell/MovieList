@@ -1,5 +1,5 @@
 import { getUser, getUserInfo } from "./../helpers/authHelpers/getUser";
-import { debounce, put, select, take, takeEvery, takeLatest, takeLeading } from "redux-saga/effects";
+import { debounce, put, select, take, takeEvery, takeLatest, takeLeading, takeMaybe, throttle } from "redux-saga/effects";
 import { getYears } from "../helpers/getYears";
 import {
   ADD_GENRE,
@@ -81,6 +81,6 @@ export function* rootSaga() {
   yield takeEvery(ADD_USERINFO_START, getUserFromCookieSaga);
   yield takeEvery(UPDATE_FAVOURITES, updateFavouritesSaga);
   yield takeEvery(UPDATE_WATCHLIST, updateWatchlistSaga);
-  yield debounce(700, SET_SEARCH_QUERY, searchFilms);
+  yield takeEvery(SET_SEARCH_QUERY, searchFilms);
   yield takeEvery(SET_SEARCH_PAGE, searchFilms);
 }

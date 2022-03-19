@@ -1,18 +1,21 @@
 import "./MoviePage.scss";
-import { Box, Button, Chip, Fade, Rating, ThemeProvider, Typography } from "@mui/material";
-import React, { FC, useState } from "react";
+import { usePalette } from "react-palette";
+import { Box, Button, Chip, Fade, hexToRgb, Rating, ThemeProvider, Typography } from "@mui/material";
+import React, { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useData } from "../../hooks/useData";
 import { theme } from "../../theme/theme";
 import Loader from "../MoviesPage/Loader/Loader";
 import StarIcon from "@mui/icons-material/Star";
 import ModalTrailer from "./ModalTrailer/ModalTrailer";
-import CarouselContainer from "./Carousel/CarouselContainer";
+import CarouselContainer from "./Carousel/CarouselCastContainer";
+import Palette from "react-palette";
 
 const MoviePage = () => {
   const { id } = useParams();
   const [isOpenModalTrailer, setIsOpenModalTrailer] = useState<boolean>(false);
   const [backdropLoading, setBackdropLoading] = useState<boolean>(true);
+  const [dominantColor, setDominantColor] = useState<string | undefined>("transparent");
 
   const [movieDetails, loadingMovieDetails, error] = useData(`/movie/${id}`, {
     language: "ru-RU",
@@ -24,7 +27,29 @@ const MoviePage = () => {
     language: "ru-RU",
   });
 
-  console.log("movieCast: ", movieCast);
+  const { data: palette, loading: loadingPalette } = usePalette(`https://image.tmdb.org/t/p/w500/${movieDetails.backdrop_path}`);
+
+  window.onresize = () => {
+    !!palette && getADominantColor();
+    console.log(dominantColor);
+  };
+  window.onload = () => {
+    !!palette && getADominantColor();
+  };
+
+  const getADominantColor = () => {
+    if (document.body.offsetWidth <= 768) {
+      setDominantColor(palette.darkMuted);
+    } else if (document.body.offsetWidth > 768) {
+      setDominantColor("transparent");
+    }
+  };
+
+  useEffect(() => {
+    if (!!palette) {
+      getADominantColor();
+    }
+  }, [loadingMovieDetails, palette]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -32,33 +57,49 @@ const MoviePage = () => {
         <Loader display='flex' width='100%' />
       ) : (
         <>
-          <Fade in={!loadingMovieDetails} style={{ transitionDelay: "300ms" }}>
-            <img
-              className='movie-backdrop'
-              onLoad={() => setBackdropLoading(false)}
-              src={`https://image.tmdb.org/t/p/original/${movieDetails.backdrop_path}`}
-              style={{ opacity: backdropLoading ? 0 : 1, transition: "1s opacity" }}
-            ></img>
-          </Fade>
-          <Box className='movie-wrapper' sx={{ mt: 4 }}>
+          <Box className='movie-wrapper' style={{}}>
+            <Fade in={!loadingMovieDetails} style={{ transitionDelay: "300ms" }}>
+              <img
+                className='movie-backdrop'
+                onLoad={() => setBackdropLoading(false)}
+                src={`https://image.tmdb.org/t/p/original/${movieDetails.backdrop_path}`}
+                style={{ opacity: backdropLoading ? 0 : 1, transition: "1s opacity" }}
+              />
+            </Fade>
             <Box className='movie-details'>
               <Fade in={!loadingMovieDetails} style={{ transitionDelay: "150ms" }}>
-                <Box className='movie-poster' sx={{ width: "45%", height: "100%", mt: 1 }}>
-                  <img src={`https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`} />
+                <Box className='movie-poster'>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`}
+                    onClick={() => (window.location.href = `https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`)}
+                  />
+                  {!loadingMovieTrailers && movieTrailers.results.length !== 0 && (
+                    <>
+                      <ModalTrailer youtubeID={movieTrailers.results[0].key} isOpen={isOpenModalTrailer} setIsOpen={setIsOpenModalTrailer} />
+                      <Fade in={!loadingMovieTrailers} style={{ transitionDelay: "1200ms" }}>
+                        <Button className='movie-btnTrailer' sx={{}} onClick={() => setIsOpenModalTrailer(true)}>
+                          Смотреть трейлер
+                        </Button>
+                      </Fade>
+                    </>
+                  )}
                 </Box>
               </Fade>
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <Box className='movie-titles'>
                 <Fade in={!loadingMovieDetails} style={{ transitionDelay: "300ms" }}>
-                  <Typography sx={{ fontWeight: "500", fontSize: "1.3em", mr: 3, width: "100%" }}>{movieDetails.title}</Typography>
+                  <Box>
+                    <Typography className='movie-title'>{movieDetails.title}</Typography>
+                    <Typography className='movie-titleOriginal'>{movieDetails.original_title}</Typography>
+                  </Box>
                 </Fade>
-                <Box sx={{ display: "flex", flexDirection: "column", mb: 2 }}>
+                <Box className='movie-ins'>
                   <Fade in={!loadingMovieDetails} style={{ transitionDelay: "600ms" }}>
                     <Box>
                       <Typography className='movie-overview'>{movieDetails.overview}</Typography>
                     </Box>
                   </Fade>
                   <Fade in={!loadingMovieDetails} style={{ transitionDelay: "900ms" }}>
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Box sx={{ display: "flex", alignItems: "center", mr: 2 }}>
                       <Rating
                         precision={0.1}
                         size='medium'
@@ -71,29 +112,23 @@ const MoviePage = () => {
                     </Box>
                   </Fade>
                   <Fade in={!loadingMovieDetails} style={{ transitionDelay: "1000ms" }}>
-                    <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+                    <Box sx={{ display: "flex", flexWrap: "wrap", fontSize: "1.5rem" }}>
                       {movieDetails.genres.map(({ id, name }: { id: number; name: string }) => {
                         return <Chip key={id} label={name} />;
                       })}
                     </Box>
                   </Fade>
-                  {!loadingMovieTrailers && movieTrailers.results.length !== 0 && (
-                    <>
-                      <ModalTrailer youtubeID={movieTrailers.results[0].key} isOpen={isOpenModalTrailer} setIsOpen={setIsOpenModalTrailer} />
-                      <Fade in={!loadingMovieTrailers} style={{ transitionDelay: "1200ms" }}>
-                        <Button sx={{ width: "20%", mt: 2 }} onClick={() => setIsOpenModalTrailer(true)}>
-                          Смотреть трейлер
-                        </Button>
-                      </Fade>
-                    </>
-                  )}
                   {!loadingMovieTrailers && movieTrailers.results.length === 0 && (
                     <Fade in={!loadingMovieTrailers} style={{ transitionDelay: "1200ms" }}>
                       <Typography sx={{ mt: 2 }}>Трейлеры отсутствуют</Typography>
                     </Fade>
                   )}
                 </Box>
-                {!loadingMovieCast && <CarouselContainer cast={movieCast.cast} />}
+                <Fade in={!loadingPalette && !loadingMovieCast} style={{ transitionDelay: "1300ms" }}>
+                  <div className='movie-actors' style={{ backgroundColor: `${dominantColor}` }}>
+                    <CarouselContainer cast={movieCast.cast} />
+                  </div>
+                </Fade>
               </Box>
             </Box>
           </Box>

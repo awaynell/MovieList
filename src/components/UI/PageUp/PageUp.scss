@@ -2,8 +2,9 @@
 
 .MuiFab-root {
   position: fixed !important;
+  z-index: 99 !important;
   right: 10vw;
   top: 85vh;
   color: $primaryColor;
-  background-color: $secondaryBgColor !important;
+  background-color: lighten($backgroundColor, 10%) !important;
 }
