@@ -12,12 +12,14 @@ import { setSearchPage } from "../../redux/actionCreators";
 import { ThemeProvider } from "@emotion/react";
 import { theme } from "../../theme/theme";
 import "./Search.scss";
+import { useNavigate } from "react-router-dom";
 
 const Search = React.memo(() => {
   const [imgIsLoad, setImgIsLoad] = useState<boolean>(true);
   const [page, setPage] = useState<number>(1);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const searchQ = useSelector(searchQuery);
   const loading = useSelector(searchLoading);
@@ -33,6 +35,7 @@ const Search = React.memo(() => {
   }, [page]);
 
   if (searchQ.length === 0) {
+    navigate("/");
     return <Typography sx={{ width: "100%", height: "100%", textAlign: "center", mt: 10 }}>Введите текст в поисковую строку</Typography>;
   }
   if (!loading && searchedFilms.results.length === 0) {

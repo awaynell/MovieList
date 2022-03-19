@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import ClearIcon from "@mui/icons-material/Clear";
 import "./Header.scss";
+import { debounce } from "../../helpers/debounce";
 
 const Header = React.memo(() => {
   const [avatarBackground, setAvatarBackground] = useState<string>("gray");
@@ -29,7 +30,7 @@ const Header = React.memo(() => {
     console.log("render");
   }, []);
 
-  const handleChange = (searchQuery: string) => {
+  const handleChange: any = (searchQuery: string) => {
     dispatch(setSearchQuery(searchQuery));
     dispatch(setSearchPage(1));
     navigate(`search`);
@@ -72,9 +73,9 @@ const Header = React.memo(() => {
               <TextField
                 placeholder='Пишите для поиска..'
                 size='small'
-                onChange={(e) => {
+                onChange={debounce((e) => {
                   handleChange(e.target.value);
-                }}
+                }, 200)}
               ></TextField>
             </Box>
             {userInfoData.id ? (

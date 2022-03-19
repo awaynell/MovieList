@@ -81,6 +81,6 @@ export function* rootSaga() {
   yield takeEvery(ADD_USERINFO_START, getUserFromCookieSaga);
   yield takeEvery(UPDATE_FAVOURITES, updateFavouritesSaga);
   yield takeEvery(UPDATE_WATCHLIST, updateWatchlistSaga);
-  yield debounce(100, SET_SEARCH_QUERY, searchFilms);
+  yield takeEvery(SET_SEARCH_QUERY, searchFilms);
   yield takeEvery(SET_SEARCH_PAGE, searchFilms);
 }
