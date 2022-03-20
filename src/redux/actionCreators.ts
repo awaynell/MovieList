@@ -34,7 +34,13 @@ export const removeGenre = (payload: any) => ({
   payload,
 });
 
-export const setSortValue = (payload: "popularity.desc" | "popularity.asc" | "vote_average.desc" | "vote_average.asc") => ({
+export const setSortValue = (
+  payload:
+    | "popularity.desc"
+    | "popularity.asc"
+    | "vote_average.desc"
+    | "vote_average.asc"
+) => ({
   type: SET_SORT_VALUE,
   payload,
 });

@@ -8,13 +8,16 @@ import { ThemeProvider } from "@emotion/react";
 import { theme } from "./theme/theme";
 import { useEffect, useState } from "react";
 
+
+const App = () => {
   return (
-        <>
-          <Header />
-          <LoginModal />
-          <AppRouter />
-                </>
+    <>
+      <Header />
+      <LoginModal />
+      <AppRouter />
+    </>
   );
-};
+}
+
 
 export default App;
