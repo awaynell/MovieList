@@ -1,8 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { AppBar, Avatar, Box, Button, IconButton, Link, Menu, MenuItem, MenuList, TextField, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  IconButton,
+  Link,
+  Menu,
+  MenuItem,
+  MenuList,
+  TextField,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import { ThemeProvider } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
-import { isShowModal, setPreviousRoutePath, setSearchPage, setSearchQuery } from "../../redux/actionCreators";
+import {
+  isShowModal,
+  setPreviousRoutePath,
+  setSearchPage,
+  setSearchQuery,
+} from "../../redux/actionCreators";
 import { userInfo } from "../../redux/selectors";
 import { theme } from "../../theme/theme";
 import { ADD_USERINFO_START, DELETE_USERINFO } from "../../redux/actionTypes";
@@ -54,8 +72,7 @@ const Header = React.memo(() => {
               variant='h6'
               component='div'
               sx={{ cursor: "pointer", whiteSpace: "nowrap", mr: "auto" }}
-              onClick={() => navigate("")}
-            >
+              onClick={() => navigate("")}>
               MOVIE LIST
             </Typography>
             <Box
@@ -63,35 +80,41 @@ const Header = React.memo(() => {
               sx={[{ order: userInfoData.id ? 3 : 0 }]}
               component='form'
               onFocus={(e: EventTarget | any) => {
-                const target: HTMLInputElement | HTMLTextAreaElement = e.target.offsetParent.offsetParent;
+                const target: HTMLInputElement | HTMLTextAreaElement =
+                  e.target.offsetParent.offsetParent;
                 console.log(target);
                 target.style.width = "100%";
               }}
               onBlur={(e: EventTarget | any) => {
-                const target: HTMLInputElement | HTMLTextAreaElement = e.target.offsetParent.offsetParent;
+                const target: HTMLInputElement | HTMLTextAreaElement =
+                  e.target.offsetParent.offsetParent;
                 console.log(target);
                 target.style.width = "50%";
-              }}
-            >
+              }}>
               <TextField
                 placeholder='Пишите для поиска..'
                 size='small'
                 onChange={debounce((e) => {
                   handleChange(e.target.value);
-                }, 500)}
-              ></TextField>
+                }, 500)}></TextField>
             </Box>
             {userInfoData.id ? (
               <>
-                <Box sx={{ display: { xs: "none", sm: "flex" }, alignItems: "center", justifyContent: "center", width: "50%", mr: "auto" }}>
+                <Box
+                  sx={{
+                    display: { xs: "none", sm: "flex" },
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "50%",
+                    mr: "auto",
+                  }}>
                   <Button onClick={() => navigate("favourite")}>Favourite movies</Button>
                   <Button onClick={() => navigate("watchlist")}>My watchlist</Button>
                 </Box>
                 <Box
                   sx={{
                     display: { xs: "block", sm: "none" },
-                  }}
-                >
+                  }}>
                   {Boolean(anchorElNav) ? (
                     <IconButton
                       size='large'
@@ -100,8 +123,7 @@ const Header = React.memo(() => {
                       aria-haspopup='true'
                       color='inherit'
                       onClick={() => setAnchorElNav(null)}
-                      sx={{ order: 3, zIndex: 99 }}
-                    >
+                      sx={{ order: 3, zIndex: 99 }}>
                       <ClearIcon />
                     </IconButton>
                   ) : (
@@ -111,8 +133,7 @@ const Header = React.memo(() => {
                       aria-controls='menu-appbar'
                       aria-haspopup='true'
                       color='inherit'
-                      onClick={handleOpenNavMenu}
-                    >
+                      onClick={handleOpenNavMenu}>
                       <MenuIcon sx={{ order: 3, position: "relative", zIndex: 99 }} />
                     </IconButton>
                   )}
@@ -122,33 +143,47 @@ const Header = React.memo(() => {
                     onClose={() => setAnchorElNav(null)}
                     anchorEl={anchorElNav}
                     sx={{ zIndex: 95, overflow: "hidden" }}
-                    className='header-mobileMenu'
-                  >
+                    className='header-mobileMenu'>
                     <MenuList sx={{ width: "100vw", height: "100vh", p: 0, m: 0 }}>
                       <MenuItem className='header-mobileItem' onClick={() => setAnchorElNav(null)}>
-                        <Button onClick={() => navigate("favourite")} sx={{ width: "100%", fontSize: "1rem" }}>
+                        <Button
+                          onClick={() => navigate("favourite")}
+                          sx={{ width: "100%", fontSize: "1rem" }}>
                           Favourite movies
                         </Button>
                       </MenuItem>
                       <MenuItem className='header-mobileItem' onClick={() => setAnchorElNav(null)}>
-                        <Button onClick={() => navigate("watchlist")} sx={{ width: "100%", fontSize: "1rem" }}>
+                        <Button
+                          onClick={() => navigate("watchlist")}
+                          sx={{ width: "100%", fontSize: "1rem" }}>
                           My watchlist
                         </Button>
                       </MenuItem>
-                      <MenuItem className='header-mobileItem' sx={{ width: "100%", justifyContent: "center" }}>
+                      <MenuItem
+                        className='header-mobileItem'
+                        sx={{ width: "100%", justifyContent: "center" }}>
                         {userInfoData.avatar.tmdb.avatar_path === null ? (
                           <Avatar sx={{ backgroundColor: avatarBackground, mr: 0.5 }} />
                         ) : (
-                          <Avatar alt='Remy Sharp' src={`https://image.tmdb.org/t/p/w500/${userInfoData.avatar.tmdb.avatar_path}`} sx={{ mr: 0.5 }} />
+                          <Avatar
+                            alt='Remy Sharp'
+                            src={`https://image.tmdb.org/t/p/w500/${userInfoData.avatar.tmdb.avatar_path}`}
+                            sx={{ mr: 0.5 }}
+                          />
                         )}
-                        <Typography sx={{ mr: 2, fontSize: "1rem", textAlign: "center" }}>{userInfoData.username}</Typography>
+                        <Typography sx={{ mr: 2, fontSize: "1rem", textAlign: "center" }}>
+                          {userInfoData.username}
+                        </Typography>
                       </MenuItem>
                       <MenuItem
                         className='header-mobileItem'
                         onClick={() => setAnchorElNav(null)}
-                        sx={{ mr: 2, width: "100%", fontSize: "1rem", justifyContent: "center" }}
-                      >
-                        <Button variant='contained' color='primary' onClick={() => dispatch({ type: DELETE_USERINFO })} sx={{ width: "80%" }}>
+                        sx={{ mr: 2, width: "100%", fontSize: "1rem", justifyContent: "center" }}>
+                        <Button
+                          variant='contained'
+                          color='primary'
+                          onClick={() => dispatch({ type: DELETE_USERINFO })}
+                          sx={{ width: "80%" }}>
                           <Typography fontWeight={400} letterSpacing={1.2} color='#efe1ce'>
                             Выйти
                           </Typography>
@@ -161,10 +196,17 @@ const Header = React.memo(() => {
                   {userInfoData.avatar.tmdb.avatar_path === null ? (
                     <Avatar sx={{ backgroundColor: avatarBackground, mr: 0.5 }} />
                   ) : (
-                    <Avatar alt='Remy Sharp' src={`https://image.tmdb.org/t/p/w500/${userInfoData.avatar.tmdb.avatar_path}`} sx={{ mr: 0.5 }} />
+                    <Avatar
+                      alt='Remy Sharp'
+                      src={`https://image.tmdb.org/t/p/w500/${userInfoData.avatar.tmdb.avatar_path}`}
+                      sx={{ mr: 0.5 }}
+                    />
                   )}
                   <Typography sx={{ mr: 2 }}>{userInfoData.username}</Typography>
-                  <Button variant='contained' color='primary' onClick={() => dispatch({ type: DELETE_USERINFO })}>
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    onClick={() => dispatch({ type: DELETE_USERINFO })}>
                     <Typography fontWeight={400} letterSpacing={1.2} color='#efe1ce'>
                       Выйти
                     </Typography>
@@ -172,7 +214,10 @@ const Header = React.memo(() => {
                 </Box>
               </>
             ) : (
-              <Button variant='contained' color='primary' onClick={() => dispatch(isShowModal(true))}>
+              <Button
+                variant='contained'
+                color='primary'
+                onClick={() => dispatch(isShowModal(true))}>
                 <Typography fontWeight={400} letterSpacing={1.2} color='#efe1ce'>
                   Войти
                 </Typography>

@@ -57,15 +57,16 @@ const CarouselCastContainer: FC<CarouselProps> = ({ cast }) => {
           slidesPerView: 3,
           spaceBetween: 50,
         },
-      }}
-    >
+      }}>
       {!loadCast &&
         cast
           .filter((item: any) => item.profile_path !== null && item.gender !== 0)
           .map((actor: any, i: number) => {
             return (
               <SwiperSlide key={actor.id} style={{ width: "90%" }}>
-                <Box sx={{ width: "90%", cursor: "pointer" }} onClick={() => navigate(`/person/${actor.id}`)}>
+                <Box
+                  sx={{ width: "90%", cursor: "pointer" }}
+                  onClick={() => navigate(`/person/${actor.id}`)}>
                   <img
                     style={{ height: "25vh", border: "none", borderRadius: "5px" }}
                     className='swiper-lazy'
