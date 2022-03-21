@@ -6,8 +6,6 @@ import LoginModal from "./components/MoviesPage/LoginModal/LoginModal";
 const App = () => {
   return (
     <>
-      <Header />
-      <LoginModal />
       <AppRouter />
     </>
   );
