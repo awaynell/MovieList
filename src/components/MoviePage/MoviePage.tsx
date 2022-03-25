@@ -18,7 +18,6 @@ import Loader from "../MoviesPage/Loader/Loader";
 import StarIcon from "@mui/icons-material/Star";
 import ModalTrailer from "./ModalTrailer/ModalTrailer";
 import CarouselContainer from "./Carousel/CarouselCastContainer";
-import Palette from "react-palette";
 
 const MoviePage = () => {
   const { id } = useParams();
