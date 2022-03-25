@@ -1,6 +1,15 @@
 import "./MoviePage.scss";
 import { usePalette } from "react-palette";
-import { Box, Button, Chip, Fade, hexToRgb, Rating, ThemeProvider, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Chip,
+  Fade,
+  hexToRgb,
+  Rating,
+  ThemeProvider,
+  Typography,
+} from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useData } from "../../hooks/useData";
@@ -27,7 +36,9 @@ const MoviePage = () => {
     language: "ru-RU",
   });
 
-  const { data: palette, loading: loadingPalette } = usePalette(`https://image.tmdb.org/t/p/w500/${movieDetails.backdrop_path}`);
+  const { data: palette, loading: loadingPalette } = usePalette(
+    `https://image.tmdb.org/t/p/w500/${movieDetails.backdrop_path}`,
+  );
 
   window.onresize = () => {
     !!palette && getADominantColor();
@@ -71,13 +82,22 @@ const MoviePage = () => {
                 <Box className='movie-poster'>
                   <img
                     src={`https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`}
-                    onClick={() => (window.location.href = `https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`)}
+                    onClick={() =>
+                      (window.location.href = `https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`)
+                    }
                   />
                   {!loadingMovieTrailers && movieTrailers.results.length !== 0 && (
                     <>
-                      <ModalTrailer youtubeID={movieTrailers.results[0].key} isOpen={isOpenModalTrailer} setIsOpen={setIsOpenModalTrailer} />
+                      <ModalTrailer
+                        youtubeID={movieTrailers.results[0].key}
+                        isOpen={isOpenModalTrailer}
+                        setIsOpen={setIsOpenModalTrailer}
+                      />
                       <Fade in={!loadingMovieTrailers} style={{ transitionDelay: "1200ms" }}>
-                        <Button className='movie-btnTrailer' sx={{}} onClick={() => setIsOpenModalTrailer(true)}>
+                        <Button
+                          className='movie-btnTrailer'
+                          sx={{}}
+                          onClick={() => setIsOpenModalTrailer(true)}>
                           Смотреть трейлер
                         </Button>
                       </Fade>
@@ -89,7 +109,9 @@ const MoviePage = () => {
                 <Fade in={!loadingMovieDetails} style={{ transitionDelay: "300ms" }}>
                   <Box>
                     <Typography className='movie-title'>{movieDetails.title}</Typography>
-                    <Typography className='movie-titleOriginal'>{movieDetails.original_title}</Typography>
+                    <Typography className='movie-titleOriginal'>
+                      {movieDetails.original_title}
+                    </Typography>
                   </Box>
                 </Fade>
                 <Box className='movie-ins'>
@@ -102,11 +124,13 @@ const MoviePage = () => {
                     <Box sx={{ display: "flex", alignItems: "center", mr: 2 }}>
                       <Rating
                         precision={0.1}
-                        size='medium'
+                        size={document.body.offsetWidth < 376 ? "small" : "medium"}
                         readOnly
                         defaultValue={movieDetails.vote_average}
                         max={10}
-                        emptyIcon={<StarIcon style={{ opacity: 0.5, color: "#efe1ce" }} fontSize='inherit' />}
+                        emptyIcon={
+                          <StarIcon style={{ opacity: 0.5, color: "#efe1ce" }} fontSize='inherit' />
+                        }
                       />
                       <Typography component='legend'>{movieDetails.vote_average}</Typography>
                     </Box>
@@ -124,7 +148,9 @@ const MoviePage = () => {
                     </Fade>
                   )}
                 </Box>
-                <Fade in={!loadingPalette && !loadingMovieCast} style={{ transitionDelay: "1300ms" }}>
+                <Fade
+                  in={!loadingPalette && !loadingMovieCast}
+                  style={{ transitionDelay: "1300ms" }}>
                   <div className='movie-actors' style={{ backgroundColor: `${dominantColor}` }}>
                     <CarouselContainer cast={movieCast.cast} />
                   </div>

@@ -64,6 +64,14 @@
       }
     }
   }
+  @media (max-width: 376px) {
+    .movie-titles {
+      font-size: 1.1rem;
+      .movie-titleOriginal {
+        font-size: 0.9rem;
+      }
+    }
+  }
 }
 .movie-poster {
   margin-right: 30px;
@@ -118,9 +126,14 @@
     padding: 0 1% 0 1%;
     font-size: 0.7rem;
   }
+  @media (max-width: 376px) {
+    font-size: 0.9rem !important;
+  }
 }
 .movie-actors {
-  padding-left: 2rem;
+  @media (max-width: 769px) {
+    padding-left: 2rem;
+  }
 }
 
 .MuiChip-root {
