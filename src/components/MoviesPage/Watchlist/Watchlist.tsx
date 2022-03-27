@@ -11,7 +11,10 @@ import "./Watchlist.scss";
 
 const Watchlist = () => {
   const [imgIsLoad, setImgIsLoad] = useState<boolean>(true);
-  const [watchedMovies, setWatchedMovies] = useState<{ results: []; total_pages: number }>({ results: [], total_pages: 1 });
+  const [watchedMovies, setWatchedMovies] = useState<{ results: []; total_pages: number }>({
+    results: [],
+    total_pages: 1,
+  });
   const [loading, setLoading] = useState<boolean>(true);
   const [page, setPage] = useState<number>(1);
 
@@ -23,23 +26,37 @@ const Watchlist = () => {
       language: "ru-RU",
       page: page,
     })
-      .then((json) => setWatchedMovies(json))
+      .then((json) =>
+        setWatchedMovies({
+          ...watchedMovies,
+          results: json,
+          total_pages: Math.trunc(json.length / 20),
+        }),
+      )
       .then(() => setLoading(false));
   };
 
   useEffect(() => {
     getWatchedMovie();
-  }, [watchedID, page]);
+  }, [watchedID]);
 
   return (
     <Box className='watchlist-wrapper'>
       {loading ? (
         <Loader display='flex' width='100%' />
       ) : watchedMovies.results.length === 0 ? (
-        <Typography sx={{ width: "100%", textAlign: "center", mt: 3 }}>У вас нет выбранных для просмотра фильмов</Typography>
+        <Typography sx={{ width: "100%", textAlign: "center", mt: 3 }}>
+          У вас нет выбранных для просмотра фильмов
+        </Typography>
       ) : (
         <>
-          <MovieList films={watchedMovies} imgIsLoad={imgIsLoad} setImgIsLoad={setImgIsLoad} page={page} style={{ flex: "1 1 48%" }} />
+          <MovieList
+            films={watchedMovies}
+            imgIsLoad={imgIsLoad}
+            setImgIsLoad={setImgIsLoad}
+            page={page}
+            style={{ flex: "1 1 48%" }}
+          />
           <PageUp />
         </>
       )}

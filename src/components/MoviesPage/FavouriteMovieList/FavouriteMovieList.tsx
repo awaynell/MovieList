@@ -26,24 +26,20 @@ const FavouriteMovieList = () => {
 
   const { id } = useSelector(userInfo);
 
-  // const [data, loading, error] = useData(`/account/${id}/favorite/movies`, {
-  //   api_key: apiKey,
-  //   session_id: getSessionIDFromCookie().value,
-  //   language: "ru-RU",
-  // });
-
   const getFavMovies = () => {
     getFavouriteMovies(id, {
       language: "ru-RU",
       page: page,
     })
-      .then((json) => setFavMovies(json))
+      .then((json) =>
+        setFavMovies({ ...favMovies, results: json, total_pages: Math.trunc(json.length / 20) }),
+      )
       .then(() => setLoading(false));
   };
 
   useEffect(() => {
     getFavMovies();
-  }, [favID, page]);
+  }, [favID]);
 
   return (
     <Box className='favMovies-wrapper'>
@@ -60,14 +56,6 @@ const FavouriteMovieList = () => {
             page={page}
             style={{ flex: "1 1 48%" }}
           />
-          {favMovies.total_pages > 1 && (
-            <Pagination
-              count={favMovies.total_pages}
-              onChange={(e, page) => {
-                setPage(page);
-              }}
-            />
-          )}
         </>
       )}
     </Box>

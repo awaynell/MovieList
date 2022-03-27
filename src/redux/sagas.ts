@@ -1,5 +1,15 @@
 import { getUser, getUserInfo } from "./../helpers/authHelpers/getUser";
-import { debounce, put, select, take, takeEvery, takeLatest, takeLeading, takeMaybe, throttle } from "redux-saga/effects";
+import {
+  debounce,
+  put,
+  select,
+  take,
+  takeEvery,
+  takeLatest,
+  takeLeading,
+  takeMaybe,
+  throttle,
+} from "redux-saga/effects";
 import { getYears } from "../helpers/getYears";
 import {
   ADD_GENRE,
@@ -44,21 +54,30 @@ function* getUserFromCookieSaga() {
 }
 
 function* updateFavouritesSaga(action: any) {
-  console.log("updateFavouritesSaga");
-  yield call(setFavouriteFilm, action.payload.userID, action.payload.movieID, action.payload.isFavourite);
-  const favouriteMovies: { results: [] } = yield call(getFavouriteMovies, action.payload.userID, {
+  yield call(
+    setFavouriteFilm,
+    action.payload.userID,
+    action.payload.movieID,
+    action.payload.isFavourite,
+  );
+  const favouriteMovies: any[] = yield call(getFavouriteMovies, action.payload.userID, {
     language: "ru-RU",
   });
-  const res = favouriteMovies.results.map((item: { id: number }) => item.id);
+  const res = favouriteMovies.map((item: { id: number }) => item.id);
   yield put(setFavouritesMovies(res));
 }
 
 function* updateWatchlistSaga(action: any) {
-  yield call(setWatchlistMovie, action.payload.userID, action.payload.movieID, action.payload.isWatched);
-  const watchlistMovies: { results: [] } = yield call(getWatchlist, action.payload.userID, {
+  yield call(
+    setWatchlistMovie,
+    action.payload.userID,
+    action.payload.movieID,
+    action.payload.isWatched,
+  );
+  const watchlistMovies: any[] = yield call(getWatchlist, action.payload.userID, {
     language: "ru-RU",
   });
-  const res = watchlistMovies.results.map((item: { id: number }) => item.id);
+  const res = watchlistMovies.map((item: { id: number }) => item.id);
   yield put(setWatchlist(res));
 }
 
@@ -70,7 +89,11 @@ function* searchFilms() {
   yield put({ type: UPDATE_SEARCH_LOADING, payload: true });
   const searchQ: string = yield select(searchQuery);
   const page: number = yield select(searchPage);
-  const result: object = yield call(getSearchedMovies, { query: searchQ, language: "ru-RU", page: page });
+  const result: object = yield call(getSearchedMovies, {
+    query: searchQ,
+    language: "ru-RU",
+    page: page,
+  });
   yield put(setSearchedFilms(result));
   yield put({ type: UPDATE_SEARCH_LOADING, payload: false });
 }
