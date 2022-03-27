@@ -7,7 +7,7 @@ import { getSessionIDFromCookie } from "../../../helpers/authHelpers/getSessionI
 import Loader from "../Loader/Loader";
 import { useParams } from "react-router-dom";
 import MovieList from "../MovieList/MovieList";
-import { Box, Typography } from "@mui/material";
+import { Box, Pagination, Typography } from "@mui/material";
 import { getFavouriteMovies } from "../../../helpers/getFavouriteMovies";
 import PageUp from "../../UI/PageUp/PageUp";
 import PaginationContainer from "../Pagination/PaginationContainer";
@@ -15,7 +15,10 @@ import "./FavouriteMovieList.scss";
 
 const FavouriteMovieList = () => {
   const [imgIsLoad, setImgIsLoad] = useState<boolean>(true);
-  const [favMovies, setFavMovies] = useState<{ results: []; total_pages: number }>({ results: [], total_pages: 1 });
+  const [favMovies, setFavMovies] = useState<{ results: []; total_pages: number }>({
+    results: [],
+    total_pages: 1,
+  });
   console.log("favMovies: ", favMovies);
   const [loading, setLoading] = useState<boolean>(true);
   const [page, setPage] = useState<number>(1);
@@ -50,8 +53,21 @@ const FavouriteMovieList = () => {
         <Typography className='favMovies-undefined'>У вас нет любимых фильмов</Typography>
       ) : (
         <>
-          <MovieList films={favMovies} imgIsLoad={imgIsLoad} setImgIsLoad={setImgIsLoad} page={page} style={{ flex: "1 1 48%" }} />
-          <PageUp />
+          <MovieList
+            films={favMovies}
+            imgIsLoad={imgIsLoad}
+            setImgIsLoad={setImgIsLoad}
+            page={page}
+            style={{ flex: "1 1 48%" }}
+          />
+          {favMovies.total_pages > 1 && (
+            <Pagination
+              count={favMovies.total_pages}
+              onChange={(e, page) => {
+                setPage(page);
+              }}
+            />
+          )}
         </>
       )}
     </Box>

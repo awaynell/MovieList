@@ -1,6 +1,16 @@
-import { ThemeProvider } from "@emotion/react";
 import "./MovieList.scss";
-import { Box, Card, Fade, CardMedia, CardContent, Typography, Rating, Tooltip, Alert, Snackbar } from "@mui/material";
+import {
+  Box,
+  Card,
+  Fade,
+  CardMedia,
+  CardContent,
+  Typography,
+  Rating,
+  Tooltip,
+  Alert,
+  Snackbar,
+} from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
 import { theme } from "../../../theme/theme";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -14,7 +24,12 @@ import StarIcon from "@mui/icons-material/Star";
 import { useNavigate } from "react-router-dom";
 import { getSessionIDFromCookie } from "../../../helpers/authHelpers/getSessionIDFromCookie";
 import { getWatchlist } from "../../../helpers/getWatchlist";
-import { updateFavourites, updateWatchlist, setFavouritesMovies, setWatchlist } from "../../../redux/actionCreators";
+import {
+  updateFavourites,
+  updateWatchlist,
+  setFavouritesMovies,
+  setWatchlist,
+} from "../../../redux/actionCreators";
 import { userInfo, favouriteIDs, watchlistIDs } from "../../../redux/selectors";
 import Slide, { SlideProps } from "@mui/material/Slide";
 
@@ -26,72 +41,72 @@ interface MovieListProps {
   page?: number;
 }
 
-const MovieList: FC<MovieListProps> = React.memo(({ films, imgIsLoad, setImgIsLoad, style, page }) => {
-  const [openSuccessAdded, setOpenSuccessAdded] = useState<boolean>(false);
-  const [openSuccessDeleted, setOpenSuccessDeleted] = useState<boolean>(false);
+const MovieList: FC<MovieListProps> = React.memo(
+  ({ films, imgIsLoad, setImgIsLoad, style, page }) => {
+    const [openSuccessAdded, setOpenSuccessAdded] = useState<boolean>(false);
+    const [openSuccessDeleted, setOpenSuccessDeleted] = useState<boolean>(false);
 
-  const { id: userID } = useSelector(userInfo);
-  const favID = useSelector(favouriteIDs);
-  const watchID = useSelector(watchlistIDs);
+    const { id: userID } = useSelector(userInfo);
+    const favID = useSelector(favouriteIDs);
+    const watchID = useSelector(watchlistIDs);
 
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const buttonFavouriteHandler = (movieID: number) => {
-    const isFavourite = favID.includes(movieID);
-    if (!isFavourite) {
-      setOpenSuccessAdded(true);
-    }
-    if (isFavourite) {
-      setOpenSuccessDeleted(true);
-    }
-    dispatch(updateFavourites({ userID, movieID, isFavourite }));
-  };
+    const buttonFavouriteHandler = (movieID: number) => {
+      const isFavourite = favID.includes(movieID);
+      if (!isFavourite) {
+        setOpenSuccessAdded(true);
+      }
+      if (isFavourite) {
+        setOpenSuccessDeleted(true);
+      }
+      dispatch(updateFavourites({ userID, movieID, isFavourite }));
+    };
 
-  const buttonWatchlistHandler = (movieID: number) => {
-    const isWatched = watchID.includes(movieID);
-    dispatch(updateWatchlist({ userID, movieID, isWatched }));
-    if (!isWatched) {
-      setOpenSuccessAdded(true);
-      return;
-    }
-    if (isWatched) {
-      setOpenSuccessDeleted(true);
-      return;
-    }
-  };
+    const buttonWatchlistHandler = (movieID: number) => {
+      const isWatched = watchID.includes(movieID);
+      dispatch(updateWatchlist({ userID, movieID, isWatched }));
+      if (!isWatched) {
+        setOpenSuccessAdded(true);
+        return;
+      }
+      if (isWatched) {
+        setOpenSuccessDeleted(true);
+        return;
+      }
+    };
 
-  const getInitialData = async () => {
-    const favID = await getFavouriteMovies(userID, {
-      language: "ru-RU",
-    });
-    const favIDs = favID.results.map((item: { id: number }) => item.id);
-    dispatch(setFavouritesMovies(favIDs));
-    const watchlistID = await getWatchlist(userID, {
-      language: "ru-RU",
-    });
-    const watchlistIDs = watchlistID.results.map((item: { id: number }) => item.id);
-    dispatch(setWatchlist(watchlistIDs));
-  };
+    const getInitialData = async () => {
+      const favID = await getFavouriteMovies(userID, {
+        language: "ru-RU",
+      });
+      const favIDs = favID.results.map((item: { id: number }) => item.id);
+      dispatch(setFavouritesMovies(favIDs));
+      const watchlistID = await getWatchlist(userID, {
+        language: "ru-RU",
+      });
+      const watchlistIDs = watchlistID.results.map((item: { id: number }) => item.id);
+      dispatch(setWatchlist(watchlistIDs));
+    };
 
-  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenSuccessAdded(false);
-    setOpenSuccessDeleted(false);
-  };
+    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+      if (reason === "clickaway") {
+        return;
+      }
+      setOpenSuccessAdded(false);
+      setOpenSuccessDeleted(false);
+    };
 
-  useEffect(() => {
-    if (getSessionIDFromCookie().value !== undefined) {
-      getInitialData();
-    }
-  }, []);
+    useEffect(() => {
+      if (getSessionIDFromCookie().value !== undefined) {
+        getInitialData();
+      }
+    }, []);
 
-  return films.results.map((movie: any, i: number) => {
-    return (
-      <ThemeProvider theme={theme} key={movie.id}>
+    return films.results.map((movie: any, i: number) => {
+      return (
         <Fade in={movie.length !== 0} style={{ transitionDelay: `${100 * i}ms` }}>
           <Box className='movieCard-wrapper' sx={style}>
             <Card className='movieCard'>
@@ -120,7 +135,12 @@ const MovieList: FC<MovieListProps> = React.memo(({ films, imgIsLoad, setImgIsLo
                 />
               </Fade>
               <CardContent className='movieCard-content'>
-                <Typography gutterBottom variant='h5' component='div' onClick={() => navigate(`/movie/${movie.id}`)} sx={{ cursor: "pointer" }}>
+                <Typography
+                  gutterBottom
+                  variant='h5'
+                  component='div'
+                  onClick={() => navigate(`/movie/${movie.id}`)}
+                  sx={{ cursor: "pointer" }}>
                   {movie.title}
                 </Typography>
                 <Typography component='legend'>Рейтинг: {movie.vote_average} stars</Typography>
@@ -130,7 +150,9 @@ const MovieList: FC<MovieListProps> = React.memo(({ films, imgIsLoad, setImgIsLo
                   size='small'
                   readOnly
                   defaultValue={movie.vote_average}
-                  emptyIcon={<StarIcon style={{ opacity: 0.5, color: "#efe1ce" }} fontSize='inherit' />}
+                  emptyIcon={
+                    <StarIcon style={{ opacity: 0.5, color: "#efe1ce" }} fontSize='inherit' />
+                  }
                   max={10}
                 />
                 <Typography sx={{ mt: 1, width: "100%" }}>
@@ -143,43 +165,75 @@ const MovieList: FC<MovieListProps> = React.memo(({ films, imgIsLoad, setImgIsLo
                 {userID !== undefined && (
                   <Box className='movieCard-buttons'>
                     {!favID.includes(movie.id) ? (
-                      <Tooltip TransitionComponent={Fade} TransitionProps={{ timeout: 300 }} title='Добавить фильм в любимые'>
-                        <FavoriteBorderIcon sx={{ cursor: "pointer" }} onClick={() => buttonFavouriteHandler(movie.id)} />
+                      <Tooltip
+                        TransitionComponent={Fade}
+                        TransitionProps={{ timeout: 300 }}
+                        title='Добавить фильм в любимые'>
+                        <FavoriteBorderIcon
+                          sx={{ cursor: "pointer" }}
+                          onClick={() => buttonFavouriteHandler(movie.id)}
+                        />
                       </Tooltip>
                     ) : (
-                      <Tooltip TransitionComponent={Fade} TransitionProps={{ timeout: 300 }} title='Удалить фильм из любимых'>
-                        <FavoriteIcon sx={{ cursor: "pointer" }} onClick={() => buttonFavouriteHandler(movie.id)} />
+                      <Tooltip
+                        TransitionComponent={Fade}
+                        TransitionProps={{ timeout: 300 }}
+                        title='Удалить фильм из любимых'>
+                        <FavoriteIcon
+                          sx={{ cursor: "pointer" }}
+                          onClick={() => buttonFavouriteHandler(movie.id)}
+                        />
                       </Tooltip>
                     )}
                     {!watchID.includes(movie.id) ? (
-                      <Tooltip TransitionComponent={Fade} TransitionProps={{ timeout: 300 }} title='Добавить фильм в список просмотра'>
-                        <BookmarkBorderIcon sx={{ cursor: "pointer" }} onClick={() => buttonWatchlistHandler(movie.id)} />
+                      <Tooltip
+                        TransitionComponent={Fade}
+                        TransitionProps={{ timeout: 300 }}
+                        title='Добавить фильм в список просмотра'>
+                        <BookmarkBorderIcon
+                          sx={{ cursor: "pointer" }}
+                          onClick={() => buttonWatchlistHandler(movie.id)}
+                        />
                       </Tooltip>
                     ) : (
-                      <Tooltip TransitionComponent={Fade} TransitionProps={{ timeout: 300 }} title='Удалить фильм из списка просмотра'>
-                        <BookmarkIcon sx={{ cursor: "pointer" }} onClick={() => buttonWatchlistHandler(movie.id)} />
+                      <Tooltip
+                        TransitionComponent={Fade}
+                        TransitionProps={{ timeout: 300 }}
+                        title='Удалить фильм из списка просмотра'>
+                        <BookmarkIcon
+                          sx={{ cursor: "pointer" }}
+                          onClick={() => buttonWatchlistHandler(movie.id)}
+                        />
                       </Tooltip>
                     )}
                   </Box>
                 )}
               </CardContent>
             </Card>
-            <Snackbar className='successAddSnackbar' open={openSuccessAdded} autoHideDuration={500} onClose={handleClose}>
+            <Snackbar
+              className='successAddSnackbar'
+              open={openSuccessAdded}
+              autoHideDuration={500}
+              onClose={handleClose}>
               <Alert onClose={handleClose} severity='success' sx={{ width: "100%" }}>
                 Добавлено успешно!
               </Alert>
             </Snackbar>
-            <Snackbar className='successDeleteSnackbar' open={openSuccessDeleted} autoHideDuration={500} onClose={handleClose}>
+            <Snackbar
+              className='successDeleteSnackbar'
+              open={openSuccessDeleted}
+              autoHideDuration={500}
+              onClose={handleClose}>
               <Alert onClose={handleClose} severity='error' sx={{ width: "100%" }}>
                 Успешно удалено!
               </Alert>
             </Snackbar>
           </Box>
         </Fade>
-      </ThemeProvider>
-    );
-  });
-});
+      );
+    });
+  },
+);
 
 export default MovieList;
 
