@@ -7,7 +7,6 @@ import { currentPage, totalPages } from "../../../redux/selectors";
 import Pagination from "@mui/material/Pagination";
 import "./Pagination.scss";
 import { useState } from "react";
-import { ThemeProvider } from "@emotion/react";
 import { theme } from "../../../theme/theme";
 import { setCurrentPage } from "../../../redux/actionCreators";
 
@@ -25,24 +24,22 @@ const PaginationContainer: FC<PaginationProps> = React.memo(({ allOfPages, setPa
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box className='pagination'>
-        <Pagination
-          variant='text'
-          color='primary'
-          defaultPage={curPage ? curPage : 1}
-          page={curPage}
-          siblingCount={1}
-          boundaryCount={1}
-          hideNextButton={document.body.offsetWidth <= 1024 ? false : true}
-          hidePrevButton={document.body.offsetWidth <= 1024 ? false : true}
-          size='small'
-          count={allOfPages > 500 ? 500 : allOfPages}
-          onChange={handleChange}
-          sx={{ color: "red" }}
-        />
-      </Box>
-    </ThemeProvider>
+    <Box className='pagination'>
+      <Pagination
+        variant='text'
+        color='primary'
+        defaultPage={curPage ? curPage : 1}
+        page={curPage}
+        siblingCount={1}
+        boundaryCount={1}
+        hideNextButton={document.body.offsetWidth <= 1024 ? false : true}
+        hidePrevButton={document.body.offsetWidth <= 1024 ? false : true}
+        size='small'
+        count={allOfPages > 500 ? 500 : allOfPages}
+        onChange={handleChange}
+        sx={{ color: "red" }}
+      />
+    </Box>
   );
 });
 

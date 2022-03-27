@@ -1,5 +1,4 @@
 import { Fab } from "@mui/material";
-import { ThemeProvider } from "@mui/system";
 import "./PageUp.scss";
 import { theme } from "../../../theme/theme";
 import UpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -27,11 +26,9 @@ const PageUp = React.memo(() => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Fab sx={style} onClick={scrollToTop}>
-        <UpIcon />
-      </Fab>
-    </ThemeProvider>
+    <Fab sx={style} onClick={scrollToTop}>
+      <UpIcon />
+    </Fab>
   );
 });
 

@@ -1,15 +1,6 @@
 import "./MoviePage.scss";
 import { usePalette } from "react-palette";
-import {
-  Box,
-  Button,
-  Chip,
-  Fade,
-  hexToRgb,
-  Rating,
-  ThemeProvider,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Chip, Fade, hexToRgb, Rating, Typography } from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useData } from "../../hooks/useData";
@@ -62,7 +53,7 @@ const MoviePage = () => {
   }, [loadingMovieDetails, palette]);
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       {loadingMovieDetails ? (
         <Loader display='flex' width='100%' />
       ) : (
@@ -159,7 +150,7 @@ const MoviePage = () => {
           </Box>
         </>
       )}
-    </ThemeProvider>
+    </>
   );
 };
 

@@ -1,5 +1,6 @@
 import Header from "../components/Header/Header";
 import LoginModal from "../components/MoviesPage/LoginModal/LoginModal";
+import PageUp from "../components/UI/PageUp/PageUp";
 
 const Layout = (props: any) => {
   return (
@@ -7,6 +8,7 @@ const Layout = (props: any) => {
       <Header />
       <main>{props.children}</main>
       <LoginModal />
+      <PageUp />
     </>
   );
 };

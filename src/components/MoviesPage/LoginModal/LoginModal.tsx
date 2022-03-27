@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import "./LoginModal.scss";
-import { ThemeProvider } from "@emotion/react";
 import { theme } from "../../../theme/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { isShowModal } from "../../../redux/selectors";
@@ -64,62 +63,67 @@ const LoginModal = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box>
-        <Modal
-          className='loginModal-wrapper'
-          keepMounted
-          open={showModal}
-          onClose={() => dispatch({ type: IS_SHOW_MODAL, payload: false })}
-          aria-labelledby='keep-mounted-modal-title'
-          aria-describedby='keep-mounted-modal-description'
-        >
-          <Grow in={showModal}>
-            <Box className='loginModal-content'>
-              <Typography sx={{ width: "100%", textAlign: "center" }}>Вы можете войти, если у вас есть аккаунт на TheMovieDB</Typography>
-              <Box
-                component='form'
-                sx={{
-                  display: "flex",
-                  width: "100%",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <FormControl sx={{ width: "100%", mt: 1 }} required>
-                  <InputLabel sx={{ mt: 1 }}>Login</InputLabel>
-                  <FilledInput margin='dense' onChange={handleChange("login")} required />
-                </FormControl>
-                <FormControl sx={{ width: "100%", mt: 1, backgroundColor: "transparent" }} required>
-                  <InputLabel sx={{ mt: 1 }}>Password</InputLabel>
-                  <FilledInput
-                    type={authValue.showPassword ? "text" : "password"}
-                    onChange={handleChange("password")}
-                    endAdornment={
-                      <InputAdornment position='end' sx={{ pl: 4 }}>
-                        <IconButton aria-label='toggle password visibility' onClick={handleClickShowPassword} edge='end'>
-                          {authValue.showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                    required
-                  />
-                </FormControl>
-                {loading ? (
-                  <LinearProgress sx={{ mt: 1, width: "50%" }} />
-                ) : (
-                  <Button type='submit' variant='outlined' sx={{ mt: 1, width: "50%" }} onClick={getUserInfo}>
-                    Войти
-                  </Button>
-                )}
-              </Box>
-              {error.length !== 0 && <Typography>{error}</Typography>}
+    <Box>
+      <Modal
+        className='loginModal-wrapper'
+        keepMounted
+        open={showModal}
+        onClose={() => dispatch({ type: IS_SHOW_MODAL, payload: false })}
+        aria-labelledby='keep-mounted-modal-title'
+        aria-describedby='keep-mounted-modal-description'>
+        <Grow in={showModal}>
+          <Box className='loginModal-content'>
+            <Typography sx={{ width: "100%", textAlign: "center" }}>
+              Вы можете войти, если у вас есть аккаунт на TheMovieDB
+            </Typography>
+            <Box
+              component='form'
+              sx={{
+                display: "flex",
+                width: "100%",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+              }}>
+              <FormControl sx={{ width: "100%", mt: 1 }} required>
+                <InputLabel sx={{ mt: 1 }}>Login</InputLabel>
+                <FilledInput margin='dense' onChange={handleChange("login")} required />
+              </FormControl>
+              <FormControl sx={{ width: "100%", mt: 1, backgroundColor: "transparent" }} required>
+                <InputLabel sx={{ mt: 1 }}>Password</InputLabel>
+                <FilledInput
+                  type={authValue.showPassword ? "text" : "password"}
+                  onChange={handleChange("password")}
+                  endAdornment={
+                    <InputAdornment position='end' sx={{ pl: 4 }}>
+                      <IconButton
+                        aria-label='toggle password visibility'
+                        onClick={handleClickShowPassword}
+                        edge='end'>
+                        {authValue.showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  required
+                />
+              </FormControl>
+              {loading ? (
+                <LinearProgress sx={{ mt: 1, width: "50%" }} />
+              ) : (
+                <Button
+                  type='submit'
+                  variant='outlined'
+                  sx={{ mt: 1, width: "50%" }}
+                  onClick={getUserInfo}>
+                  Войти
+                </Button>
+              )}
             </Box>
-          </Grow>
-        </Modal>
-      </Box>
-    </ThemeProvider>
+            {error.length !== 0 && <Typography>{error}</Typography>}
+          </Box>
+        </Grow>
+      </Modal>
+    </Box>
   );
 };
 

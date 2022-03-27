@@ -1,4 +1,3 @@
-import { ThemeProvider } from "@emotion/react";
 import { Fade, Box, Typography, Rating, Chip, Button } from "@mui/material";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -39,7 +38,7 @@ const ActorPage = () => {
   console.log("palette: ", palette);
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       {loadingActorDetails ? (
         <Loader display='flex' width='100%' />
       ) : (
@@ -144,7 +143,7 @@ const ActorPage = () => {
           </Box>
         </>
       )}
-    </ThemeProvider>
+    </>
   );
 };
 
