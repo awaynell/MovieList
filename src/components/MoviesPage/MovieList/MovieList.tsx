@@ -81,13 +81,14 @@ const MovieList: FC<MovieListProps> = React.memo(
     const getInitialData = async () => {
       const favID = await getFavouriteMovies(userID, {
         language: "ru-RU",
+        page: 1,
       });
-      const favIDs = favID.results.map((item: { id: number }) => item.id);
+      const favIDs = favID.map((item: { id: number }) => item.id);
       dispatch(setFavouritesMovies(favIDs));
       const watchlistID = await getWatchlist(userID, {
         language: "ru-RU",
       });
-      const watchlistIDs = watchlistID.results.map((item: { id: number }) => item.id);
+      const watchlistIDs = watchlistID.map((item: { id: number }) => item.id);
       dispatch(setWatchlist(watchlistIDs));
     };
 
@@ -105,9 +106,11 @@ const MovieList: FC<MovieListProps> = React.memo(
       }
     }, []);
 
+    console.log(films);
+
     return films.results.map((movie: any, i: number) => {
       return (
-        <Fade in={movie.length !== 0} style={{ transitionDelay: `${100 * i}ms` }}>
+        <Fade in={movie.length !== 0} style={{ transitionDelay: `${100 * i}ms` }} key={movie.id}>
           <Box className='movieCard-wrapper' sx={style}>
             <Card className='movieCard'>
               <Loader display={imgIsLoad ? "flex" : "none"} width='100%' height='100%' />
@@ -149,7 +152,8 @@ const MovieList: FC<MovieListProps> = React.memo(
                   precision={0.5}
                   size='small'
                   readOnly
-                  defaultValue={movie.vote_average}
+                  value={movie.vote_average}
+                  onChange={(event, newValue = null) => console.log(newValue)}
                   emptyIcon={
                     <StarIcon style={{ opacity: 0.5, color: "#efe1ce" }} fontSize='inherit' />
                   }
