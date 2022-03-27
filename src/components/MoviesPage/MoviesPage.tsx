@@ -24,7 +24,6 @@ import {
   sortValue,
   totalPages,
 } from "../../redux/selectors";
-import PageUp from "../UI/PageUp/PageUp";
 import FiltersContainer from "./Filters/FiltersContainer/FiltersContainer";
 import Loader from "./Loader/Loader";
 import PaginationCont from "./Pagination/PaginationContainer";
@@ -110,7 +109,6 @@ const MoviesPage: FC = React.memo(() => {
           <FiltersContainer />
           <PaginationCont setPage={setPage} allOfPages={allOfPages} />
         </Box>
-        <PageUp />
       </Box>
       <div>
         <Box className='genres-chip'>

@@ -9,7 +9,6 @@ import { useParams } from "react-router-dom";
 import MovieList from "../MovieList/MovieList";
 import { Box, Pagination, Typography } from "@mui/material";
 import { getFavouriteMovies } from "../../../helpers/getFavouriteMovies";
-import PageUp from "../../UI/PageUp/PageUp";
 import PaginationContainer from "../Pagination/PaginationContainer";
 import "./FavouriteMovieList.scss";
 
