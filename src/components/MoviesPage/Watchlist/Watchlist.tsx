@@ -4,7 +4,6 @@ import { userInfo, watchlistIDs } from "../../../redux/selectors";
 import Loader from "../Loader/Loader";
 import MovieList from "../MovieList/MovieList";
 import { Box, Typography } from "@mui/material";
-import PageUp from "../../UI/PageUp/PageUp";
 import PaginationContainer from "../Pagination/PaginationContainer";
 import { getWatchlist } from "../../../helpers/getWatchlist";
 import "./Watchlist.scss";
@@ -57,7 +56,6 @@ const Watchlist = () => {
             page={page}
             style={{ flex: "1 1 48%" }}
           />
-          <PageUp />
         </>
       )}
     </Box>
