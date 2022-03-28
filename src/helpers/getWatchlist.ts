@@ -12,15 +12,14 @@ export const getWatchlist = async (userID: number, query: {}) => {
 
   if (data.total_pages > 1) {
     const responses = await Promise.all(
-      Array.from(Array(data.total_pages + 1), (_, i) =>
+      Array.from(Array(data.total_pages), (_, i) =>
         fetch(
           `${endpoint}/account/${userID}/watchlist/movies?${"api_key=" + apiKey}&session_id=${
             getSessionIDFromCookie().value
-          }&${queryString.stringify({ ...query, page: i })}`,
+          }&${queryString.stringify({ ...query, page: Number(i + 1) })}`,
         ).then((data) => data.json()),
       ),
     );
-    responses.shift();
     const results: any[] = [];
     const arr = responses.map((resp: any) => results.push(...resp.results));
     return results;
