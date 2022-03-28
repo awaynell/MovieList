@@ -1,23 +1,10 @@
-import { getUser, getUserInfo } from "./../helpers/authHelpers/getUser";
-import {
-  debounce,
-  put,
-  select,
-  take,
-  takeEvery,
-  takeLatest,
-  takeLeading,
-  takeMaybe,
-  throttle,
-} from "redux-saga/effects";
+import { getUserInfo } from "./../helpers/authHelpers/getUser";
+import { put, select, takeEvery, takeLeading } from "redux-saga/effects";
 import { getYears } from "../helpers/getYears";
 import {
-  ADD_GENRE,
   ADD_USERINFO,
   ADD_USERINFO_START,
   DELETE_USERINFO,
-  REMOVE_GENRE,
-  RESET_GENRES,
   SET_SEARCH_PAGE,
   SET_SEARCH_QUERY,
   SET_YEARS,
@@ -27,13 +14,9 @@ import {
   UPDATE_WATCHLIST,
 } from "./actionTypes";
 import * as Effects from "redux-saga/effects";
-import { setFavouritesMovies, setSearchedFilms, setWatchlist, setYears } from "./actionCreators";
+import { setFavouritesMovies, setSearchedFilms, setWatchlist } from "./actionCreators";
 import { logout } from "../helpers/authHelpers/logout";
 import { getSessionIDFromCookie } from "../helpers/authHelpers/getSessionIDFromCookie";
-import { PayloadAction } from "@reduxjs/toolkit";
-import { apiKey } from "../API/apiInfo";
-import { useData } from "../hooks/useData";
-import { AnyCnameRecord } from "dns";
 import { getFavouriteMovies } from "../helpers/getFavouriteMovies";
 import { setFavouriteFilm } from "../helpers/setFavouriteFilm";
 import { setWatchlistMovie } from "../helpers/setWatchlistMovie";

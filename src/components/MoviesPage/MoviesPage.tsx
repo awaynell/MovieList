@@ -1,21 +1,8 @@
 import "./MoviesPage.scss";
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Chip,
-  CircularProgress,
-  Fade,
-  Grow,
-  Rating,
-  Typography,
-  Zoom,
-} from "@mui/material";
-import React, { FC, Suspense, useCallback, useEffect, useRef, useState } from "react";
+import { Box, Chip } from "@mui/material";
+import React, { FC, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { endpoint, apiKey } from "../../API/apiInfo";
+import { endpoint } from "../../API/apiInfo";
 import { addGenre, removeGenre, setCurrentPage, setDataAction } from "../../redux/actionCreators";
 import {
   currentPage,
@@ -30,7 +17,6 @@ import PaginationCont from "./Pagination/PaginationContainer";
 import * as queryString from "query-string";
 import MovieList from "./MovieList/MovieList";
 import { Genre } from "./Filters/FiltersContainer/Genres/Genres";
-import { theme } from "../../theme/theme";
 
 const MoviesPage: FC = React.memo(() => {
   const curPage = useSelector(currentPage);
@@ -50,8 +36,12 @@ const MoviesPage: FC = React.memo(() => {
 
   const dispatch = useDispatch();
 
+  console.log(process.env);
+
   const fetchFilms = async (route: string, query: object) => {
-    const URL = `${endpoint}${route}?${"api_key=" + apiKey}&${queryString.stringify(query)}`;
+    const URL = `${endpoint}${route}?${
+      "api_key=" + process.env.REACT_APP_API_KEY
+    }&${queryString.stringify(query)}`;
     try {
       setIsLoad(true);
       const response = await fetch(URL);

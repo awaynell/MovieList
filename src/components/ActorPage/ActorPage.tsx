@@ -18,7 +18,6 @@ const ActorPage = () => {
 
   const navigate = useNavigate();
 
-  console.log(id);
 
   const [actorDetails, loadingActorDetails, errorActorDetails] = useData(`/person/${id}`, {
     language: "ru-RU",
@@ -30,12 +29,10 @@ const ActorPage = () => {
       language: "ru-RU",
     },
   );
-  console.log("movieCredits: ", movieCredits);
 
   const { data: palette, loading: loadingPalette } = usePalette(
     `https://image.tmdb.org/t/p/w500/${actorDetails.profile_path}`,
   );
-  console.log("palette: ", palette);
 
   return (
     <>

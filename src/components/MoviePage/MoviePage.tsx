@@ -32,7 +32,6 @@ const MoviePage = () => {
 
   window.onresize = () => {
     !!palette && getADominantColor();
-    console.log(dominantColor);
   };
   window.onload = () => {
     !!palette && getADominantColor();
@@ -73,7 +72,7 @@ const MoviePage = () => {
                   <img
                     src={`https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`}
                     onClick={() =>
-                      (window.location.href = `https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`)
+                      (window.location.href = `https://image.tmdb.org/t/p/original/${movieDetails.poster_path}`)
                     }
                   />
                   {!loadingMovieTrailers && movieTrailers.results.length !== 0 && (

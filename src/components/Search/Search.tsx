@@ -55,7 +55,6 @@ const Search = React.memo(() => {
       </Typography>
     );
   }
-  // console.log("searchedMovie: ", searchedMovie);
   return (
     <Box className='searchMovies-wrapper'>
       {loading && <Loader display='flex' width='100%' height='50%' />}

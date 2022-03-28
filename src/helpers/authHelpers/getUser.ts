@@ -1,5 +1,5 @@
 import { getSessionIDFromCookie } from "./getSessionIDFromCookie";
-import { endpoint, apiKey } from "../../API/apiInfo";
+import { endpoint } from "../../API/apiInfo";
 
 export const getUser = async (username: string, password: string) => {
   if (getSessionIDFromCookie().value !== undefined) {
@@ -8,12 +8,16 @@ export const getUser = async (username: string, password: string) => {
   if (username.length === 0 || password.length === 0) {
     return false;
   }
-  const URL = `${endpoint}/authentication/token/new?${"api_key=" + apiKey}`;
+  const URL = `${endpoint}/authentication/token/new?${"api_key=" + process.env.REACT_APP_API_KEY}`;
   const requestValue = await fetch(URL)
     .then((data) => data.json())
     .then((json) => json);
   if (requestValue.success) {
-    const userRequestTokenAuthValue = await getRequestTokenUser(username, password, requestValue.request_token);
+    const userRequestTokenAuthValue = await getRequestTokenUser(
+      username,
+      password,
+      requestValue.request_token,
+    );
     if (!userRequestTokenAuthValue.error) {
       const userRequestSessionID = await getSessionIDUser(userRequestTokenAuthValue.requestToken);
       const userInfo = await getUserInfo(userRequestSessionID);
@@ -25,7 +29,9 @@ export const getUser = async (username: string, password: string) => {
 };
 
 const getRequestTokenUser = async (username: string, password: string, requestToken: string) => {
-  const URL = `${endpoint}/authentication/token/validate_with_login?${"api_key=" + apiKey}`;
+  const URL = `${endpoint}/authentication/token/validate_with_login?${
+    "api_key=" + process.env.REACT_APP_API_KEY
+  }`;
   const body = {
     username: username,
     password: password,
@@ -47,7 +53,9 @@ const getRequestTokenUser = async (username: string, password: string, requestTo
 };
 
 const getSessionIDUser = async (requestToken: string) => {
-  const URL = `${endpoint}/authentication/session/new?${"api_key=" + apiKey}`;
+  const URL = `${endpoint}/authentication/session/new?${
+    "api_key=" + process.env.REACT_APP_API_KEY
+  }`;
   const body = {
     request_token: requestToken,
   };
@@ -58,25 +66,23 @@ const getSessionIDUser = async (requestToken: string) => {
     },
     body: JSON.stringify(body),
   });
-  console.log("requestSessionIDUser: ", requestSessionIDUser);
 
   const sessionID = await requestSessionIDUser.json();
   if (sessionID.success) {
-    console.log("sessionID.session_id: ", sessionID.session_id);
     document.cookie = `sessionID=${sessionID.session_id}`;
     return sessionID.session_id;
   } else {
-    console.log(sessionID.status_message);
   }
 };
 
 export const getUserInfo = async (sessionID: string) => {
-  const URL = `${endpoint}/account?${"api_key=" + apiKey}&${"session_id=" + sessionID}`;
+  const URL = `${endpoint}/account?${"api_key=" + process.env.REACT_APP_API_KEY}&${
+    "session_id=" + sessionID
+  }`;
   const userInfo = await fetch(URL)
     .then((data) => data.json())
     .then((json) => {
       return json;
     });
-  console.log(userInfo);
   return userInfo;
 };

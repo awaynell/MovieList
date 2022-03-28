@@ -44,7 +44,6 @@ const Header = React.memo(() => {
       dispatch({ type: ADD_USERINFO_START });
     }
     setAvatarBackground(`#${Math.floor(Math.random() * 16777215).toString(15)}`);
-    console.log("render");
   }, []);
 
   const handleChange: any = (searchQuery: string) => {
@@ -80,13 +79,11 @@ const Header = React.memo(() => {
             onFocus={(e: EventTarget | any) => {
               const target: HTMLInputElement | HTMLTextAreaElement =
                 e.target.offsetParent.offsetParent;
-              console.log(target);
               target.style.width = "100%";
             }}
             onBlur={(e: EventTarget | any) => {
               const target: HTMLInputElement | HTMLTextAreaElement =
                 e.target.offsetParent.offsetParent;
-              console.log(target);
               target.style.width = "50%";
             }}>
             <TextField
