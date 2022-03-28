@@ -18,7 +18,6 @@ const FavouriteMovieList = () => {
     results: [],
     total_pages: 1,
   });
-  console.log("favMovies: ", favMovies);
   const [loading, setLoading] = useState<boolean>(true);
   const [page, setPage] = useState<number>(1);
   const favID = useSelector(favouriteIDs);

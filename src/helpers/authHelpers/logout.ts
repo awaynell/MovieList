@@ -1,11 +1,9 @@
 import { getSessionIDFromCookie } from "./getSessionIDFromCookie";
-import { endpoint, apiKey } from "../../API/apiInfo";
-import { deleteUserInfo } from "../../redux/actionCreators";
+import { endpoint } from "../../API/apiInfo";
 
 export const logout = () => {
   const sessionID = getSessionIDFromCookie().value;
-  console.log(sessionID);
-  const URL = `${endpoint}/authentication/session?${"api_key=" + apiKey}`;
+  const URL = `${endpoint}/authentication/session?${"api_key=" + process.env.REACT_APP_API_KEY}`;
   fetch(URL, {
     method: "DELETE",
     headers: {

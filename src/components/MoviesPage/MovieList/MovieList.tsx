@@ -106,8 +106,6 @@ const MovieList: FC<MovieListProps> = React.memo(
       }
     }, []);
 
-    console.log(films);
-
     return films.results.map((movie: any, i: number) => {
       return (
         <Fade in={movie.length !== 0} style={{ transitionDelay: `${100 * i}ms` }} key={movie.id}>
@@ -153,7 +151,6 @@ const MovieList: FC<MovieListProps> = React.memo(
                   size='small'
                   readOnly
                   value={movie.vote_average}
-                  onChange={(event, newValue = null) => console.log(newValue)}
                   emptyIcon={
                     <StarIcon style={{ opacity: 0.5, color: "#efe1ce" }} fontSize='inherit' />
                   }

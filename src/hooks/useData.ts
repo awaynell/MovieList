@@ -1,4 +1,4 @@
-import { apiKey, endpoint } from "../API/apiInfo";
+import { endpoint } from "../API/apiInfo";
 import { useEffect, useState } from "react";
 import * as queryString from "query-string";
 
@@ -7,7 +7,9 @@ export const useData = (route: string, query: object) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Array<string>>([]);
 
-  const URL = `${endpoint}${route}?${"api_key=" + apiKey}&${queryString.stringify(query)}`;
+  const URL = `${endpoint}${route}?${
+    "api_key=" + process.env.REACT_APP_API_KEY
+  }&${queryString.stringify(query)}`;
 
   const getData = async () => {
     setLoading(true);
