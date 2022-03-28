@@ -1,15 +1,10 @@
-import React, { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useData } from "../../../hooks/useData";
 import { favouriteIDs, userInfo } from "../../../redux/selectors";
-import { apiKey } from "../../../API/apiInfo";
-import { getSessionIDFromCookie } from "../../../helpers/authHelpers/getSessionIDFromCookie";
 import Loader from "../Loader/Loader";
-import { useParams } from "react-router-dom";
 import MovieList from "../MovieList/MovieList";
-import { Box, Pagination, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { getFavouriteMovies } from "../../../helpers/getFavouriteMovies";
-import PaginationContainer from "../Pagination/PaginationContainer";
 import "./FavouriteMovieList.scss";
 
 const FavouriteMovieList = () => {
