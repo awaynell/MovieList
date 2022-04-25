@@ -79,7 +79,7 @@ const MoviesPage: FC = React.memo(() => {
   if (error) {
     return (
       <Box sx={{width: '100vw', mt: 10, display: 'flex', justifyContent: 'center'}}>
-        Ошибка! Что-то пошло не так.
+        Ошибка! Что-то пошло не так. Если вы из России, то попробуйте использовать VPN.
       </Box>
     );
   }
