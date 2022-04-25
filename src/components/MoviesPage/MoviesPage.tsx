@@ -1,22 +1,27 @@
-import "./MoviesPage.scss";
-import { Box, Chip } from "@mui/material";
-import React, { FC, useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { endpoint } from "../../API/apiInfo";
-import { addGenre, removeGenre, setCurrentPage, setDataAction } from "../../redux/actionCreators";
+import './MoviesPage.scss';
+import {Box, Chip} from '@mui/material';
+import React, {FC, useEffect, useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {endpoint} from '../../API/apiInfo';
+import {
+  addGenre,
+  removeGenre,
+  setCurrentPage,
+  setDataAction,
+} from '../../redux/actionCreators';
 import {
   currentPage,
   selectedGenres,
   selectedYear,
   sortValue,
   totalPages,
-} from "../../redux/selectors";
-import FiltersContainer from "./Filters/FiltersContainer/FiltersContainer";
-import Loader from "./Loader/Loader";
-import PaginationCont from "./Pagination/PaginationContainer";
-import * as queryString from "query-string";
-import MovieList from "./MovieList/MovieList";
-import { Genre } from "./Filters/FiltersContainer/Genres/Genres";
+} from '../../redux/selectors';
+import FiltersContainer from './Filters/FiltersContainer/FiltersContainer';
+import Loader from './Loader/Loader';
+import PaginationCont from './Pagination/PaginationContainer';
+import * as queryString from 'query-string';
+import MovieList from './MovieList/MovieList';
+import {Genre} from './Filters/FiltersContainer/Genres/Genres';
 
 const MoviesPage: FC = React.memo(() => {
   const curPage = useSelector(currentPage);
@@ -36,11 +41,9 @@ const MoviesPage: FC = React.memo(() => {
 
   const dispatch = useDispatch();
 
-  console.log(process.env);
-
   const fetchFilms = async (route: string, query: object) => {
     const URL = `${endpoint}${route}?${
-      "api_key=" + process.env.REACT_APP_API_KEY
+      'api_key=' + process.env.REACT_APP_API_KEY
     }&${queryString.stringify(query)}`;
     try {
       setIsLoad(true);
@@ -59,11 +62,11 @@ const MoviesPage: FC = React.memo(() => {
   useEffect(() => {
     let genreIDs: any = [];
     if (genres.length !== 0) {
-      genres.map((genre) => genreIDs.push(genre.id));
+      genres.map(genre => genreIDs.push(genre.id));
     }
-    fetchFilms("discover/movie", {
-      language: "ru-RU",
-      with_genres: genreIDs.join(","),
+    fetchFilms('discover/movie', {
+      language: 'ru-RU',
+      with_genres: genreIDs.join(','),
       page: curPage,
       sort_by: sortBy,
       primary_release_year: year,
@@ -75,7 +78,7 @@ const MoviesPage: FC = React.memo(() => {
 
   if (error) {
     return (
-      <Box sx={{ width: "100vw", mt: 10, display: "flex", justifyContent: "center" }}>
+      <Box sx={{width: '100vw', mt: 10, display: 'flex', justifyContent: 'center'}}>
         Ошибка! Что-то пошло не так.
       </Box>
     );
@@ -93,29 +96,29 @@ const MoviesPage: FC = React.memo(() => {
   };
 
   return (
-    <Box className='moviesPage-wrapper'>
+    <Box className="moviesPage-wrapper">
       <Box>
-        <Box className='moviesPage-sidebar'>
+        <Box className="moviesPage-sidebar">
           <FiltersContainer />
           <PaginationCont setPage={setPage} allOfPages={allOfPages} />
         </Box>
       </Box>
       <div>
-        <Box className='genres-chip'>
+        <Box className="genres-chip">
           {choosedGenres.length !== 0 &&
             choosedGenres.map((genre: Genre) => (
               <Chip
-                color='primary'
+                color="primary"
                 key={genre.id}
                 label={genre.genreName}
-                sx={{ color: "#363945", m: 0.3 }}
+                sx={{color: '#363945', m: 0.3}}
                 onDelete={() => deleteGenreFromState(genre.id, genre.genreName)}
               />
             ))}
         </Box>
-        <Box className='moviesPage-content'>
+        <Box className="moviesPage-content">
           {isLoad ? (
-            <Loader display='flex' width='80%' />
+            <Loader display="flex" width="80%" />
           ) : (
             <MovieList
               films={films}
